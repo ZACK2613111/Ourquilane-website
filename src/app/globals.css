@@ -2,20 +2,106 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Import fonts directly from the public folder */
+@font-face {
+  font-family: 'Neue-Graphica';
+  src: url('/fonts/Neue-Gravica-Font-Family/neue-gravica-regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@font-face {
+  font-family: 'Neue-Graphica';
+  src: url('/fonts/Neue-Gravica-Font-Family/neue-gravica-bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Satochi';
+  src: url('/fonts/Satochi-Font/Satoshi-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Satochi';
+  src: url('/fonts/Satochi-Font/Satoshi-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background-image: url('/images/background/image.svg'), url('/images/background/background.png');
+  background-size: cover, contain; /* First background covers the body, second is contained */
+  background-position: center top, center bottom; /* The first image at the top and second one at the bottom */
+  background-repeat: no-repeat, no-repeat;
+  margin: 0;
+  height: 100vh; /* Full viewport height */
+  animation: moveBackground 15s ease-in-out infinite, backgroundColorChange 5s ease-in-out forwards;
 }
+
+/* Animation to change background color */
+@keyframes backgroundColorChange {
+  0% {
+    background-color: transparent;
+  }
+  100% {
+    background-color: black;
+  }
+}
+
+/* Keyframes for Horizontal Movement of Background */
+@keyframes moveBackground {
+  0% {
+    background-position: 100% top, center bottom; /* Start from the right */
+  }
+  50% {
+    background-position: 0 top, center bottom; /* Move to the left */
+  }
+  100% {
+    background-position: 100% top, center bottom; /* Return to right */
+  }
+}
+
+/* Planet effect (move an element horizontally) */
+@keyframes planetEffect {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Scroll effect for any element */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-scroll {
+  display: flex;
+  animation: scroll 20s linear infinite;
+}
+
+/* Optional logo rotation if needed (this is commented out for now) */
+/* @keyframes rotateLogo {
+  0% {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateY(360deg);
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
+.animate-rotateLogo {
+  animation: rotateLogo 5s infinite linear;
+} */

@@ -12,6 +12,10 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        neueGraphica: ["Neue-Graphica", "sans-serif"], 
+        satochi: ["Satochi", "sans-serif"], 
+      },
     },
   },
   plugins: [],
