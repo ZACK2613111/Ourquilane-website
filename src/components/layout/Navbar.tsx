@@ -28,8 +28,8 @@ const Navbar = () => {
     }, [])
 
     return (
-      <nav className="py-4 w-full top-0 z-50 shadow-xl">
-        <div className="max-w-full mx-20 px-6">
+      <nav className="py-2 w-full top-0 z-50 shadow-xl">
+        <div className="max-w-max mx-10 px-6">
           <div className="flex items-center justify-between">
             <span className="font-neueGraphica text-white text-2xl font-bold tracking-wide mx-8">
               OURQUILANE

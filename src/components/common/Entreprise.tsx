@@ -20,7 +20,7 @@ const Entreprise = () => {
             />
           </div>
 
-          <h1 className="font-neueGraphica text-4xl md:text-5xl lg:text-6xl font-semibold text-white leading-tight mb-6 max-w-4xl mx-auto">
+          <h1 className="font-neueGraphica text-4xl md:text-5xl  font-semibold text-white leading-tight mb-6 max-w-4xl mx-auto">
             Ourquilane, a leader in R&D for innovative and efficient software solutions
           </h1>
 
