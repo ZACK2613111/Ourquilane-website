@@ -23,6 +23,24 @@ const testimonials = [
     author: "DERBAL RAYHANE",
     role: "CEO, BrightSun",
     imageUrl: "/images/shared/person3.jpg"
+  },
+  {
+    text: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.",
+    author: "DERBAL RAYHANE",
+    role: "CEO, BrightSun",
+    imageUrl: "/images/shared/person3.jpg"
+  },
+  {
+    text: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.",
+    author: "DERBAL RAYHANE",
+    role: "CEO, BrightSun",
+    imageUrl: "/images/shared/person3.jpg"
+  },
+  {
+    text: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.",
+    author: "DERBAL RAYHANE",
+    role: "CEO, BrightSun",
+    imageUrl: "/images/shared/person3.jpg"
   }
 ];
 

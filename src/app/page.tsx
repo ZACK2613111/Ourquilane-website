@@ -2,6 +2,7 @@ import AboutUs from "@/components/common/AboutUs";
 import Clients from "@/components/common/Clients";
 import Entreprise from "@/components/common/Entreprise";
 import Footer from "@/components/common/Footer";
+import ProjectsSection from "@/components/common/Projects";
 import Services from "@/components/common/Services";
 import TestimonialsSection from "@/components/common/Testimonials";
 import Work from "@/components/common/Work";
@@ -16,6 +17,7 @@ export default function Home() {
     <Entreprise />
     <Services />
     <Clients />
+    <ProjectsSection />
     <TestimonialsSection />
     <Work />
     <Footer />
