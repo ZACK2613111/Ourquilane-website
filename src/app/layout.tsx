@@ -1,9 +1,9 @@
-import { Neue_graphica } from "@/utils/font";
+// import { Neue_graphica } from "@/utils/font";
 import { Metadata } from "next";
 import "./globals.css";
+import { LanguageProvider } from "@/context/LanguageContext";
 
-const neueGraphica = Neue_graphica.variable;
-// const satochiFont = Satochi.variable;
+// const neueGraphica = Neue_graphica.variable;
 
 export const metadata: Metadata = {
   title: "OURQUILANE Website",
@@ -17,9 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${neueGraphica} antialiased`}>
-        {children}
-      </body>
+      <LanguageProvider>
+        <body>{children}</body>
+      </LanguageProvider>
     </html>
   );
 }

@@ -1,29 +1,54 @@
-"use client"
-import Button from "@/components/shared/Button";
+'use client';
+
+import { motion } from 'framer-motion';
+import Button from '@/components/shared/Button';
+import { useLanguage } from '@/context/LanguageContext';
 
 const AboutUs = () => {
+  const { translations } = useLanguage();
+
   const handleContactClick = () => {
-    const contactSection = document.getElementById("contact");
+    const contactSection = document.getElementById('contact');
     if (contactSection) {
-      contactSection.scrollIntoView({ behavior: "smooth" });
+      contactSection.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   return (
-    <section id="about" className="min-h-screen flex items-center justify-center">
-      <div className="max-w-full mx-auto px-4 py-20 text-center flex flex-col items-center justify-center">
-        <h1 className="font-neueGraphica text-4xl md:text-5xl lg:text-6xl font-semibold text-white leading-tight mb-6 max-w-4xl mx-auto">
-          Custom Innovation & Excellence to Modernize Your Industry
-        </h1>
+    <section 
+      id="about" 
+      className="min-h-screen flex items-center justify-center"
+    >
+      <div className="max-w-full mx-auto px-4 py-20 text-center bg-transparent flex flex-col items-center justify-center">
+        <motion.h1
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="font-neueGraphica text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 max-w-4xl mx-auto"
+        >
+          {translations.about.title}
+        </motion.h1>
 
-        <p className="font-satoshi text-lg md:text-xl text-white/80 max-w-4xl mx-auto mb-10 leading-relaxed">
-          Experience the future with OURQUILANE—your trusted partner in innovative software solutions. Discover our
-          services, projects, and expert team dedicated to bringing your ideas to life.
-        </p>
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="font-satoshi text-lg md:text-xl text-white/80 max-w-4xl mx-auto mb-10 leading-relaxed"
+        >
+          {translations.about.description}
+        </motion.p>
 
-        <div className="flex items-center justify-center">
-          <Button handleClick={handleContactClick} title="CONTACT US" />
-        </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="flex items-center justify-center"
+        >
+          <Button 
+            handleClick={handleContactClick} 
+            title={translations.about.contactButton} 
+          />
+        </motion.div>
       </div>
     </section>
   );

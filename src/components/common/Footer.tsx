@@ -1,134 +1,216 @@
 'use client'
 
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
-import Button from "../shared/Button";
-import facebook from "../../../public/images/social-media/facebook.svg";
-import x from "../../../public/images/social-media/x.svg";
-import instagram from "../../../public/images/social-media/instagram.svg";
-import linkedin from "../../../public/images/social-media/linkedin.svg";
+import React, { useState } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { motion } from "framer-motion"
+import Button from "../shared/Button"
+import { useLanguage } from "@/context/LanguageContext"
+import facebook from "../../../public/images/social-media/facebook.svg"
+import x from "../../../public/images/social-media/x.svg"
+import instagram from "../../../public/images/social-media/instagram.svg"
+import linkedin from "../../../public/images/social-media/linkedin.svg"
 
-const Footer = () => {
+const Footer: React.FC = () => {
+  const [email, setEmail] = useState("")
+  const [isEmailFocused, setIsEmailFocused] = useState(false)
+  const { translations } = useLanguage()
+
+  const socialLinks = [
+    { icon: facebook, name: translations.footer.socialMedia.facebook },
+    { icon: linkedin, name: translations.footer.socialMedia.linkedin },
+    { icon: x, name: translations.footer.socialMedia.twitter },
+    { icon: instagram, name: translations.footer.socialMedia.instagram },
+  ]
+
+  const footerSections = [
+    {
+      title: translations.footer.navigation,
+      links: ['Home', 'About', 'Services', 'Clients', 'Projects', 'Testimonials'],
+    },
+    {
+      title: translations.footer.aboutUs,
+      links: ['Mission', 'Vision', 'Values', 'Team'],
+    },
+    {
+      title: translations.footer.services,
+      links: [],
+    },
+    {
+      title: translations.footer.projects,
+      links: [],
+    },
+    {
+      title: translations.footer.training,
+      links: [],
+    },
+    {
+      title: translations.footer.contact,
+      links: [],
+    },
+  ]
+
   const handleSubscribe = () => {
-    console.log("Subscribe clicked");
-  };
+    if (email) {
+      console.log("Subscribe clicked with email:", email)
+      setEmail("")
+    }
+  }
 
   return (
-    <footer className="border-t border-[#F0EDF4] text-white">
-      <div className="w-full mx-auto px-5 lg:px-20 py-16">
-        <div className="grid grid-cols-3 gap-16">
-          {/* Left Column (1/3 width) - Subscription Section */}
-          <div className="col-span-1 space-y-8">
-            {/* Logo */}
-            <h2 className="text-3xl font-satoshi font-bold font-satochi">OURQUILANE</h2>
+    <footer className="relative bg-transparent text-white overflow-hidden">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="w-full mx-auto px-4 sm:px-6 lg:px-20 py-16"
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
+          {/* Left Column */}
+          <div className="space-y-8">
+            <motion.h2 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-3xl font-satoshi font-bold"
+            >
+              OURQUILANE
+            </motion.h2>
 
-            {/* Description */}
-            <p className="text-3xl font-satoshi font-bold font-satochi">
-              Tech stories you won&apos;t read anywhere else.
-            </p>
+            <motion.p 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-2xl sm:text-3xl font-satoshi font-bold leading-tight"
+            >
+              {translations.footer.slogan}
+            </motion.p>
 
-            {/* Email Subscription */}
-            <div className="space-y-4">
-              <div className="flex flex-col sm:flex-row gap-4">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="space-y-4"
+            >
+              <div className="relative">
                 <input
                   type="email"
-                  placeholder="name@email.com"
-                  className="bg-transparent border-b border-gray-200 p-2 flex-grow focus:outline-none font-satoshi"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  onFocus={() => setIsEmailFocused(true)}
+                  onBlur={() => setIsEmailFocused(false)}
+                  placeholder={translations.footer.emailPlaceholder}
+                  className="w-full bg-transparent border-b border-gray-700 p-3 pr-32 
+                           focus:outline-none focus:border-white transition-colors
+                           font-satoshi placeholder-gray-500"
                 />
-                <Button title="Subscribe" handleClick={handleSubscribe} />
+                <div className="absolute right-0 top-1/2 -translate-y-1/2">
+                  <Button 
+                    title={translations.footer.subscribeButton} 
+                    handleClick={handleSubscribe}
+                  />
+                </div>
               </div>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="flex items-center gap-6"
+            >
+              {socialLinks.map((social, index) => (
+                <motion.div
+                  key={social.name}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Link
+                    href="#"
+                    className="opacity-60 hover:opacity-100 transition-opacity"
+                  >
+                    <Image
+                      src={social.icon}
+                      alt={social.name}
+                      width={28}
+                      height={28}
+                      className="w-7 h-7"
+                    />
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Right Columns */}
+          <div className="lg:col-span-2 space-y-12">
+            {/* Contact Info */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pb-8 border-b border-gray-800">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                <h3 className="text-sm font-satoshi font-bold uppercase tracking-wider mb-4">
+                  {translations.footer.contactUs}
+                </h3>
+                <p className="text-gray-400 font-satoshi">(+213) 550923561</p>
+                <p className="text-gray-400 font-satoshi">yourcompany@ourquilane.dz</p>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
+                <h3 className="text-sm font-satoshi font-bold uppercase tracking-wider mb-4">
+                  {translations.footer.findUs}
+                </h3>
+                <p className="text-gray-400 font-satoshi">Hydra, Algiers</p>
+              </motion.div>
             </div>
 
-            {/* Social Links */}
-            <div className="flex items-center gap-6">
-              {[
-                { icon: facebook, name: "Facebook" },
-                { icon: linkedin, name: "LinkedIn" },
-                { icon: x, name: "X" },
-                { icon: instagram, name: "Instagram" },
-              ].map((social) => (
-                <Link
-                  href="#"
-                  key={social.name}
-                  className="opacity-60 hover:opacity-100 transition-opacity"
+            {/* Footer Links */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8">
+              {footerSections.map((section, index) => (
+                <motion.div
+                  key={section.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
                 >
-                  <Image
-                    src={social.icon}
-                    alt={social.name}
-                    width={40}
-                    height={40}
-                  />
-                </Link>
+                  <h4 className="font-satoshi text-lg font-bold mb-4">
+                    {section.title}
+                  </h4>
+                  {section.links.map((link) => (
+                    <Link
+                      key={link}
+                      href="#"
+                      className="block text-gray-400 hover:text-white transition-colors mb-2 font-satoshi"
+                    >
+                      {link}
+                    </Link>
+                  ))}
+                </motion.div>
               ))}
             </div>
           </div>
-
-          {/* Right Column (2/3 width) - Footer Sections */}
-          <div className="col-span-2 space-y-8">
-            {/* Top Section */}
-            <div className="pb-8 border-b border-[#F0EDF4]">
-              <div className="grid grid-cols-3 gap-8">
-                <div>
-                  <h3 className="text-sm font-satoshi font-bold uppercase tracking-wider mb-4">CONTACT US</h3>
-                  <p className="text-gray-400 font-satochi ">(+213) 550923561</p>
-                  <p className="text-gray-400 font-satochi ">yourcompany@ourquilane.dz</p>
-                </div>
-                <div>
-                  <h3 className="text-sm font-satoshi font-bold uppercase tracking-wider mb-4">FIND US IN ALGERIA</h3>
-                  <p className="text-gray-400 font-satochi font-satoshi">Hydra, Algiers</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Bottom Section - Navigation */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8">
-              <div>
-                <h4 className="font-satoshi text-lg font-bold mb-4">Navigation</h4>
-                <Link href="#" className="block text-gray-400 font-satochi hover:text-white transition-colors mb-2">Home</Link>
-                <Link href="#" className="block text-gray-400 font-satochi hover:text-white transition-colors mb-2">About</Link>
-                <Link href="#" className="block text-gray-400 font-satochi hover:text-white transition-colors mb-2">Services</Link>
-                <Link href="#" className="block text-gray-400 font-satochi hover:text-white transition-colors mb-2">Clients</Link>
-                <Link href="#" className="block text-gray-400 font-satochi hover:text-white transition-colors mb-2">Projects</Link>
-                <Link href="#" className="block text-gray-400 font-satochi hover:text-white transition-colors mb-2">Testimonials</Link>
-              </div>
-
-              <div>
-                <h4 className="font-satoshi text-lg font-bold mb-4">About Us</h4>
-                <Link href="#" className="block text-gray-400 font-satochi hover:text-white transition-colors mb-2">History</Link>
-                <Link href="#" className="block text-gray-400 font-satochi hover:text-white transition-colors mb-2">Mission</Link>
-                <Link href="#" className="block text-gray-400 font-satochi hover:text-white transition-colors mb-2">Vision</Link>
-                <Link href="#" className="block text-gray-400 font-satochi hover:text-white transition-colors mb-2">Values</Link>
-                <Link href="#" className="block text-gray-400 font-satochi hover:text-white transition-colors mb-2">Team</Link>
-              </div>
-
-              <div>
-                <h4 className="font-satoshi text-lg font-bold mb-4">Services</h4>
-                
-              </div>
-
-              <div>
-                <h4 className="font-satoshi text-lg font-bold mb-4">Projects</h4>
-              </div>
-              <div>
-                <h4 className="font-satoshi text-lg font-bold mb-4">Training</h4>
-              </div>
-              <div>
-                <h4 className="font-satoshi text-lg font-bold mb-4">Contact</h4>
-              </div>
-            </div>
-          </div>
         </div>
 
-        {/* Bottom Copyright */}
-        <div className="border-t border-[#F0EDF4] mt-12 pt-8 text-left">
-          <p className="text-gray-400 font-satochi font-satoshi text-sm">
-            2025 OURQUILANE. All rights reserved.
+        {/* Copyright */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="border-t border-gray-800 mt-12 pt-8"
+        >
+          <p className="text-gray-400 font-satoshi text-sm">
+            {translations.footer.copyright}
           </p>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

@@ -6,7 +6,7 @@ import Image from 'next/image'
 
 const Work = () => {
   return (
-    <section id="work" className="relative min-h-screen flex items-center justify-center bg-black text-white py-20 px-4">
+    <section id="work" className="relative min-h-screen flex items-center justify-center bg-transparent text-white py-20 px-4">
       <div className="max-w-4xl mx-auto text-center space-y-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

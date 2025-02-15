@@ -8,8 +8,8 @@ interface ButtonProps {
 const WhiteButton : React.FC<ButtonProps> = ({ handleClick, title }) => (
   <button
     onClick={handleClick}
-    className="font-neueGraphica px-10 py-4 rounded-full bg-white text-black
-              hover:bg-gray-100 transition-colors duration-200 text-sm"
+    className="font-neueGraphica px-8 py-3 rounded-full bg-white text-black
+              hover:bg-gray-100 transition-colors duration-200 text-sm font-bold"
   >
     {title}
   </button>

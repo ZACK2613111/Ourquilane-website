@@ -1,0 +1,50 @@
+{
+    "navbar": {
+      "home": "Home",
+      "aboutUs": "About Us",
+      "services": "Services",
+      "projects": "Projects",
+      "products": "Products",
+      "trainings": "Trainings",
+      "contact": "Contact",
+      "selectLanguage": "Select Language",
+      "getStarted": "GET STARTED"
+    },
+    
+    "about": {
+        "title": "Custom Innovation & Excellence to Modernize Your Industry",
+        "description": "Experience the future with OURQUILANE—your trusted partner in innovative software solutions. Discover our services, projects, and expert team dedicated to bringing your ideas to life.",
+        "contactButton": "CONTACT US"
+      },
+    "footer": {
+      "slogan": "Your trusted partner in success.",
+      "socialMedia": {
+        "facebook": "Facebook",
+        "twitter": "Twitter",
+        "instagram": "Instagram",
+        "linkedin": "LinkedIn"
+      },
+      "contactUs": "Contact Us",
+      "findUs": "Find Us",
+      "emailPlaceholder": "Enter your email address",
+      "subscribeButton": "Subscribe",
+      "navigation": "Navigation",
+      "aboutUs": "About Us",
+      "services": "Services",
+      "projects": "Projects",
+      "training": "Training",
+      "contact": "Contact",
+      "copyright": "© 2025 Your Company"
+    },
+    "entreprise":{
+      "titleButton": "WHO ARE WE",
+      "title": "Ourquilane, a leader in R&D for innovative and efficient software solutions. ",
+      "description": "We drive sector transformation with tailor-made solutions and a commitment to excellence, bringing your most ambitious projects to life.",
+      "Button": "KNOW MORE"
+    },
+    "clients":{
+      "titleButton":"OUR CLIENTS",
+      "title": "They Trust Us"
+    } 
+  }
+  

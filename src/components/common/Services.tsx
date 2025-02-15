@@ -83,7 +83,7 @@ const Services: React.FC = () => {
 
 const ServiceCard: React.FC<{ service: Service; className?: string }> = ({ service, className }) => {
   return (
-    <div className={`group relative flex flex-col rounded-xl p-6 sm:p-8 border-2 border-white backdrop-blur-sm transition-all duration-300 ease-in-out ${className}`}>
+    <div className={`group relative flex flex-col rounded-3xl p-6 sm:p-8 border-2 border-white backdrop-blur-sm transition-all duration-300 ease-in-out ${className}`}>
       <div className="w-16 h-16 flex items-center justify-center mb-6">
         <Image 
           src={service.icon} 

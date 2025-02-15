@@ -1,0 +1,50 @@
+{
+    "navbar": {
+      "home": "Accueil",
+      "aboutUs": "À propos",
+      "services": "Services",
+      "projects": "Projets",
+      "products": "Produits",
+      "trainings": "Formations",
+      "contact": "Contact",
+      "selectLanguage": "Sélectionner la langue",
+      "getStarted": "COMMENCER"
+    },
+    "about": {
+    "title": "Innovation et excellence personnalisées pour moderniser votre industrie",
+    "description": "Découvrez l'avenir avec OURQUILANE, votre partenaire de confiance en solutions logicielles innovantes. Découvrez nos services, nos projets et notre équipe d'experts dédiée à donner vie à vos idées.",
+    "contactButton": "CONTACTEZ-NOUS"
+   },
+    "footer": {
+      "slogan": "Votre partenaire de confiance pour réussir.",
+      "socialMedia": {
+        "facebook": "Facebook",
+        "twitter": "Twitter",
+        "instagram": "Instagram",
+        "linkedin": "LinkedIn"
+      },
+      "contactUs": "Nous contacter",
+      "findUs": "Nous trouver",
+      "emailPlaceholder": "Entrez votre adresse e-mail",
+      "subscribeButton": "S'abonner",
+      "navigation": "Navigation",
+      "aboutUs": "À propos",
+      "services": "Services",
+      "projects": "Projets",
+      "training": "Formation",
+      "contact": "Contact",
+      "copyright": "© 2025 Votre entreprise"
+    },
+    "entreprise":{
+      "titleButton": "QUI SOMMES NOUS",
+      "title": "Ourquilane, leader en R&D de solutions logicielles innovantes et performantes. ",
+      "description": "Nous conduisons la transformation du secteur avec des solutions sur mesure et un engagement d’excellence, donnant vie à vos projets les plus ambitieux.",
+      "Button": "VOIR PLUS"
+    },
+    "clients":{
+      "titleButton":"Nos Clients",
+      "title": "Ils Nous Font Confiance"
+    } 
+
+  }
+  

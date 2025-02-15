@@ -16,6 +16,9 @@ export default {
         neueGraphica: ["Neue-Graphica", "sans-serif"], 
         satochi: ["Satochi", "sans-serif"], 
       },
+      borderRadius: {
+        '4xl': '2rem', 
+      },
     },
   },
   plugins: [],
