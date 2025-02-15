@@ -8,6 +8,16 @@ import WhiteButton from '@/components/shared/WhiteButton'
 import ArrowTop from '../../../public/images/shared/arrow-up.svg'
 import ArrowDown from '../../../public/images/shared/arrow-down.svg'
 import AuroraBackground from '@/components/common/Background'
+import { useForm } from "react-hook-form"
+
+import { Loader2, Send } from "lucide-react"
+interface FormData {
+  fullName: string
+  company: string
+  email: string
+  phone: string
+  message: string
+}
 
 const steps = [
   {
@@ -56,6 +66,40 @@ const faqs = [
 ]
 
 const HowWeWork = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormData>()
+
+  const onSubmit = async (data: FormData) => {
+    setIsSubmitting(true)
+    setSubmitStatus("idle")
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+
+      if (!response.ok) throw new Error("Failed to send message")
+
+      setSubmitStatus("success")
+      reset()
+    } catch (error) {
+      console.error("Error:", error)
+      setSubmitStatus("error")
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
   const [activeStep, setActiveStep] = useState(0)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [scrollProgress, setScrollProgress] = useState(0)
@@ -248,7 +292,7 @@ const HowWeWork = () => {
                       transition={{ duration: 0.3 }}
                       className="overflow-hidden"
                     >
-                      <div className="px-6 py-4 bg-black/20">
+                      <div className="px-6 py-4 bg-transparent">
                         <p className="text-white/80 font-satochi">
                           {faq.answer}
                         </p>
@@ -261,6 +305,177 @@ const HowWeWork = () => {
           </div>
         </motion.section>
       </main>
+      {/* Contact Section */}
+      <section className="relative min-h-screen flex items-center py-20">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black pointer-events-none" />
+
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="text-center mb-16">
+          <WhiteButton title="CONTACT US" handleClick={() => {}} />
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-4xl md:text-6xl font-semibold text-white mt-8 mb-6 font-neueGraphica"
+          >
+            Let&apos;s Work Together
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="text-lg text-gray-300 max-w-2xl mx-auto font-satochi"
+          >
+            Our team will call you to discuss your needs and schedule a work session.
+          </motion.p>
+        </div>
+
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-start">
+          {/* Left Section with Map and Contact Info */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            className="space-y-8"
+          >
+            {/* Contact Information */}
+            {/* Map */}
+            <motion.div
+              className="relative h-[400px] rounded-3xl overflow-hidden shadow-2xl"
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              <iframe
+                src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.7814813012386!2d3.0424166!3d36.7459722!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzbCsDQ0JzQ1LjUiTiAzwrAwMic0MC42IkU!5e0!3m2!1sen!2sdz!4v1647544555647!5m2!1sen!2sdz`}
+                className="absolute inset-0 w-full h-full border-0 filter grayscale contrast-125"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </motion.div>
+          </motion.div>
+
+          {/* Contact Form */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            className="relative"
+          >
+            <motion.div
+              className="backdrop-blur-lg bg-white/5 rounded-3xl p-8 shadow-2xl border border-white/10"
+              whileHover={{ boxShadow: "0 0 30px rgba(255,255,255,0.1)" }}
+              transition={{ duration: 0.3 }}
+            >
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
+                    <input
+                      {...register("fullName", { required: "Full name is required" })}
+                      className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-white/40 transition-colors"
+                      placeholder="Full Name"
+                    />
+                    {errors.fullName && <p className="mt-1 text-red-400 text-sm">{errors.fullName.message}</p>}
+                  </motion.div>
+                  <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
+                    <input
+                      {...register("company")}
+                      className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-white/40 transition-colors"
+                      placeholder="Company & Position"
+                    />
+                  </motion.div>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-6">
+                  <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
+                    <input
+                      {...register("email", {
+                        required: "Email is required",
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                          message: "Invalid email address",
+                        },
+                      })}
+                      className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-white/40 transition-colors"
+                      placeholder="Email"
+                    />
+                    {errors.email && <p className="mt-1 text-red-400 text-sm">{errors.email.message}</p>}
+                  </motion.div>
+                  <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
+                    <input
+                      {...register("phone", {
+                        pattern: {
+                          value: /^[0-9+\-\s()]*$/,
+                          message: "Invalid phone number",
+                        },
+                      })}
+                      className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-white/40 transition-colors"
+                      placeholder="Phone"
+                    />
+                    {errors.phone && <p className="mt-1 text-red-400 text-sm">{errors.phone.message}</p>}
+                  </motion.div>
+                </div>
+
+                <motion.div whileHover={{ scale: 1.01 }} transition={{ duration: 0.2 }}>
+                  <textarea
+                    {...register("message", { required: "Message is required" })}
+                    className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-white/40 transition-colors min-h-[150px]"
+                    placeholder="Message"
+                  />
+                  {errors.message && <p className="mt-1 text-red-400 text-sm">{errors.message.message}</p>}
+                </motion.div>
+
+                <motion.button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={`w-full bg-white text-black font-neueGraphica rounded-xl py-4 px-8 flex items-center justify-center gap-2 hover:bg-white/90 transition-colors ${
+                    isSubmitting ? "opacity-75 cursor-not-allowed" : ""
+                  }`}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5" />
+                      SEND YOUR MESSAGE
+                    </>
+                  )}
+                </motion.button>
+
+                <AnimatePresence>
+                  {submitStatus === "success" && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="bg-green-500/20 border border-green-500/30 rounded-xl p-4 text-green-400 text-center"
+                    >
+                      Message sent successfully! We&apos;ll get back to you soon.
+                    </motion.div>
+                  )}
+
+                  {submitStatus === "error" && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="bg-red-500/20 border border-red-500/30 rounded-xl p-4 text-red-400 text-center"
+                    >
+                      Failed to send message. Please try again.
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </form>
+            </motion.div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
     </div>
   )
 }
