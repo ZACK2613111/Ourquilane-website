@@ -119,7 +119,7 @@ const Footer: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="flex items-center gap-6"
             >
-              {socialLinks.map((social, index) => (
+              {socialLinks.map((social) => (
                 <motion.div
                   key={social.name}
                   whileHover={{ scale: 1.1 }}

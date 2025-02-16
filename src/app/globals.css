@@ -17,20 +17,15 @@
   font-style: normal;
 }
 
-/* Clients horizontal scrolling */
-@keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
+body {
+  background-color: black;
 }
 
 .animate-scroll {
   display: flex;
   animation: scroll 10s linear infinite;
 }
+
 
 /* @keyframes aurora {
   0% {

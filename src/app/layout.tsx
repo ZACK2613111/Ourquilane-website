@@ -1,12 +1,9 @@
-// import { Neue_graphica } from "@/utils/font";
 import { Metadata } from "next";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
 
-// const neueGraphica = Neue_graphica.variable;
-
 export const metadata: Metadata = {
-  title: "OURQUILANE Website",
+  title: "Ourquilane Website",
   description: "Website showcasing different fonts",
 };
 

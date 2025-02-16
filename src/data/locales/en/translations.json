@@ -1,4 +1,8 @@
 {
+    
+   "contact":{
+
+   }, 
     "navbar": {
       "home": "Home",
       "aboutUs": "About Us",
@@ -34,7 +38,7 @@
       "projects": "Projects",
       "training": "Training",
       "contact": "Contact",
-      "copyright": "© 2025 Your Company"
+      "copyright": "© 2025 Ourquilane. All rights are reserved "
     },
     "entreprise":{
       "titleButton": "WHO ARE WE",
@@ -45,6 +49,6 @@
     "clients":{
       "titleButton":"OUR CLIENTS",
       "title": "They Trust Us"
-    } 
+    }
   }
   
