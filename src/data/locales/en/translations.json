@@ -16,30 +16,29 @@
     },
     
     "about": {
-        "title": "Custom Innovation & Excellence to Modernize Your Industry",
+        "title": "Tailored Innovation & Excellence to Modernize Your Industry",
         "description": "Experience the future with OURQUILANE—your trusted partner in innovative software solutions. Discover our services, projects, and expert team dedicated to bringing your ideas to life.",
         "contactButton": "CONTACT US"
       },
     "footer": {
-      "slogan": "Your trusted partner in success.",
-      "socialMedia": {
-        "facebook": "Facebook",
-        "twitter": "Twitter",
-        "instagram": "Instagram",
-        "linkedin": "LinkedIn"
-      },
-      "contactUs": "Contact Us",
-      "findUs": "Find Us",
-      "emailPlaceholder": "Enter your email address",
-      "subscribeButton": "Subscribe",
-      "navigation": "Navigation",
-      "aboutUs": "About Us",
-      "services": "Services",
-      "projects": "Projects",
-      "training": "Training",
-      "contact": "Contact",
-      "copyright": "© 2025 Ourquilane. All rights are reserved "
+    "slogan": "Your trusted partner in success.",
+    "socialMedia": {
+      "facebook": "Facebook",
+      "twitter": "Twitter",
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn"
     },
+    "contactUs": "Contact Us",
+    "findUs": "Find Us",
+    "home": "Home",
+    "aboutUs": "About Us",
+    "services": "Services",
+    "projects": "Projects",
+    "products": "Products",
+    "trainings": "Trainings",
+    "contact": "Contact",
+    "copyright": "© 2025 Ourquilane. All rights are reserved"
+  },
     "entreprise":{
       "titleButton": "WHO ARE WE",
       "title": "Ourquilane, a leader in R&D for innovative and efficient software solutions. ",

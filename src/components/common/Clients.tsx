@@ -37,7 +37,7 @@ const Clients: React.FC = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="flex flex-col items-start mb-8 sm:mb-10 md:mb-12"
         >
-          <h2 className="font-neueGraphica text-4xl lg:text-5xl font-semibold leading-tight mb-6 sm:mb-0">
+          <h2 className="font-gabarito text-4xl lg:text-5xl font-semibold leading-tight mb-6 sm:mb-0">
             {translations.clients.title}
           </h2>
         </motion.div>

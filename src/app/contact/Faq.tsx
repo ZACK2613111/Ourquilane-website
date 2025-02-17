@@ -34,7 +34,7 @@ const FAQ: React.FC<FAQProps> = ({ faqs }) => {
         onClick={onToggle}
         className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-white/5 transition-colors"
       >
-        <span className="text-white font-neueGraphica text-base">
+        <span className="text-white font-gabarito text-base">
           {faq.question}
         </span>
         <Image 
@@ -78,7 +78,7 @@ const FAQ: React.FC<FAQProps> = ({ faqs }) => {
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-4xl md:text-5xl font-bold text-white mt-8 mb-4 font-neueGraphica"
+          className="text-4xl md:text-5xl font-bold text-white mt-8 mb-4 font-gabarito"
         >
           Got Questions?<br />
           We&apos;ve Got Answers!

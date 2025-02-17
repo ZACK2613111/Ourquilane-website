@@ -17,7 +17,7 @@ const Button: React.FC<ButtonProps> = ({ handleClick, title }) => {
       onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}  
       onMouseLeave={() => setIsHovered(false)}
-      className="relative font-neueGraphica px-12 py-4 mx-4 rounded-full flex items-center 
+      className="relative font-gabarito px-12 py-4 mx-4 rounded-lg flex items-center 
                 overflow-hidden border-white border-2 group hover:scale-105 transform duration-300"
       title={title}
     >

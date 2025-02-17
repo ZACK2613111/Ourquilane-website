@@ -178,15 +178,15 @@ const ProjectsSection: React.FC = () => {
   }, [])
 
   return (
-    <section id="projects" ref={containerRef} className="w-full relative bg-transparent text-white pt-24 pb-24 min-h-screen">
+    <section id="projects" ref={containerRef} className="w-full relative bg-transparent text-white py-8 sm:py-12 md:py-16 px-4 sm:px-6 md:px-8">
       {/* Header Section */}
-      <div className="max-w-7xl mx-auto mb-24">
+      <div className="max-w-7xl mx-auto">
         <div className="mb-6 sm:mb-8">
           <WhiteButton title="OUR PROJECTS" handleClick={() => console.log("Our Projects clicked")} />
         </div>
 
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 sm:mb-10 md:mb-12 gap-6">
-          <h2 className="font-neueGraphica text-4xl md:text-5xl font-bold leading-tight max-w-2xl">Our Latest Work</h2>
+          <h2 className="font-gabarito text-4xl md:text-5xl font-bold leading-tight max-w-2xl">Our Latest Work</h2>
           <div className="w-full sm:w-auto">
             <Button handleClick={() => console.log("View all projects")} title="VIEW ALL PROJECTS" />
           </div>

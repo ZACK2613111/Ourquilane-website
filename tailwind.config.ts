@@ -15,9 +15,11 @@ export default {
       fontFamily: {
         neueGraphica: ["Neue-Graphica", "sans-serif"], 
         satochi: ["Satochi", "sans-serif"], 
+        dmSans: ["DM Sans", "sans-serif"], 
+        gabarito: ["'Gabarito'", "sans-serif"],
       },
       borderRadius: {
-        '4xl': '2rem', 
+        '4xl': '2rem',
       },
     },
   },

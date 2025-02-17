@@ -45,7 +45,7 @@ const Header = () => {
         variants={textFadeVariant}
         initial="hidden"
         animate="visible"
-        className="text-4xl md:text-6xl font-semibold text-white mb-6 font-neueGraphica leading-tight"
+        className="text-4xl md:text-6xl font-semibold text-white mb-6 font-gabarito leading-tight"
       >
         <span className="block">Got a Project?</span>
         <span className="block">Ourquilane is Here</span>

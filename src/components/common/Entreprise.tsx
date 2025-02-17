@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import WhiteButton from '../shared/WhiteButton'
 import Button from '../shared/Button'
 import Image from 'next/image'
-import Logo from "../../../public/images/logo.png"
+import Logo from "../../../public/images/Logo.svg"
 import { useLanguage } from "@/context/LanguageContext"
 
 const Entreprise = () => {
@@ -27,7 +27,7 @@ const Entreprise = () => {
             />
           </div>
 
-          <h1 className="font-neueGraphica text-4xl lg:text-5xl font-semibold text-white leading-tight">
+          <h1 className="font-gabarito text-4xl lg:text-5xl font-semibold text-white leading-tight">
             {translations.entreprise.title}
           </h1>
 

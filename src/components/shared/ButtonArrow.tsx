@@ -11,7 +11,7 @@ const Button: React.FC<ButtonProps> = ({ handleClick, title }) => {
   return (
     <button
       onClick={handleClick}
-      className="font-neueGraphica px-6 py-3 rounded-full flex items-center gap-2
+      className="font-gabarito px-6 py-3 rounded-lg flex items-center gap-2
                 text-white border-white border-2 border-transparent shadow-md 
                 transform duration-300"
       title={title}

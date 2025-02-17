@@ -1,28 +1,64 @@
 "use client"
 
-import type React from "react"
-
 import { useState, useCallback, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { usePathname } from "next/navigation"
-import Button from "@/components/shared/Button"
+import { usePathname, useRouter } from "next/navigation"
+import Image from "next/image"
+import { MenuIcon } from "lucide-react"
+import { cn } from "@/lib/utils"
 import { useLanguage } from "@/context/LanguageContext"
-import EnglishTranslation from "@/data/locales/en/translations.json"
-import FrenchTranslation from "@/data/locales/fr/translations.json"
 
-interface NavItem {
-  label: string
-  href: string
+// Define strict types for translations
+interface NavbarTranslations {
+  home: string
+  aboutUs: string
+  services: string
+  projects: string
+  products: string
+  trainings: string
+  contact: string
+  selectLanguage: string
+  getStarted: string
 }
 
-const Navbar = () => {
+// interface Translations {
+//   navbar: NavbarTranslations
+// }
+
+interface NavItem {
+  key: keyof NavbarTranslations
+  href: string
+  route?: string
+}
+
+// Predefined nav items to ensure type safety
+const NAV_ITEMS: NavItem[] = [
+  { key: "home", href: "#home", route: "/" },
+  { key: "aboutUs", href: "#about" },
+  { key: "services", href: "#services" },
+  { key: "projects", href: "#projects" },
+  { key: "products", href: "#products" },
+  { key: "trainings", href: "#trainings", route: "trainings" },
+  { key: "contact", href: "#contact", route: "contact" },
+]
+
+export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
-  const { language, translations, changeLanguage } = useLanguage()
+  const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
+  const router = useRouter()
+  const { language, translations, changeLanguage } = useLanguage()
+
+  // Fixed type safety issue with translations
+  const t = useCallback(
+    (key: keyof NavbarTranslations) => {
+      return translations?.navbar?.[key] || key
+    },
+    [translations]
+  )
 
   const getActiveSection = useCallback(() => {
-    if (pathname === "/") return "#home"
-    return pathname
+    return pathname === "/" ? "#home" : pathname
   }, [pathname])
 
   const [activeSection, setActiveSection] = useState(getActiveSection())
@@ -32,234 +68,168 @@ const Navbar = () => {
   }, [getActiveSection])
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = "unset"
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50)
     }
-  }, [isOpen])
-
-  const handleScroll = useCallback((href: string, e: React.MouseEvent) => {
-    e.preventDefault()
-    setActiveSection(href)
-    if (href !== "/" && document.querySelector(href)) {
-      document.querySelector(href)?.scrollIntoView({ behavior: "smooth" })
-    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const getTranslation = useCallback(() => {
-    switch (language) {
-      case "FR":
-        return FrenchTranslation.navbar
-      default:
-        return EnglishTranslation.navbar
-    }
-  }, [language])
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "unset"
+  }, [isOpen])
 
-  const t = getTranslation()
-
-  const navItems: NavItem[] = [
-    { label: translations.navbar.home, href: "#home" },
-    { label: translations.navbar.aboutUs, href: "#about" },
-    { label: translations.navbar.services, href: "#services" },
-    { label: translations.navbar.projects, href: "#projects" },
-    { label: translations.navbar.products, href: "#products" },
-    { label: translations.navbar.trainings, href: "#trainings" },
-    { label: translations.navbar.contact, href: "#contact" },
-  ]
+  const handleNavigation = useCallback(
+    (href: string, route?: string, e?: React.MouseEvent) => {
+      e?.preventDefault()
+      setActiveSection(href)
+      
+      if (route) {
+        router.push(route)
+        setIsOpen(false)
+      } else if (href.startsWith("#")) {
+        document.querySelector(href)?.scrollIntoView({ behavior: "smooth" })
+        setIsOpen(false)
+      }
+    },
+    [router]
+  )
 
   return (
     <nav className="fixed w-full top-0 z-50">
-      <div className="relative px-4 py-4 mb-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Logo */}
-          <span className="font-neueGraphica text-white text-2xl font-bold tracking-wide z-10">OURQUILANE</span>
+      <div className="px-4 py-6">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className={cn(
+              "rounded-2xl p-3 md:p-3 flex items-center justify-between",
+              "border border-white/10 backdrop-blur-md",
+              isScrolled && "shadow-xl shadow-[#9A5CE4]/10"
+            )}
+          >
+            {/* Logo */}
+            <motion.div 
+              className="relative" 
+              whileHover={{ scale: 1.02 }}
+            >
+              <Image
+                src="/images/Logo-header.svg"
+                alt="Logo"
+                width={120}
+                height={48}
+                className="h-8 w-auto lg:h-10"
+                priority
+              />
+            </motion.div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-4">
-            <div className="rounded-full px-3 py-1.5 bg-white/90 backdrop-blur-md shadow-lg">
-              <div className="flex items-center gap-1">
-                <div className="flex items-center">
-                  {navItems.map((item) => (
-                    <motion.a
-                      key={item.label}
-                      href={item.href}
-                      className={`font-neueGraphica px-4 py-2 rounded-full text-base transition-all duration-300 whitespace-nowrap relative overflow-hidden
-                        ${activeSection === item.href ? "text-white bg-black" : "text-black hover:text-white"}`}
-                      onClick={(e) => handleScroll(item.href, e)}
-                      whileHover="hover"
-                    >
-                      <motion.span className="relative z-10">{item.label}</motion.span>
-                      <motion.div
-                        className="absolute inset-0 bg-gray-800"
-                        initial={{ scale: 0, opacity: 0 }}
-                        variants={{
-                          hover: {
-                            scale: 1,
-                            opacity: 1,
-                            transition: { duration: 0.3 },
-                          },
-                        }}
-                        style={{ originY: 0.5 }}
-                      />
-                    </motion.a>
-                  ))}
-                </div>
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center gap-2">
+              {NAV_ITEMS.map((item) => (
+                <motion.a
+                  key={item.key}
+                  href={item.href}
+                  className={cn(
+                    "relative font-gabarito px-4 py-2 rounded-xl text-base whitespace-nowrap transition-all duration-300",
+                    "text-white/90 hover:text-white",
+                    activeSection === item.href
+                      ? "bg-gradient-to-r from-[#9A5CE4]/40 to-[#FADD2A]/40"
+                      : "hover:bg-gradient-to-r hover:from-[#9A5CE4]/20 hover:to-[#FADD2A]/20"
+                  )}
+                  onClick={(e) => handleNavigation(item.href, item.route, e)}
+                  whileHover={{ scale: 1.05 }}
+                >
+                  {t(item.key)}
+                </motion.a>
+              ))}
 
+              {/* Language Selector */}
+              <motion.div 
+                className="ml-2 rounded-lg p-2 backdrop-blur-md" 
+                whileHover={{ scale: 1.05 }}
+              >
                 <select
+                  title={t("selectLanguage")}
                   value={language}
                   onChange={(e) => changeLanguage(e.target.value)}
-                  className="font-neueGraphica py-2 px-3 text-base bg-transparent text-black cursor-pointer ml-2 rounded-full hover:bg-gray-100 transition-colors duration-300"
-                  title={translations.navbar.selectLanguage}
+                  className="font-gabarito py-2 px-4 text-base bg-transparent text-white cursor-pointer"
                 >
-                  <option value="EN">EN</option>
-                  <option value="FR">FR</option>
+                  <option value="EN" className="text-black">EN</option>
+                  <option value="FR" className="text-black">FR</option>
                 </select>
-              </div>
+              </motion.div>
             </div>
 
-            <Button title={t.getStarted} handleClick={() => console.log("GET STARTED")} />
-          </div>
-
-          {/* Mobile menu button with enhanced animation */}
-          <div className="lg:hidden z-10">
-            <button
+            {/* Mobile Menu Button */}
+            <MenuIcon
               onClick={() => setIsOpen(!isOpen)}
-              className="relative w-12 h-12 focus:outline-none"
+              className="lg:hidden text-white relative w-8 h-8 text-sm rounded-lg bg-gradient-to-r from-[#9A5CE4]/20 to-[#FADD2A]/20 flex items-center justify-between"
               aria-label="Toggle menu"
-            >
-              <motion.div
-                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-6"
-                animate={isOpen ? { rotate: 180 } : { rotate: 0 }}
-                transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
-              >
-                <motion.span
-                  className="absolute h-0.5 bg-white rounded-full"
-                  initial={{ width: "75%" }}
-                  animate={{
-                    width: ["75%", "25%", "75%"],
-                    top: isOpen ? "0px" : "-8px",
-                    rotate: isOpen ? 45 : 0,
-                  }}
-                  transition={{
-                    width: {
-                      duration: 1.5,
-                      repeat: Number.POSITIVE_INFINITY,
-                      ease: "easeInOut",
-                    },
-                    top: { duration: 0.3 },
-                    rotate: { duration: 0.3 },
-                  }}
-                />
-                <motion.span
-                  className="absolute h-0.5 bg-white rounded-full"
-                  initial={{ width: "50%" }}
-                  animate={{
-                    width: ["50%", "25%", "75%", "50%"],
-                    opacity: isOpen ? 0 : 1,
-                    scale: isOpen ? 0 : 1,
-                  }}
-                  transition={{
-                    width: {
-                      duration: 2,
-                      repeat: Number.POSITIVE_INFINITY,
-                      ease: "easeInOut",
-                    },
-                    opacity: { duration: 0.3 },
-                    scale: { duration: 0.3 },
-                  }}
-                />
-                <motion.span
-                  className="absolute h-0.5 bg-white rounded-full"
-                  initial={{ width: "25%" }}
-                  animate={{
-                    width: ["25%", "50%", "75%", "25%"],
-                    top: isOpen ? "0px" : "8px",
-                    rotate: isOpen ? -45 : 0,
-                  }}
-                  transition={{
-                    width: {
-                      duration: 2.5,
-                      repeat: Number.POSITIVE_INFINITY,
-                      ease: "easeInOut",
-                    },
-                    top: { duration: 0.3 },
-                    rotate: { duration: 0.3 },
-                  }}
-                />
-              </motion.div>
-            </button>
-          </div>
+            />
+          </motion.div>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile Menu */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              className="fixed inset-0 bg-black/95 backdrop-blur-md lg:hidden"
-              style={{ top: 0 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-50 p-4 lg:hidden"
             >
-              <div className="flex flex-col items-center justify-center min-h-screen">
-                <div className="w-full space-y-2">
-                  {navItems.map((item, index) => (
-                    <motion.div
-                      key={item.label}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 bg-[#9A5CE4]/10 backdrop-blur-xl"
+                onClick={() => setIsOpen(false)}
+              />
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                className="relative rounded-2xl bg-gradient-to-r from-[#9A5CE4]/20 to-[#FADD2A]/20 backdrop-blur-md p-6 max-w-lg mx-auto mt-20"
+              >
+                <div className="space-y-4">
+                  {NAV_ITEMS.map((item) => (
+                    <motion.a
+                      key={item.key}
+                      href={item.href}
+                      className={cn(
+                        "block w-full text-center py-3 text-base font-gabarito rounded-xl",
+                        "text-white/90 hover:text-white transition-colors",
+                        activeSection === item.href
+                          ? "bg-gradient-to-r from-[#9A5CE4]/40 to-[#FADD2A]/40"
+                          : "hover:bg-gradient-to-r hover:from-[#9A5CE4]/20 hover:to-[#FADD2A]/20"
+                      )}
+                      onClick={(e) => handleNavigation(item.href, item.route, e)}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
                     >
-                      <motion.a
-                        href={item.href}
-                        className={`block w-full text-center py-3 text-lg font-neueGraphica rounded-full mx-4
-                          ${activeSection === item.href ? "bg-white text-black" : "text-white"}`}
-                        onClick={(e) => {
-                          handleScroll(item.href, e)
-                          setIsOpen(false)
-                        }}
-                        whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        {item.label}
-                      </motion.a>
-                    </motion.div>
+                      {t(item.key)}
+                    </motion.a>
                   ))}
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: navItems.length * 0.1 }}
+
+                  <motion.div 
+                    className="mt-6" 
+                    whileHover={{ scale: 1.02 }} 
+                    whileTap={{ scale: 0.98 }}
                   >
-                    <motion.button
-                      className="block w-full text-center py-3 text-lg font-neueGraphica rounded-full mx-4 text-white"
-                      onClick={() => changeLanguage(language === "EN" ? "FR" : "EN")}
-                      whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
-                      whileTap={{ scale: 0.95 }}
+                    <select
+                      title={t("selectLanguage")}
+                      value={language}
+                      onChange={(e) => changeLanguage(e.target.value)}
+                      className="w-full bg-transparent py-3 text-base font-gabarito text-white rounded-lg text-center"
                     >
-                      {language === "EN" ? "FR" : "EN"}
-                    </motion.button>
+                      <option value="EN" className="text-black">English</option>
+                      <option value="FR" className="text-black">Français</option>
+                    </select>
                   </motion.div>
                 </div>
-
-                <motion.div
-                  className="absolute bottom-20 w-full px-4"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: (navItems.length + 1) * 0.1 }}
-                >
-                  <div className="w-full flex justify-center">
-                    <Button
-                      title={t.getStarted}
-                      handleClick={() => {
-                        console.log("GET STARTED")
-                        setIsOpen(false)
-                      }}
-                    />
-                  </div>
-                </motion.div>
-              </div>
+              </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -267,6 +237,3 @@ const Navbar = () => {
     </nav>
   )
 }
-
-export default Navbar
-

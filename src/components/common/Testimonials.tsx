@@ -8,42 +8,43 @@ import Button from "../shared/Button"
 
 const testimonials = [
   {
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    author: "DERBAL RAYHANE",
-    role: "CEO, BrightSun",
-    imageUrl: "/images/shared/person1.jpg",
-  },
-  {
-    text: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    author: "DERBAL RAYHANE",
-    role: "CEO, BrightSun",
+    text: "Working with Yalidine has been an amazing experience. Their team is highly collaborative and forward-thinking. Together, we've been able to achieve significant improvements in operational efficiency, and we’re proud of the results we’ve delivered. It’s always a pleasure to work with such a dedicated team.",
+    author: "THE BRIGHTSUN TEAM",
+    role: "Your Trusted Partners",
     imageUrl: "",
   },
   {
-    text: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    author: "DERBAL RAYHANE",
-    role: "CEO, BrightSun",
+    text: "Guepex has been a fantastic partner in transforming their logistics processes. Their commitment to innovation and excellence has made our collaboration incredibly rewarding. We’ve been able to support their growth with tailored solutions, and seeing their progress has been truly fulfilling for us.",
+    author: "THE BRIGHTSUN TEAM",
+    role: "Your Trusted Partners",
     imageUrl: "",
   },
   {
-    text: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    author: "DERBAL RAYHANE",
-    role: "CEO, BrightSun",
+    text: "Zimo Express has been an outstanding client to work with. Their focus on speed, efficiency, and customer satisfaction has aligned perfectly with our approach. Through our collaboration, we’ve helped them streamline their delivery operations, and it’s been exciting to see the positive impact on their business.",
+    author: "THE BRIGHTSUN TEAM",
+    role: "Your Trusted Partners",
     imageUrl: "",
   },
   {
-    text: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    author: "DERBAL RAYHANE",
-    role: "CEO, BrightSun",
+    text: "The partnership with Yalidine has allowed us to bring innovative solutions to the table. Their team's drive for excellence made it possible to create seamless processes that helped them scale faster. We’re incredibly proud to have been a part of their journey and look forward to continuing this successful collaboration.",
+    author: "THE BRIGHTSUN TEAM",
+    role: "Your Trusted Partners",
     imageUrl: "",
   },
   {
-    text: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    author: "DERBAL RAYHANE",
-    role: "CEO, BrightSun",
+    text: "Working alongside Guepex has been nothing short of rewarding. Their dedication to improvement and growth is inspiring, and we’ve had the privilege of helping them optimize their operations. The results have been truly remarkable, and we’re thrilled with the progress we’ve made together.",
+    author: "THE BRIGHTSUN TEAM",
+    role: "Your Trusted Partners",
+    imageUrl: "",
+  },
+  {
+    text: "Zimo Express has set a high bar for the logistics industry, and we’ve had the pleasure of helping them achieve even greater success. Their focus on providing top-notch customer service paired with our tailored solutions has led to measurable improvements in their operations. It’s been a true collaboration.",
+    author: "THE BRIGHTSUN TEAM",
+    role: "Your Trusted Partners",
     imageUrl: "",
   },
 ]
+
 
 const TestimonialsSection = () => {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -79,7 +80,7 @@ const TestimonialsSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-4xl md:text-5xl font-semibold text-white leading-tight mb-6 font-neueGraphica"
+            className="text-4xl md:text-5xl font-normal text-white leading-tight mb-6 font-gabarito"
           >
             Don&apos;t Take It From Us,
             <br />

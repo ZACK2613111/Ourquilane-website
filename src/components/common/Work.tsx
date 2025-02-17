@@ -14,7 +14,7 @@ const Work = () => {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="font-neueGraphica text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+          <h1 className="font-gabarito text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
             Building the Future of Your
             <br />
             Organization Together

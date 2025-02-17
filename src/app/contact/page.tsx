@@ -45,7 +45,7 @@ export default function HowWeWork() {
   if (!isLoaded) return null
 
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen relative my-20">
       <AuroraBackground />
       <Navbar />
       

@@ -9,7 +9,6 @@ interface DataNode {
   connected: boolean
   pulsePhase: number
   speed: number
-  depth: number
 }
 
 interface DataFlow {
@@ -19,19 +18,15 @@ interface DataFlow {
   endY: number
   progress: number
   color: string
-  size: number
 }
 
 const TechBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   const COLORS = useMemo(() => ({
-    violet: "rgba(154, 92, 228, 0.6)",
-    violetFade: "rgba(154, 92, 228, 0.3)",
-    yellow: "rgba(250, 210, 42, 0.5)",
-    yellowFade: "rgba(250, 210, 42, 0.3)",
-    background: "#030711",
-    stars: "#ffffff"
+    violet: "rgba(154, 92, 228, 0.2)",  // #9A5CE4 20% opacity
+    yellow: "rgba(233, 205, 42, 0.4)",  // #E9CD2A 40% opacity
+    background: "#0A081B"
   }), [])
 
   useEffect(() => {
@@ -45,31 +40,24 @@ const TechBackground = () => {
     let animationId: number
     let time = 0
     
+    // Data structures
     let nodes: DataNode[] = []
     let dataFlows: DataFlow[] = []
-    let stars: { x: number; y: number; size: number; brightness: number }[] = []
 
-    const initStars = (width: number, height: number) => {
-      return Array(200).fill(null).map(() => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        size: Math.random() * 1.5,
-        brightness: Math.random()
-      }))
-    }
-
+    // Initialize nodes
     const initNodes = (width: number, height: number) => {
-      return Array(25).fill(null).map(() => ({
+      const nodeCount = 20
+      return Array(nodeCount).fill(null).map(() => ({
         x: Math.random() * width,
         y: Math.random() * height,
-        size: Math.random() * 4 + 2,
+        size: Math.random() * 3 + 2,
         connected: false,
         pulsePhase: Math.random() * Math.PI * 2,
-        speed: Math.random() * 0.15 + 0.05,
-        depth: Math.random() * 0.5 + 0.5
+        speed: Math.random() * 0.2 + 0.1
       }))
     }
 
+    // Create data flow effect
     const createDataFlow = (startNode: DataNode, endNode: DataNode) => {
       return {
         startX: startNode.x,
@@ -77,53 +65,41 @@ const TechBackground = () => {
         endX: endNode.x,
         endY: endNode.y,
         progress: 0,
-        color: Math.random() > 0.5 ? COLORS.violet : COLORS.yellow,
-        size: Math.random() * 2 + 1
+        color: Math.random() > 0.5 ? COLORS.violet : COLORS.yellow
       }
     }
 
-    const drawStars = (ctx: CanvasRenderingContext2D) => {
-      stars.forEach(star => {
-        const twinkle = Math.sin(time * 0.002 + star.brightness * 10) * 0.5 + 0.5
-        ctx.beginPath()
-        ctx.arc(star.x, star.y, star.size * twinkle, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(255, 255, 255, ${0.3 + star.brightness * 0.7 * twinkle})`
-        ctx.fill()
-      })
-    }
-
+    // Draw nodes and their connections
     const drawNodes = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
       nodes.forEach((node, i) => {
-        const parallaxSpeed = node.speed * node.depth
-        node.x += Math.sin(time * 0.001 + node.pulsePhase) * parallaxSpeed
-        node.y += Math.cos(time * 0.001 + node.pulsePhase) * parallaxSpeed
+        // Update node position with smooth movement
+        node.x += Math.sin(time * 0.001 + node.pulsePhase) * node.speed
+        node.y += Math.cos(time * 0.001 + node.pulsePhase) * node.speed
         
+        // Keep nodes within bounds
         node.x = (node.x + width) % width
         node.y = (node.y + height) % height
 
-        const pulse = Math.sin(time * 0.002 + node.pulsePhase) * 0.3 + 1
-        
-        const gradient = ctx.createRadialGradient(
-          node.x, node.y, 0,
-          node.x, node.y, node.size * 6
-        )
-        const nodeColor = i % 2 === 0 ? COLORS.violet : COLORS.yellow
-        const nodeFadeColor = i % 2 === 0 ? COLORS.violetFade : COLORS.yellowFade
-        
-        gradient.addColorStop(0, nodeColor)
-        gradient.addColorStop(0.5, nodeFadeColor)
-        gradient.addColorStop(1, "rgba(0,0,0,0)")
-        
-        ctx.fillStyle = gradient
-        ctx.fillRect(node.x - node.size * 6, node.y - node.size * 6, node.size * 12, node.size * 12)
-
+        // Draw node with pulse effect
+        const pulse = Math.sin(time * 0.003 + node.pulsePhase) * 0.5 + 1
         ctx.beginPath()
         ctx.arc(node.x, node.y, node.size * pulse, 0, Math.PI * 2)
-        ctx.fillStyle = nodeColor
+        ctx.fillStyle = i % 2 === 0 ? COLORS.violet : COLORS.yellow
         ctx.fill()
+
+        // Draw node glow
+        const gradient = ctx.createRadialGradient(
+          node.x, node.y, 0,
+          node.x, node.y, node.size * 4
+        )
+        gradient.addColorStop(0, i % 2 === 0 ? COLORS.violet : COLORS.yellow)
+        gradient.addColorStop(1, "rgba(0,0,0,0)")
+        ctx.fillStyle = gradient
+        ctx.fillRect(node.x - node.size * 4, node.y - node.size * 4, node.size * 8, node.size * 8)
       })
     }
 
+    // Draw data flow animations
     const drawDataFlows = (ctx: CanvasRenderingContext2D) => {
       dataFlows = dataFlows.filter(flow => {
         if (flow.progress >= 1) return false
@@ -131,36 +107,28 @@ const TechBackground = () => {
         const x = flow.startX + (flow.endX - flow.startX) * flow.progress
         const y = flow.startY + (flow.endY - flow.startY) * flow.progress
 
-        const particleGlow = ctx.createRadialGradient(x, y, 0, x, y, flow.size * 4)
-        particleGlow.addColorStop(0, flow.color)
-        particleGlow.addColorStop(1, "rgba(0,0,0,0)")
-        
-        ctx.fillStyle = particleGlow
-        ctx.fillRect(x - flow.size * 4, y - flow.size * 4, flow.size * 8, flow.size * 8)
-
+        // Draw flowing particle
         ctx.beginPath()
-        ctx.arc(x, y, flow.size, 0, Math.PI * 2)
+        ctx.arc(x, y, 2, 0, Math.PI * 2)
         ctx.fillStyle = flow.color
         ctx.fill()
 
+        // Draw trail
         ctx.beginPath()
         ctx.moveTo(flow.startX, flow.startY)
         ctx.lineTo(x, y)
-        const gradient = ctx.createLinearGradient(flow.startX, flow.startY, x, y)
-        const fadeColor = flow.color === COLORS.violet ? COLORS.violetFade : COLORS.yellowFade
-        gradient.addColorStop(0, fadeColor)
-        gradient.addColorStop(1, flow.color)
-        ctx.strokeStyle = gradient
-        ctx.lineWidth = flow.size * 0.5
+        ctx.strokeStyle = flow.color
+        ctx.lineWidth = 1
         ctx.stroke()
 
-        flow.progress += 0.01
+        flow.progress += 0.02
         return true
       })
     }
 
+    // Create new data flows periodically
     const updateDataFlows = () => {
-      if (Math.random() < 0.03 && dataFlows.length < 15) {
+      if (Math.random() < 0.05 && dataFlows.length < 10) {
         const startNode = nodes[Math.floor(Math.random() * nodes.length)]
         const endNode = nodes[Math.floor(Math.random() * nodes.length)]
         if (startNode !== endNode) {
@@ -169,30 +137,34 @@ const TechBackground = () => {
       }
     }
 
+    // Draw tech grid
     const drawTechGrid = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
-      const timeOffset = time * 0.0005
-      ctx.strokeStyle = COLORS.violetFade
+      const gridSize = 50
+      const timeOffset = time * 0.001
+
+      ctx.strokeStyle = COLORS.violet
       ctx.lineWidth = 0.5
 
-      for (let x = 0; x < width; x += 70) {
-        const offset = Math.sin(x * 0.01 + timeOffset) * 3
-        const perspective = Math.sin(x / width * Math.PI) * 10
+      // Vertical lines
+      for (let x = 0; x < width; x += gridSize) {
+        const offset = Math.sin(x * 0.01 + timeOffset) * 5
         ctx.beginPath()
         ctx.moveTo(x, 0)
-        ctx.lineTo(x + offset + perspective, height)
+        ctx.lineTo(x + offset, height)
         ctx.stroke()
       }
 
-      for (let y = 0; y < height; y += 70) {
-        const offset = Math.cos(y * 0.01 + timeOffset) * 3
-        const perspective = Math.sin(y / height * Math.PI) * 10
+      // Horizontal lines
+      for (let y = 0; y < height; y += gridSize) {
+        const offset = Math.cos(y * 0.01 + timeOffset) * 5
         ctx.beginPath()
         ctx.moveTo(0, y)
-        ctx.lineTo(width, y + offset + perspective)
+        ctx.lineTo(width, y + offset)
         ctx.stroke()
       }
     }
 
+    // Handle window resize
     const handleResize = () => {
       const width = window.innerWidth
       const height = window.innerHeight
@@ -204,20 +176,21 @@ const TechBackground = () => {
 
       ctx.scale(dpr, dpr)
       nodes = initNodes(width, height)
-      stars = initStars(width, height)
     }
 
+    // Animation loop
     const animate = () => {
       const width = canvas.width / dpr
       const height = canvas.height / dpr
 
+      // Clear and draw background
       const gradient = ctx.createLinearGradient(0, 0, width, height)
       gradient.addColorStop(0, COLORS.background)
-      gradient.addColorStop(1, "#050B18")
+      gradient.addColorStop(1, "#161233")
       ctx.fillStyle = gradient
       ctx.fillRect(0, 0, width, height)
 
-      drawStars(ctx)
+      // Draw all elements
       drawTechGrid(ctx, width, height)
       drawNodes(ctx, width, height)
       drawDataFlows(ctx)
@@ -227,10 +200,12 @@ const TechBackground = () => {
       animationId = requestAnimationFrame(animate)
     }
 
+    // Initialize
     handleResize()
     window.addEventListener('resize', handleResize)
     animate()
 
+    // Cleanup
     return () => {
       window.removeEventListener('resize', handleResize)
       cancelAnimationFrame(animationId)
