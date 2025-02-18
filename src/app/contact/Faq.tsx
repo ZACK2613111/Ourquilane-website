@@ -54,7 +54,7 @@ const FAQ: React.FC<FAQProps> = ({ faqs }) => {
             className="overflow-hidden"
           >
             <div className="px-6 py-4 bg-transparent">
-              <p className="text-white/80 font-satochi">
+              <p className="text-white/80 font-dmSans">
                 {faq.answer}
               </p>
             </div>
@@ -86,7 +86,7 @@ const FAQ: React.FC<FAQProps> = ({ faqs }) => {
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="text-white/80 text-lg font-satochi"
+          className="text-white/80 text-lg font-dmSans"
         >
           The most common questions we get asked
         </motion.p>

@@ -17,12 +17,13 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ service, className }) 
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
-      className={`group relative flex flex-col rounded-3xl p-6 sm:p-8 
+      className={`font-dmSans group relative flex flex-col rounded-3xl p-6 sm:p-8 
         border border-white/10 backdrop-blur-sm 
-        bg-gradient-to-r from-purple-900/20 to-yellow-500/20 
-        hover:from-purple-900/30 hover:to-yellow-500/30 
+        bg-transparent
         transition-all duration-300 ease-in-out ${className}`}
     >
+      {/* bg-gradient-to-r from-purple-900/20 to-yellow-500/20 
+        hover:from-purple-900/30 hover:to-yellow-500/30  */}
       <motion.div 
         className="w-16 h-16 flex items-center justify-center mb-6"
         whileHover={{ rotate: 5 }}
@@ -36,7 +37,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ service, className }) 
         />
       </motion.div>
 
-      <h3 className="text-2xl sm:text-3xl font-bold mb-4 font-gabarito">{service.title}</h3>
+      <h3 className="text-2xl sm:text-3xl font-semibold mb-4 font-gabarito">{service.title}</h3>
       <p className="text-sm sm:text-base text-gray-300 mb-6 leading-relaxed">
         {service.description}
       </p>

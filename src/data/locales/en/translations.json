@@ -1,26 +1,22 @@
 {
-    
-   "contact":{
-
-   }, 
-    "navbar": {
-      "home": "Home",
-      "aboutUs": "About Us",
-      "services": "Services",
-      "projects": "Projects",
-      "products": "Products",
-      "trainings": "Trainings",
-      "contact": "Contact",
-      "selectLanguage": "Select Language",
-      "getStarted": "GET STARTED"
-    },
-    
-    "about": {
-        "title": "Tailored Innovation & Excellence to Modernize Your Industry",
-        "description": "Experience the future with OURQUILANE—your trusted partner in innovative software solutions. Discover our services, projects, and expert team dedicated to bringing your ideas to life.",
-        "contactButton": "CONTACT US"
-      },
-    "footer": {
+  "contact": {},
+  "navbar": {
+    "home": "Home",
+    "aboutUs": "About Us",
+    "services": "Services",
+    "projects": "Projects",
+    "products": "Products",
+    "trainings": "Trainings",
+    "contact": "Contact",
+    "selectLanguage": "Select Language",
+    "getStarted": "GET STARTED"
+  },
+  "about": {
+    "title": "Tailored Innovation & Excellence to Modernize Your Industry",
+    "description": "Experience the future with OURQUILANE—your trusted partner in innovative software solutions. Discover our services, projects, and expert team dedicated to bringing your ideas to life.",
+    "contactButton": "CONTACT US"
+  },
+  "footer": {
     "slogan": "Your trusted partner in success.",
     "socialMedia": {
       "facebook": "Facebook",
@@ -39,15 +35,74 @@
     "contact": "Contact",
     "copyright": "© 2025 Ourquilane. All rights are reserved"
   },
-    "entreprise":{
-      "titleButton": "WHO ARE WE",
-      "title": "Ourquilane, a leader in R&D for innovative and efficient software solutions. ",
-      "description": "We drive sector transformation with tailor-made solutions and a commitment to excellence, bringing your most ambitious projects to life.",
-      "Button": "KNOW MORE"
+  "entreprise": {
+    "titleButton": "WHO ARE WE",
+    "title": " a leader in R&D for innovative and efficient software solutions.",
+    "description": "We drive sector transformation with tailor-made solutions and a commitment to excellence, bringing your most ambitious projects to life.",
+    "Button": "Discover OURQUILANE"
+  },
+  "clients": {
+    "titleButton": "OUR CLIENTS",
+    "title": "They Trust Us"
+  },
+  "services" : {
+    "titleButton": "OUR SERVICES",
+    "title": "Our Areas of Expertise",
+    "Button": "VIEW ALL SERVICES"
+  },
+  "work":{
+    "title": "Shaping the Future of Your Organization Together",
+    "description": "We're ready to get started, just say the word.",
+    "Button": "LET'S GET TO WORK !"
+  },
+  "contactPage": {
+    "timeline": {
+      "steps": [
+        {
+          "title": "First Contact",
+          "description": "A phone call to discover your contact"
+        },
+        {
+          "title": "Discovery Meeting",
+          "description": "A working session to understand your challenges"
+        },
+        {
+          "title": "Proposal",
+          "description": "Solutions to achieve your goals"
+        },
+        {
+          "title": "Mission",
+          "description": "Effective implementation of your projects"
+        },
+        {
+          "title": "After-Sales Service",
+          "description": "Dedicated support to ensure satisfaction and long-term success"
+        }
+      ]
     },
-    "clients":{
-      "titleButton":"OUR CLIENTS",
-      "title": "They Trust Us"
+    "faqs" : {
+      "questions": [
+        {
+          "question": "How can OURQUILANE help my business with its digital transformation?",
+          "answer": "We analyze your business needs and develop tailored strategies to modernize your processes. Whether it's for automation, ERP integration, or advanced software solutions, our team ensures a smooth transition to a more efficient and connected organization."
+        },
+        {
+          "question": "Do you offer solutions for startups and small businesses?",
+          "answer": "Yes! We have special offerings for startups and young entrepreneurs, including accessible digital solutions, consulting, and personalized support to help them grow successfully."
+        },
+        {
+          "question": "Which industries does OURQUILANE cover?",
+          "answer": "We work with various industries, including finance, healthcare, retail, education, logistics, and more. Our expertise allows us to develop tailored solutions for each sector."
+        },
+        {
+          "question": "Do you offer training and workshops?",
+          "answer": "Absolutely! OURQUILANE provides professional training in software development and digital technologies, as well as free interactive workshops led by industry experts to help businesses and individuals stay ahead of the technology curve."
+        },
+        {
+          "question": "How can I request a consultation or quote for my project?",
+          "answer": "You can contact us by email, phone, or through the contact form on our website. Our team will analyze your needs and offer a personalized consultation to help you choose the best digital solutions."
+        }
+      ]
     }
   }
-  
+}

@@ -1,12 +1,6 @@
 import {Monitor, Global, Settings, Status, Lamp, Presentation } from '../../public/images/services';
 
-import { StaticImageData } from 'next/image';
-
-interface Service {
-  title: string;
-  description: string;
-  icon: StaticImageData;
-}
+import { Service } from '@/types/Service';
 
 export const services: Service[] = [
   {

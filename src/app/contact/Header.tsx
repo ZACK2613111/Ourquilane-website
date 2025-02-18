@@ -56,7 +56,7 @@ const Header = () => {
         variants={textFadeVariant}
         initial="hidden"
         animate="visible"
-        className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-satochi"
+        className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-dmSans"
       >
         We are here to help and support you through every step of your digital transformation journey.
       </motion.p>

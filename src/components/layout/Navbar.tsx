@@ -98,7 +98,7 @@ export default function Navbar() {
   return (
     <nav className="fixed w-full top-0 z-50">
       <div className="px-4 py-6">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -130,7 +130,7 @@ export default function Navbar() {
                   key={item.key}
                   href={item.href}
                   className={cn(
-                    "relative font-gabarito px-4 py-2 rounded-xl text-base whitespace-nowrap transition-all duration-300",
+                    "relative font-gabarito px-4 py-2 rounded-xl text-lg whitespace-nowrap transition-all duration-300",
                     "text-white/90 hover:text-white",
                     activeSection === item.href
                       ? "bg-gradient-to-r from-[#9A5CE4]/40 to-[#FADD2A]/40"

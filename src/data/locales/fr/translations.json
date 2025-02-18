@@ -37,12 +37,72 @@
   },
   "entreprise": {
     "titleButton": "QUI SOMMES NOUS",
-    "title": "Ourquilane, leader en R&D de solutions logicielles innovantes et performantes. ",
+    "title": " leader en R&D de solutions logicielles innovantes et performantes.",
     "description": "Nous conduisons la transformation du secteur avec des solutions sur mesure et un engagement d’excellence, donnant vie à vos projets les plus ambitieux.",
-    "Button": "VOIR PLUS"
+    "Button": "Découvrir OURQUILANE"
+  },
+  "services" : {
+    "titleButton": "NOS SERVICES",
+    "title": "Nos domaines d'Expertise",
+    "Button": "VOIR TOUS LES SERVICES"
   },
   "clients": {
     "titleButton": "Nos Clients",
     "title": "Ils Nous Font Confiance"
-  }
+  },
+  "work":{
+    "title": "Ensemble, donnons forme à l’avenir de votre entreprise.",
+    "description": "Nous sommes prêts à commencer, il suffit de le dire.",
+    "Button": "C'EST PARTI !"
+  },
+  "contactPage": {
+    "timeline": {
+      "steps": [
+        {
+          "title": "Premier Contact",
+          "description": "Un appel téléphonique pour découvrir votre contact"
+        },
+        {
+          "title": "Réunion de Découverte",
+          "description": "Une session de travail pour comprendre vos défis"
+        },
+        {
+          "title": "Proposition",
+          "description": "Des solutions pour atteindre vos objectifs"
+        },
+        {
+          "title": "Mise en Mission",
+          "description": "Mise en œuvre efficace de vos projets"
+        },
+        {
+          "title": "Service Après-Vente",
+          "description": "Un support dédié pour garantir la satisfaction et le succès à long terme"
+        }
+      ]
+    },
+    "faqs" : {
+      "questions": [
+        {
+          "question": "Comment OURQUILANE peut-il aider mon entreprise dans sa transformation digitale ?",
+          "answer": "Nous analysons les besoins de votre entreprise et développons des stratégies adaptées pour moderniser vos processus. Que ce soit pour l’automatisation, l’intégration d’ERP ou la mise en place de solutions logicielles avancées, notre équipe veille à une transition fluide vers une organisation plus efficace et connectée."
+        },
+        {
+          "question": "Proposez-vous des solutions pour les startups et les petites entreprises ?",
+          "answer": "Oui ! Nous avons des offres spéciales pour les startups et les jeunes entrepreneurs, comprenant des solutions numériques accessibles, du conseil et un accompagnement personnalisé pour les aider à évoluer avec succès."
+        },
+        {
+          "question": "Quels secteurs d’activité OURQUILANE prend-il en charge ?",
+          "answer": "Nous travaillons avec divers secteurs, notamment la finance, la santé, le commerce de détail, l’éducation, la logistique et bien d’autres. Notre expertise nous permet de développer des solutions adaptées à chaque domaine d’activité."
+        },
+        {
+          "question": "Proposez-vous des formations et des ateliers ?",
+          "answer": "Absolument ! OURQUILANE offre des formations professionnelles en développement logiciel et technologies numériques, ainsi que des ateliers interactifs gratuits animés par des experts du secteur pour permettre aux entreprises et aux particuliers de rester à la pointe de la technologie."
+        },
+        {
+          "question": "Comment puis-je demander une consultation ou un devis pour mon projet ?",
+          "answer": "Vous pouvez nous contacter par e-mail, téléphone ou via le formulaire de contact sur notre site web. Notre équipe analysera vos besoins et vous proposera une consultation personnalisée afin de vous aider à choisir les meilleures solutions digitales."
+        }
+      ]
+    }
+    }
 }

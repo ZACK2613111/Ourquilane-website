@@ -90,7 +90,7 @@ const TestimonialsSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="text-base md:text-xl text-gray-300 mb-8 md:mb-12 font-satochi"
+            className="text-base md:text-xl text-gray-300 mb-8 md:mb-12 font-dmSans"
           >
             We drive sector transformation with tailor-made solutions and a commitment to excellence, bringing your most
             ambitious projects to life.
@@ -105,14 +105,14 @@ const TestimonialsSection = () => {
             {[...testimonials, ...testimonials].map((testimonial, index) => (
               <motion.div
                 key={index}
-                className="group relative flex flex-col rounded-4xl p-6 sm:p-8 border-2 border-white backdrop-blur-sm duration-700 ease-in-out hover:border-white/30 font-satochi hover:shadow-xl hover:shadow-white/5"
+                className="group relative flex flex-col rounded-4xl p-6 sm:p-8 border-2 border-white backdrop-blur-sm duration-700 ease-in-out hover:border-white/30 font-dmSans hover:shadow-xl hover:shadow-white/5"
               >
                 <div className="flex mb-4">
                   {[1, 2, 3, 4, 5].map((_, i) => (
                     <Image key={i} src="/images/shared/star.svg" alt="star" width={20} height={20} className="mr-1" />
                   ))}
                 </div>
-                <p className="text-gray-300 mb-6 text-lg leading-relaxed font-satochi">{testimonial.text}</p>
+                <p className="text-gray-300 mb-6 text-lg leading-relaxed font-dmSans">{testimonial.text}</p>
                 <div className="border-t-2 border-white/30 mt-6 pt-4 flex items-center gap-4">
                   <div className="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center">
                     {testimonial.imageUrl ? (
@@ -135,8 +135,8 @@ const TestimonialsSection = () => {
                     )}
                   </div>
                   <div>
-                    <p className="text-white font-medium text-lg font-satochi">{testimonial.author}</p>
-                    <p className="text-white text-sm font-satochi">{testimonial.role}</p>
+                    <p className="text-white font-medium text-lg font-dmSans">{testimonial.author}</p>
+                    <p className="text-white text-sm font-dmSans">{testimonial.role}</p>
                   </div>
                 </div>
               </motion.div>

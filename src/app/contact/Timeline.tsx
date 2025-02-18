@@ -22,7 +22,12 @@ const Timeline: React.FC<TimelineProps> = ({ steps }) => {
     const rect = timeline.getBoundingClientRect()
     const progress = (window.innerHeight - rect.top) / (rect.bottom - rect.top)
     setScrollProgress(Math.min(Math.max(progress, 0), 1))
-  }, [])
+
+    // Calculate active step based on scroll progress
+    const stepHeight = 1 / steps.length
+    const newActiveStep = Math.floor(scrollProgress / stepHeight)
+    setActiveStep(newActiveStep)
+  }, [steps.length, scrollProgress])
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll)
@@ -35,7 +40,8 @@ const Timeline: React.FC<TimelineProps> = ({ steps }) => {
     progress: number
   }> = ({ index, isActive, progress }) => (
     <motion.div 
-      className="absolute left-0 md:left-1/2 top-8 -ml-3 z-10"
+      className="absolute left-0 md:left-1/2 top-0 -ml-3 z-10"
+      style={{ top: `${(index / steps.length) * 100}%` }}
       animate={{ 
         scale: isActive ? 1.2 : 1,
         transition: { duration: 0.3 }
@@ -44,8 +50,9 @@ const Timeline: React.FC<TimelineProps> = ({ steps }) => {
       <motion.div 
         className="w-6 h-6 rounded-full flex items-center justify-center"
         style={{
-          backgroundColor: progress * steps.length > index ? 'white' : '#374151',
-          boxShadow: progress * steps.length > index ? '0 0 20px rgba(255,255,255,0.5)' : 'none',
+          backgroundColor: progress * steps.length > index ? '#E9CD2A' : '#9A5CE4',
+          opacity: progress * steps.length > index ? 1 : 0.2,
+          boxShadow: progress * steps.length > index ? '0 0 20px rgba(233, 205, 42, 0.5)' : 'none',
           transition: 'all 0.3s ease-out'
         }}
       >
@@ -66,9 +73,10 @@ const Timeline: React.FC<TimelineProps> = ({ steps }) => {
         animate={{ opacity: 1 }}
         className="relative max-w-6xl mx-auto"
       >
+        {/* Timeline Line */}
         <div className="absolute left-0 md:left-1/2 top-0 w-0.5 h-full bg-gray-700 transform md:-translate-x-1/2">
           <motion.div 
-            className="absolute top-0 w-full bg-white"
+            className="absolute top-0 w-full bg-gradient-to-b from-[#9A5CE4]/20 to-[#E9CD2A]"
             style={{ 
               height: `${scrollProgress * 100}%`,
               transition: 'height 0.2s ease-out'
@@ -76,22 +84,29 @@ const Timeline: React.FC<TimelineProps> = ({ steps }) => {
           />
         </div>
 
+        {/* Timeline Dots */}
+        {steps.map((_, index) => (
+          <TimelineDot 
+            key={index}
+            index={index}
+            isActive={activeStep === index}
+            progress={scrollProgress}
+          />
+        ))}
+
+        {/* Timeline Cards */}
         {steps.map((step, index) => (
           <motion.div
             key={step.title}
-            initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.15 }}
-            className={`relative flex flex-col md:flex-row ${index % 2 === 0 ? 'md:flex-row-reverse' : ''} mb-12`}
+            initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
+            animate={{ opacity: 1, x: 0, scale: activeStep === index ? 1.05 : 1 }}
+            transition={{ delay: index * 0.15, duration: 0.5 }}
+            className={`group relative flex flex-col rounded-3xl p-6 sm:p-8 border border-white/10 backdrop-blur-sm bg-[#9A5CE4]/20 transition-all duration-300 ease-in-out ${
+              index % 2 === 0 ? 'md:ml-auto md:mr-12' : 'md:mr-auto md:ml-12'
+            } mb-12 w-full md:w-[45%]`}
             onViewportEnter={() => setActiveStep(index)}
           >
-            <TimelineDot 
-              index={index}
-              isActive={activeStep === index}
-              progress={scrollProgress}
-            />
-
-            <div className={`md:w-1/2 ${index % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12'} pl-8 md:pl-0`}>
+            <div className={`${index % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12'} pl-8 md:pl-0`}>
               <motion.div 
                 className="flex flex-col gap-2"
                 whileHover={{ x: index % 2 === 0 ? -10 : 10 }}
@@ -100,7 +115,7 @@ const Timeline: React.FC<TimelineProps> = ({ steps }) => {
                 <span className="text-white/80 text-sm font-satochi tracking-wider">
                   STEP {index + 1}
                 </span>
-                <h3 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-white font-neueGraphica mb-2">
+                <h3 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-white font-gabarito mb-2">
                   {step.title}
                 </h3>
                 <p className="text-white/80 font-satochi leading-relaxed">

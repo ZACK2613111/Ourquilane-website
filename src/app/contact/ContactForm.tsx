@@ -1,81 +1,81 @@
-'use client';
-
-import { useState } from 'react';
-import { Loader2, Send } from 'lucide-react';
-import emailjs from '@emailjs/browser';
+'use client'
+import { useState } from 'react'
+import { Loader2, Send } from 'lucide-react'
+import emailjs from '@emailjs/browser'
+import { motion } from 'framer-motion'
 
 interface FormData {
-  fullName: string;
-  company: string;
-  email: string;
-  phone: string;
-  message: string;
+  fullName: string
+  company: string
+  email: string
+  phone: string
+  message: string
 }
 
 const ContactForm = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [formData, setFormData] = useState<FormData>({
     fullName: '',
     company: '',
     email: '',
     phone: '',
-    message: ''
-  });
-  const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
+    message: '',
+  })
+  const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({})
 
-  // EmailJS configuration
   const emailjsConfig = {
     serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'service_xzquu6i',
     templateId: 'template_n0pcafw',
-    userId: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || '43BG19ER9C4zwTxcF'
-  };
+    userId: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || '43BG19ER9C4zwTxcF',
+  }
 
   const validateForm = () => {
-    const newErrors: Partial<Record<keyof FormData, string>> = {};
-  
-    if (!formData.fullName) {
-      newErrors.fullName = 'Full name is required';
-    } else if (formData.fullName.length < 3) {
-      newErrors.fullName = 'Full name must be at least 3 characters';
+    const newErrors: Partial<Record<keyof FormData, string>> = {}
+
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = 'Full name is required'
     }
-  
-    if (!formData.email) {
-      newErrors.email = 'Email is required';
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)) {
-      newErrors.email = 'Invalid email address';
+
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required'
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Invalid email address'
     }
-  
-    if (formData.phone && !/^[0-9+\-\s()]*$/.test(formData.phone)) {
-      newErrors.phone = 'Invalid phone number';
+
+    if (formData.phone && !/^\+?[\d\s-]+$/.test(formData.phone)) {
+      newErrors.phone = 'Invalid phone number'
     }
-  
-    if (!formData.message) {
-      newErrors.message = 'Message is required';
+
+    if (!formData.message.trim()) {
+      newErrors.message = 'Message is required'
     }
-  
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-  
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
+    const { name, value } = e.target
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
-    }));
-  };
+      [name]: value,
+    }))
+    setErrors((prev) => ({
+      ...prev,
+      [name]: '',
+    }))
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
+    e.preventDefault()
+
     if (!validateForm()) {
-      return;
+      return
     }
 
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
+    setIsSubmitting(true)
+    setSubmitStatus('idle')
 
     try {
       await emailjs.send(
@@ -86,67 +86,61 @@ const ContactForm = () => {
           company: formData.company,
           from_email: formData.email,
           phone: formData.phone,
-          message: formData.message
+          message: formData.message,
         },
-        emailjsConfig.userId
-      );
+        emailjsConfig.userId,
+      )
 
-      setSubmitStatus('success');
+      setSubmitStatus('success')
       setFormData({
         fullName: '',
         company: '',
         email: '',
         phone: '',
-        message: ''
-      });
+        message: '',
+      })
     } catch (error) {
-      console.error('Error sending email:', error);
-      setSubmitStatus('error');
+      console.error('Error sending email:', error)
+      setSubmitStatus('error')
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
-
-  const FormInput = ({
-    name,
-    value,
-    error,
-    ...props
-  }: {
-    name: keyof FormData;
-    value: string;
-    error?: string;
-    [key: string]: string | boolean | undefined;
-  }) => (
-    <div className="relative">
-      <input
-        name={name}
-        value={value}
-        onChange={handleInputChange}
-        {...props}
-        className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-white/40 transition-colors"
-      />
-      {error && (
-        <p className="mt-1 text-red-400 text-sm">{error}</p>
-      )}
-    </div>
-  );
-  
+  }
 
   return (
-    <section className="relative min-h-screen flex items-center py-20">
+    <motion.section 
+      className="relative min-h-screen flex items-center py-20"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-6xl font-semibold text-white mt-8 mb-6">
+          <motion.h1 
+            className="text-4xl md:text-6xl font-semibold text-white mt-8 mb-6"
+            initial={{ y: -50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          >
             Let&apos;s Work Together
-          </h1>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+          </motion.h1>
+          <motion.p 
+            className="text-lg text-gray-300 max-w-2xl mx-auto"
+            initial={{ y: -50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+          >
             Our team will call you to discuss your needs and schedule a work session.
-          </p>
+          </motion.p>
         </div>
 
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-start">
-          <div className="relative h-[400px] rounded-3xl overflow-hidden shadow-2xl">
+          <motion.div 
+            className="relative h-[400px] rounded-3xl overflow-hidden shadow-2xl"
+            initial={{ x: -100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.5 }}
+          >
             <iframe
               src="https://www.google.com/maps/embed?pb=..."
               className="absolute inset-0 w-full h-full border-0 filter grayscale contrast-125"
@@ -154,40 +148,61 @@ const ContactForm = () => {
               referrerPolicy="no-referrer-when-downgrade"
               title="Location map"
             />
-          </div>
+          </motion.div>
 
-          <div className="backdrop-blur-lg bg-white/5 rounded-3xl p-8 shadow-2xl border border-white/10">
+          <motion.div 
+            className="backdrop-blur-lg bg-white/5 rounded-3xl p-8 shadow-2xl border border-white/10"
+            initial={{ x: 100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.8, duration: 0.5 }}
+          >
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
-                <FormInput
-                  name="fullName"
-                  value={formData.fullName}
-                  error={errors.fullName}
-                  placeholder="Full Name"
-                  required
-                />
-                <FormInput
-                  name="company"
-                  value={formData.company}
-                  placeholder="Company & Position"
-                />
+                <div className="relative">
+                  <input
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleInputChange}
+                    placeholder="Full Name"
+                    className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-white/40 transition-colors"
+                    required
+                  />
+                  {errors.fullName && <p className="mt-1 text-red-400 text-sm">{errors.fullName}</p>}
+                </div>
+                <div className="relative">
+                  <input
+                    name="company"
+                    value={formData.company}
+                    onChange={handleInputChange}
+                    placeholder="Company & Position"
+                    className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-white/40 transition-colors"
+                  />
+                </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
-                <FormInput
-                  name="email"
-                  value={formData.email}
-                  error={errors.email}
-                  placeholder="Email"
-                  required
-                  type="email"
-                />
-                <FormInput
-                  name="phone"
-                  value={formData.phone}
-                  error={errors.phone}
-                  placeholder="Phone"
-                />
+                <div className="relative">
+                  <input
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    placeholder="Email"
+                    className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-white/40 transition-colors"
+                    required
+                    type="email"
+                  />
+                  {errors.email && <p className="mt-1 text-red-400 text-sm">{errors.email}</p>}
+                </div>
+                <div className="relative">
+                  <input
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    placeholder="Phone"
+                    className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-white/40 transition-colors"
+                  />
+                  {errors.phone && <p className="mt-1 text-red-400 text-sm">{errors.phone}</p>}
+                </div>
               </div>
 
               <div className="relative">
@@ -199,16 +214,14 @@ const ContactForm = () => {
                   placeholder="Message"
                   required
                 />
-                {errors.message && (
-                  <p className="mt-1 text-red-400 text-sm">{errors.message}</p>
-                )}
+                {errors.message && <p className="mt-1 text-red-400 text-sm">{errors.message}</p>}
               </div>
 
               <button
                 type="submit"
                 disabled={isSubmitting}
                 className={`w-full bg-white text-black rounded-xl py-4 px-8 flex items-center justify-center gap-2 hover:bg-white/90 transition-colors ${
-                  isSubmitting ? "opacity-75 cursor-not-allowed" : ""
+                  isSubmitting ? 'opacity-75 cursor-not-allowed' : ''
                 }`}
               >
                 {isSubmitting ? (
@@ -238,11 +251,11 @@ const ContactForm = () => {
                 </div>
               )}
             </form>
-          </div>
+          </motion.div>
         </div>
       </div>
-    </section>
-  );
-};
+    </motion.section>
+  )
+}
 
-export default ContactForm;
+export default ContactForm

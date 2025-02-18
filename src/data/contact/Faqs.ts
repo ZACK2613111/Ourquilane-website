@@ -5,23 +5,23 @@ interface FAQItem {
 
 export const faqs: FAQItem[] = [
   {
-    question: "How do I get started?",
-    answer: "Start by contacting our team through our contact form or phone number. We'll schedule an initial consultation to discuss your needs."
+    question: "How can OURQUILANE help my business with digital transformation",
+    answer: "We analyze your business needs and develop tailored strategies to modernize your processes. Whether you need automation, ERP integration, or advanced software solutions, our team ensures a seamless transition to a more efficient and connected organization."
   },
   {
-    question: "How do I figure out how much your services will cost?",
-    answer: "After understanding your project requirements, we provide a detailed proposal with transparent pricing."
+    question: "Do you offer solutions for startups and small businesses?",
+    answer: "Yes! We provide special packages for startups and young entrepreneurs, including cost-effective digital solutions, consulting, and support to help them scale successfully."
   },
   {
-    question: "What kind of clients do you work with?",
-    answer: "We work with businesses of all sizes across various industries, from startups to enterprises."
+    question: "What industries does OURQUILANE work with?",
+    answer: "We serve a wide range of industries, including finance, healthcare, retail, education, logistics, and more. Our expertise allows us to develop tailored solutions for any business sector."
   },
   {
-    question: "How long does a project last?",
-    answer: "Project duration varies based on complexity, typically ranging from 2 weeks to 6 months."
+    question: "Do you provide training and workshops?",
+    answer: "Absolutely! OURQUILANE offers professional training in software development and digital technologies, as well as free interactive workshops with industry experts to help businesses and individuals stay ahead in the tech world."
   },
   {
-    question: "How can I be sure my information is confidential?",
-    answer: "We sign NDAs and use enterprise-grade security measures to protect your data."
+    question: "How can I request a consultation or project quote?",
+    answer: "You can contact us via email, phone, or our website contact form. Our team will assess your needs and provide a personalized consultation to help you choose the best digital solutions."
   }
 ]
