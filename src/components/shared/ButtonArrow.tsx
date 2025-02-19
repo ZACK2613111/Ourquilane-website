@@ -12,7 +12,7 @@ const Button: React.FC<ButtonProps> = ({ handleClick, title }) => {
     <button
       onClick={handleClick}
       className="font-gabarito px-5 py-3 rounded-xl flex items-center gap-2
-                text-white border-white border-2 border-transparent shadow-md 
+                text-white  border-2 border-white/5  bg-transparent shadow-md 
                 transform duration-300"
       title={title}
     >
@@ -21,8 +21,8 @@ const Button: React.FC<ButtonProps> = ({ handleClick, title }) => {
         <Image
           src={ArrowRounded}  
           alt="Arrow"
-          width={24}              
-          height={24}             
+          width={20}              
+          height={20}             
           className="object-contain" 
         />
       </span>

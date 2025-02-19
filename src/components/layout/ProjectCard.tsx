@@ -4,20 +4,19 @@ import { useRef, useEffect, useState } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import Button from "@/components/shared/ButtonArrow"
 import type { ProjectCardProps } from "@/types/Project"
+import TechBackground from "../common/Background"
 
 const ProjectCard = ({ project, totalProjects = 1 }: ProjectCardProps) => {
   const cardRef = useRef(null)
   const [isMobile, setIsMobile] = useState(false)
 
-  // Safeguard: Provide default values for the project object
   const safeProject = {
     number: project?.number || "01",
-    name: project?.name || "Project Name",
-    description: project?.description || "Project description goes here.",
-    technologies: project?.technologies || ["Tech 1", "Tech 2", "Tech 3"],
+    name: project?.name || "Project Name is loading ...",
+    description: project?.description || "Project description is loading ...",
+    technologies: project?.technologies || ["NestJS", "NextJS", "Docker"],
   }
 
-  // Safeguard: Ensure totalProjects is a valid number
   const safeTotalProjects = typeof totalProjects === "number" ? totalProjects : 1
 
   useEffect(() => {
@@ -36,7 +35,6 @@ const ProjectCard = ({ project, totalProjects = 1 }: ProjectCardProps) => {
   const y = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [100, 0, 0, isMobile ? 0 : -100])
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0])
   const rotate = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [5, 0, 0, isMobile ? 0 : -5])
-  const blur = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [20, 0, 0, 20])
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -73,36 +71,35 @@ const ProjectCard = ({ project, totalProjects = 1 }: ProjectCardProps) => {
         rotateZ: rotate,
         transformOrigin: "center center",
       }}
-      className={`w-full sticky top-24 min-h-[80vh] rounded-3xl p-8 sm:p-12 overflow-hidden group border border-white/10 backdrop-blur-xl bg-transparent transition-all duration-500 ease-out`}
+      className="w-full max-w-7xl mx-auto sticky top-[20vh] sm:top-[30vh] min-h-[50vh] rounded-3xl p-4 sm:p-6 overflow-hidden group border border-white/10 backdrop-blur-xl bg-[#0A0A0A]/80"
       initial={{ opacity: 0, y: 100, scale: 0.9 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
-      <motion.div
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        style={{ backdropFilter: `blur(${blur}px)` }}
-      />
+      <TechBackground />
 
       {/* Project Number and Total Projects */}
       <motion.div
-        className="flex items-start gap-2 mb-8 sm:mb-16"
+        className="flex justify-between items-center mx-2 my-2 sm:mb-6"
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
-        <span className="font-gabarito text-6xl sm:text-8xl font-bold text-white/90 leading-none">
-          {safeProject.number}
-        </span>
-        <span className="font-gabarito text-sm text-white/40 mt-2 sm:mt-4">
-          /{safeTotalProjects.toString().padStart(2, "0")}
-        </span>
+        <div className="flex items-center gap-2 ">
+          <span className="font-gabarito text-5xl sm:text-6xl md:text-7xl font-bold text-white/90 leading-none">
+            {safeProject.number}
+          </span>
+          <span className="font-gabarito text-xs sm:text-sm text-white/40 mt-1.5 sm:mt-2 md:mt-3">
+            /{safeTotalProjects.toString().padStart(2, "0")}
+          </span>
+        </div>
+        <Button handleClick={() => console.log("View Project")} title="VIEW PROJECT" />
       </motion.div>
 
-      {/* Project Content */}
-      <div className="max-w-2xl space-y-6 sm:space-y-8 relative z-10">
+      <div className="group relative flex flex-col rounded-3xl p-4 sm:p-6 border border-white/10 backdrop-blur-sm bg-transparent mx-2">
         {/* Project Title */}
         <motion.h3
-          className="text-4xl sm:text-5xl font-gabarito font-bold text-white"
+          className="text-2xl sm:text-3xl md:text-4xl font-gabarito font-bold text-white mb-3 sm:mb-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
@@ -112,7 +109,7 @@ const ProjectCard = ({ project, totalProjects = 1 }: ProjectCardProps) => {
 
         {/* Project Description */}
         <motion.p
-          className="text-xl sm:text-2xl text-white/70 leading-relaxed font-gabarito"
+          className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed font-gabarito sm:mb-6 mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
@@ -120,32 +117,24 @@ const ProjectCard = ({ project, totalProjects = 1 }: ProjectCardProps) => {
           {safeProject.description}
         </motion.p>
 
-        {/* Technologies and View Project Button */}
+        {/* Technologies */}
         <motion.div
-          className="flex flex-wrap items-center gap-4 pt-6"
+          className="flex flex-wrap gap-3 sm:gap-4"
           variants={containerVariants}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
         >
-          {/* Technologies */}
           {safeProject.technologies.map((tech) => (
             <motion.span
               key={tech}
               variants={techVariants}
-              className="px-6 py-2 rounded-full border border-white/20 backdrop-blur-md text-white/70 text-sm sm:text-base font-dmSans font-bold transition-all duration-300"
-              style={{
-                transformOrigin: "center bottom",
-              }}
+              className="px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border-2 border-white/5  bg-transparent backdrop-blur-md text-white/70 text-base sm:text-lg font-dmSans font-bold hover:text-white transition-all duration-300 tracking-wider"
+              style={{ transformOrigin: "center bottom" }}
             >
               {tech}
             </motion.span>
           ))}
-
-          {/* View Project Button */}
-          <div className="w-full sm:w-auto">
-            <Button handleClick={() => console.log('View Project')} title="VIEW PROJECT" />
-          </div>
         </motion.div>
       </div>
     </motion.div>

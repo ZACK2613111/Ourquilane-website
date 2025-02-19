@@ -48,8 +48,6 @@ const Clients: React.FC = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="relative"
         >
-          <div className="absolute top-0 left-0 w-full border-t border-white z-10"></div>
-
           <div className="overflow-hidden w-full relative">
             <div className="flex animate-scroll gap-8 justify-start items-center">
               {[...clientsLogos, ...clientsLogos].map((client, index) => (
@@ -69,8 +67,6 @@ const Clients: React.FC = () => {
               ))}
             </div>
           </div>
-
-          <div className="absolute bottom-0 left-0 w-full border-b border-white z-10"></div>
         </motion.div>
       </div>
     </section>

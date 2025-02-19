@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import Image from 'next/image'
 
 const Work = () => {
   return (
@@ -44,23 +43,6 @@ const Work = () => {
           </button>
         </motion.div>
 
-        {/* Animated Logo */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.6 }}
-          className="flex justify-center pt-8"
-        >
-          <Image 
-            src="/images/logo.png" 
-            alt="Company Logo"
-            width={160} 
-            height={48}
-            className="max-w-[200px] w-full h-auto"
-            priority
-          />
-        </motion.div>
       </div>
     </section>
   )

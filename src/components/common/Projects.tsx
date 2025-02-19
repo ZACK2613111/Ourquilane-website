@@ -25,20 +25,8 @@ const ProjectsSection = () => {
     },
   }
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut",
-      },
-    },
-  }
-
   return (
-    <section className="w-full min-h-screen py-24 px-4 sm:px-6 lg:px-8 ">
+    <section className="w-full min-h-screen py-24 px-4 sm:px-6 lg:px-8">
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -77,7 +65,8 @@ const ProjectsSection = () => {
           </div>
         </motion.div>
 
-        <div className="mt-32 space-y-[40vh]">
+        {/* Project Cards */}
+        <div className="mt-32">
           {projects.map((project, i) => (
             <ProjectCard key={project.id} project={project} totalProjects={projects.length} i={i} />
           ))}
@@ -88,4 +77,3 @@ const ProjectsSection = () => {
 }
 
 export default ProjectsSection
-

@@ -23,7 +23,7 @@ const Entreprise = LazyComponent(() => import("@/components/common/Entreprise"))
 const Services = LazyComponent(() => import("@/components/common/Services"))
 const Clients = LazyComponent(() => import("@/components/common/Clients"))
 const ProjectsSection = LazyComponent(() => import("@/components/common/Projects"))
-const TestimonialsSection = LazyComponent(() => import("@/components/common/Testimonials"))
+// const TestimonialsSection = LazyComponent(() => import("@/components/common/Testimonials"))
 const Work = LazyComponent(() => import("@/components/common/Work"))
 const Footer = LazyComponent(() => import("@/components/common/Footer"))
 
@@ -37,7 +37,7 @@ export default function Home() {
       <Services />
       <Clients />
       <ProjectsSection />
-      <TestimonialsSection />
+      {/* <TestimonialsSection /> */}
       <Work />
       <Footer />
     </>
