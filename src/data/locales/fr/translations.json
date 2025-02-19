@@ -27,7 +27,7 @@
     "contactUs": "Nous contacter",
     "findUs": "RETROUVEZ-NOUS EN ALGERIE",
     "home": "Accueil",
-    "aboutUs": "Qui sommes nous",
+    "aboutUs": "À propos",
     "services": "Services",
     "projects": "Projets",
     "products": "Produits",
@@ -47,7 +47,7 @@
     "Button": "VOIR TOUS LES SERVICES"
   },
   "clients": {
-    "titleButton": "Nos Clients",
+    "titleButton": "NOS CLIENTS",
     "title": "Ils Nous Font Confiance"
   },
   "work":{

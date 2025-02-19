@@ -7,6 +7,7 @@ import Image from "next/image"
 import { MenuIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useLanguage } from "@/context/LanguageContext"
+import SimpleTechBackground from "../common/Background"
 
 // Define strict types for translations
 interface NavbarTranslations {
@@ -20,10 +21,6 @@ interface NavbarTranslations {
   selectLanguage: string
   getStarted: string
 }
-
-// interface Translations {
-//   navbar: NavbarTranslations
-// }
 
 interface NavItem {
   key: keyof NavbarTranslations
@@ -133,8 +130,8 @@ export default function Navbar() {
                     "relative font-gabarito px-4 py-2 rounded-xl text-lg whitespace-nowrap transition-all duration-300",
                     "text-white/90 hover:text-white",
                     activeSection === item.href
-                      ? "bg-gradient-to-r from-[#9A5CE4]/40 to-[#FADD2A]/40"
-                      : "hover:bg-gradient-to-r hover:from-[#9A5CE4]/20 hover:to-[#FADD2A]/20"
+                      ? "bg-gradient-to-r from-[#9A5CE4]/20 to-[#FADD2A]/40"
+                      : "hover: hover:bg-[#9A5CE4]/5"
                   )}
                   onClick={(e) => handleNavigation(item.href, item.route, e)}
                   whileHover={{ scale: 1.05 }}
@@ -163,12 +160,12 @@ export default function Navbar() {
             {/* Mobile Menu Button */}
             <MenuIcon
               onClick={() => setIsOpen(!isOpen)}
-              className="lg:hidden text-white relative w-8 h-8 text-sm rounded-lg bg-gradient-to-r from-[#9A5CE4]/20 to-[#FADD2A]/20 flex items-center justify-between"
+              className="lg:hidden text-white relative w-8 h-8 text-base rounded-lg flex items-center justify-center"
               aria-label="Toggle menu"
             />
           </motion.div>
         </div>
-
+        
         {/* Mobile Menu */}
         <AnimatePresence>
           {isOpen && (
@@ -183,15 +180,17 @@ export default function Navbar() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="absolute inset-0 bg-[#9A5CE4]/10 backdrop-blur-xl"
+                className="absolute inset-0"
                 onClick={() => setIsOpen(false)}
-              />
+              >
+                <SimpleTechBackground />
+              </motion.div>
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
-                className="relative rounded-2xl bg-gradient-to-r from-[#9A5CE4]/20 to-[#FADD2A]/20 backdrop-blur-md p-6 max-w-lg mx-auto mt-20"
+                className="relative rounded-2xl p-6 max-w-lg mx-auto mt-20"
               >
                 <div className="space-y-4">
                   {NAV_ITEMS.map((item) => (
@@ -199,7 +198,7 @@ export default function Navbar() {
                       key={item.key}
                       href={item.href}
                       className={cn(
-                        "block w-full text-center py-3 text-base font-gabarito rounded-xl",
+                        "block w-full text-center py-3 text-lg font-gabarito rounded-xl",
                         "text-white/90 hover:text-white transition-colors",
                         activeSection === item.href
                           ? "bg-gradient-to-r from-[#9A5CE4]/40 to-[#FADD2A]/40"
@@ -213,6 +212,7 @@ export default function Navbar() {
                     </motion.a>
                   ))}
 
+                  {/* Language Selector */}
                   <motion.div 
                     className="mt-6" 
                     whileHover={{ scale: 1.02 }} 
@@ -222,7 +222,7 @@ export default function Navbar() {
                       title={t("selectLanguage")}
                       value={language}
                       onChange={(e) => changeLanguage(e.target.value)}
-                      className="w-full bg-transparent py-3 text-base font-gabarito text-white rounded-lg text-center"
+                      className="w-full bg-transparent py-3 text-lg font-gabarito text-white rounded-lg text-center"
                     >
                       <option value="EN" className="text-black">English</option>
                       <option value="FR" className="text-black">Français</option>

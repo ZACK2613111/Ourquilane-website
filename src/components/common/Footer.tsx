@@ -64,7 +64,7 @@ const Footer: React.FC = () => {
               alt="Logo"
               width={300}
               height={300}
-              className="max-w-full"
+              className="max-w-fulll"
             />
             <motion.div
               initial={{ opacity: 0, y: 20 }}

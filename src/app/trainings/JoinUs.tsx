@@ -56,7 +56,14 @@ const JoinUs = () => {
         Postulez dès maintenant et vivez une expérience formatrice au sein de notre équipe dynamique.
       </motion.p>
 
+      <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="flex items-center justify-center"
+        >
       <Button title="POSTULER MAINTENANT" handleClick={() => console.log("Postuler maintenant")} />
+      </motion.div>
     </motion.section>
   );
 };

@@ -8,18 +8,35 @@ export default {
   ],
   theme: {
     extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-      },
       fontFamily: {
-        neueGraphica: ["Neue-Graphica", "sans-serif"], 
-        satochi: ["Satochi", "sans-serif"], 
-        dmSans: ["DM Sans", "sans-serif"], 
+        neueGraphica: ["Neue-Graphica", "sans-serif"],
+        satochi: ["Satochi", "sans-serif"],
+        dmSans: ["DM Sans", "sans-serif"],
         gabarito: ["Gabarito", "sans-serif"],
       },
       borderRadius: {
-        "4xl":"2rem",
+        "4xl": "2rem",
+      },
+      colors: {
+        description: "#E5E5E5",
+        yellow: "#E9CD2A33",
+        violet: "#9747FF33",
+      },
+      fontSize: {
+        "title-about": ["64px", "80px"],
+        "title-other": ["48px", "50px"],
+        description: ["20px", "32px"],
+        button: ["16px", "24px"],
+        "title-mobile": ["32px", "40px"],
+        "description-mobile": ["14px", "20px"], 
+      },
+      spacing: {
+        xs: "0.5rem",
+        sm: "1rem",
+        md: "1.5rem",
+        lg: "2rem",
+        xl: "3rem",
+        "2xl": "4rem",
       },
     },
   },

@@ -1,81 +1,87 @@
-'use client'
-import { useState } from 'react'
-import { Loader2, Send } from 'lucide-react'
-import emailjs from '@emailjs/browser'
-import { motion } from 'framer-motion'
+"use client";
+import { useState } from "react";
+import { Loader2, Send } from "lucide-react";
+import emailjs from "@emailjs/browser";
+import { motion } from "framer-motion";
 
 interface FormData {
-  fullName: string
-  company: string
-  email: string
-  phone: string
-  message: string
+  fullName: string;
+  company: string;
+  email: string;
+  phone: string;
+  message: string;
 }
 
 const ContactForm = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
   const [formData, setFormData] = useState<FormData>({
-    fullName: '',
-    company: '',
-    email: '',
-    phone: '',
-    message: '',
-  })
-  const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({})
+    fullName: "",
+    company: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+  const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>(
+    {}
+  );
 
   const emailjsConfig = {
-    serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'service_xzquu6i',
-    templateId: 'template_n0pcafw',
-    userId: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || '43BG19ER9C4zwTxcF',
-  }
+    serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "service_xzquu6i",
+    templateId: "template_n0pcafw",
+    userId: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "43BG19ER9C4zwTxcF",
+  };
 
   const validateForm = () => {
-    const newErrors: Partial<Record<keyof FormData, string>> = {}
+    const newErrors: Partial<Record<keyof FormData, string>> = {};
 
     if (!formData.fullName.trim()) {
-      newErrors.fullName = 'Full name is required'
+      newErrors.fullName = "Full name is required";
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required'
+      newErrors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Invalid email address'
+      newErrors.email = "Invalid email address";
     }
 
     if (formData.phone && !/^\+?[\d\s-]+$/.test(formData.phone)) {
-      newErrors.phone = 'Invalid phone number'
+      newErrors.phone = "Invalid phone number";
     }
 
     if (!formData.message.trim()) {
-      newErrors.message = 'Message is required'
+      newErrors.message = "Message is required";
     }
 
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
-    }))
+    }));
     setErrors((prev) => ({
       ...prev,
-      [name]: '',
-    }))
-  }
+      [name]: "",
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!validateForm()) {
-      return
+      return;
     }
 
-    setIsSubmitting(true)
-    setSubmitStatus('idle')
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
 
     try {
       await emailjs.send(
@@ -88,27 +94,27 @@ const ContactForm = () => {
           phone: formData.phone,
           message: formData.message,
         },
-        emailjsConfig.userId,
-      )
+        emailjsConfig.userId
+      );
 
-      setSubmitStatus('success')
+      setSubmitStatus("success");
       setFormData({
-        fullName: '',
-        company: '',
-        email: '',
-        phone: '',
-        message: '',
-      })
+        fullName: "",
+        company: "",
+        email: "",
+        phone: "",
+        message: "",
+      });
     } catch (error) {
-      console.error('Error sending email:', error)
-      setSubmitStatus('error')
+      console.error("Error sending email:", error);
+      setSubmitStatus("error");
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   return (
-    <motion.section 
+    <motion.section
       className="relative min-h-screen flex items-center py-20"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -116,7 +122,7 @@ const ContactForm = () => {
     >
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <motion.h1 
+          <motion.h1
             className="text-4xl md:text-6xl font-semibold text-white mt-8 mb-6"
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -124,33 +130,52 @@ const ContactForm = () => {
           >
             Let&apos;s Work Together
           </motion.h1>
-          <motion.p 
+          <motion.p
             className="text-lg text-gray-300 max-w-2xl mx-auto"
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.5 }}
           >
-            Our team will call you to discuss your needs and schedule a work session.
+            Our team will call you to discuss your needs and schedule a work
+            session.
           </motion.p>
         </div>
 
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-start">
-          <motion.div 
+        <div className="max-w-full mx-auto grid md:grid-cols-2 gap-12 items-start">
+          <motion.div
             className="relative h-[400px] rounded-3xl overflow-hidden shadow-2xl"
             initial={{ x: -100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.5 }}
           >
-            <iframe
-              src="https://www.google.com/maps/embed?pb=..."
-              className="absolute inset-0 w-full h-full border-0 filter grayscale contrast-125"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Location map"
-            />
+            <motion.div
+              className="relative h-[400px] rounded-3xl overflow-hidden shadow-2xl"
+              initial={{ x: -100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+            >
+
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15518.763978510458!2d3.0439533!3d36.745955!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128b7d2dff91c6ad%3A0x9c8907b5044d5c9d!2s36.745955%2C3.0439533!5e0!3m2!1sen!2s!4v1617752984961!5m2!1sen!2s"
+                className="absolute inset-0 w-full h-full border-0 filter grayscale contrast-125"
+                title="Location map"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+              <a
+                href="http://maps.google.com/?ll=36.745955,3.0439533"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute inset-0 w-full h-full border-0 filter grayscale contrast-125"
+              >
+                <span className="sr-only">
+                  Open this location in Google Maps
+                </span>
+              </a>
+            </motion.div>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             className="backdrop-blur-lg bg-white/5 rounded-3xl p-8 shadow-2xl border border-white/10"
             initial={{ x: 100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
@@ -167,7 +192,11 @@ const ContactForm = () => {
                     className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-white/40 transition-colors"
                     required
                   />
-                  {errors.fullName && <p className="mt-1 text-red-400 text-sm">{errors.fullName}</p>}
+                  {errors.fullName && (
+                    <p className="mt-1 text-red-400 text-sm">
+                      {errors.fullName}
+                    </p>
+                  )}
                 </div>
                 <div className="relative">
                   <input
@@ -191,7 +220,9 @@ const ContactForm = () => {
                     required
                     type="email"
                   />
-                  {errors.email && <p className="mt-1 text-red-400 text-sm">{errors.email}</p>}
+                  {errors.email && (
+                    <p className="mt-1 text-red-400 text-sm">{errors.email}</p>
+                  )}
                 </div>
                 <div className="relative">
                   <input
@@ -201,7 +232,9 @@ const ContactForm = () => {
                     placeholder="Phone"
                     className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-white/40 transition-colors"
                   />
-                  {errors.phone && <p className="mt-1 text-red-400 text-sm">{errors.phone}</p>}
+                  {errors.phone && (
+                    <p className="mt-1 text-red-400 text-sm">{errors.phone}</p>
+                  )}
                 </div>
               </div>
 
@@ -214,15 +247,16 @@ const ContactForm = () => {
                   placeholder="Message"
                   required
                 />
-                {errors.message && <p className="mt-1 text-red-400 text-sm">{errors.message}</p>}
+                {errors.message && (
+                  <p className="mt-1 text-red-400 text-sm">{errors.message}</p>
+                )}
               </div>
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className={`w-full bg-white text-black rounded-xl py-4 px-8 flex items-center justify-center gap-2 hover:bg-white/90 transition-colors ${
-                  isSubmitting ? 'opacity-75 cursor-not-allowed' : ''
-                }`}
+                className={`w-full bg-white text-black rounded-xl py-4 px-8 flex items-center justify-center gap-2 hover:bg-white/90 transition-colors ${isSubmitting ? "opacity-75 cursor-not-allowed" : ""
+                  }`}
               >
                 {isSubmitting ? (
                   <>
@@ -237,17 +271,16 @@ const ContactForm = () => {
                 )}
               </button>
 
-              {submitStatus !== 'idle' && (
+              {submitStatus !== "idle" && (
                 <div
-                  className={`${
-                    submitStatus === 'success'
-                      ? 'bg-green-500/20 border-green-500/30 text-green-400'
-                      : 'bg-red-500/20 border-red-500/30 text-red-400'
-                  } border rounded-xl p-4 text-center`}
+                  className={`${submitStatus === "success"
+                      ? "bg-green-500/20 border-green-500/30 text-green-400"
+                      : "bg-red-500/20 border-red-500/30 text-red-400"
+                    } border rounded-xl p-4 text-center`}
                 >
-                  {submitStatus === 'success'
+                  {submitStatus === "success"
                     ? "Message sent successfully! We'll get back to you soon."
-                    : 'Failed to send message. Please try again.'}
+                    : "Failed to send message. Please try again."}
                 </div>
               )}
             </form>
@@ -255,7 +288,7 @@ const ContactForm = () => {
         </div>
       </div>
     </motion.section>
-  )
-}
+  );
+};
 
-export default ContactForm
+export default ContactForm;

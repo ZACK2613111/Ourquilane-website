@@ -20,22 +20,22 @@ const AboutUs = () => {
       className="min-h-screen flex items-center justify-center"
     >
       <div className="max-w-5xl mx-auto px-4 py-20 text-center bg-transparent flex flex-col items-center justify-center">
-        <div className='max-w-3xl'>
-        <motion.h1
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="font-gabarito text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 max-w-4xl mx-auto"
+        <div className="max-w-3xl">
+          <motion.h1
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="font-gabarito font-semibold sm:text-title-about tracking-[2%] text-center text-white mb-6 text-title-mobile"
           >
-          {translations.about.title}
-        </motion.h1>
-          </div>
+            {translations.about.title}
+          </motion.h1>
+        </div>
 
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="font-satoshi text-lg md:text-xl text-white/80 max-w-4xl mx-auto mb-10 leading-relaxed"
+          className="font-dmSans font-normal sm:text-description tracking-[1%] max-w-4xl mx-auto mb-10 text-description-mobile text-white"
         >
           {translations.about.description}
         </motion.p>

@@ -1,11 +1,11 @@
-'use client'
+'use client';
 import React from 'react';
 import { motion } from 'framer-motion';
 import WhiteButton from '@/components/shared/WhiteButton';
 import Button from '@/components/shared/Button';
-import {ServiceCard} from '@/components/layout/ServiceCard';
+import { ServiceCard } from '@/components/layout/ServiceCard';
 import { services } from '@/data/Services';
-import { Service } from '@/types/Service'
+import { Service } from '@/types/Service';
 
 const AnimatedServiceCard = ({ service, className, direction }: { 
   service: Service; 
@@ -31,9 +31,8 @@ const AnimatedServiceCard = ({ service, className, direction }: {
 
 const Services: React.FC = () => {
   return (
-    <section id="services" className="w-full text-white py-8 sm:py-12 md:py-16 px-4 sm:px-6 md:px-8">
-      <div className="max-w-7xl mx-auto">
-        {/* Header Section */}
+    <section id="services" className="w-full min-h-screen text-white py-8 px-6 lg:px-20">
+      <div className="max-w-[1440px] mx-auto">
         <motion.div 
           className="mb-6 sm:mb-8"
           initial={{ opacity: 0, y: 20 }}
@@ -55,7 +54,7 @@ const Services: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <h2 className="font-gabarito text-4xl md:text-5xl font-bold leading-tight mb-6 sm:mb-0 max-w-2xl">
+          <h2 className="font-gabarito font-semibold text-4xl md:text-5xl leading-[50px] tracking-[2%] text-white mb-6 sm:mb-0 max-w-2xl">
             What We Are Good At
           </h2>
           <div className="w-full sm:w-auto">

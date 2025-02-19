@@ -71,7 +71,7 @@ const ProjectCard = ({ project, totalProjects = 1 }: ProjectCardProps) => {
         rotateZ: rotate,
         transformOrigin: "center center",
       }}
-      className="w-full max-w-7xl mx-auto sticky top-[20vh] sm:top-[30vh] min-h-[50vh] rounded-3xl p-4 sm:p-6 overflow-hidden group border border-white/10 backdrop-blur-xl bg-[#0A0A0A]/80"
+      className="w-full max-w-full mx-auto sticky top-[20vh] sm:top-[30vh] min-h-[50vh] rounded-3xl p-4 sm:p-6 overflow-hidden group border border-white/10 backdrop-blur-xl bg-[#0A0A0A]/80"
       initial={{ opacity: 0, y: 100, scale: 0.9 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}

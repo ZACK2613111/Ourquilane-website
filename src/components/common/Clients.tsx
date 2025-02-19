@@ -1,9 +1,9 @@
-'use client'
-import React from "react"
-import Image from "next/image"
-import { motion } from "framer-motion"
-import WhiteButton from "../shared/WhiteButton"
-import { useLanguage } from "@/context/LanguageContext"
+'use client';
+import React from "react";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import WhiteButton from "../shared/WhiteButton";
+import { useLanguage } from "@/context/LanguageContext";
 
 const clientsLogos = [
   { id: 1, src: "/images/clients/Frame 34.svg", alt: "Logo 1" },
@@ -11,10 +11,10 @@ const clientsLogos = [
   { id: 3, src: "/images/clients/logo-3-1 1.svg", alt: "Logo 3" },
   { id: 4, src: "/images/clients/logo-4-1 1.svg", alt: "Logo 4" },
   { id: 5, src: "/images/clients/logo-5 1.svg", alt: "Logo 5" },
-]
+];
 
 const Clients: React.FC = () => {
-  const { translations } = useLanguage()
+  const { translations } = useLanguage();
 
   return (
     <section id="clients" className="w-full text-white py-8 px-6 lg:px-20">
@@ -37,7 +37,7 @@ const Clients: React.FC = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="flex flex-col items-start mb-8 sm:mb-10 md:mb-12"
         >
-          <h2 className="font-gabarito text-4xl lg:text-5xl font-semibold leading-tight mb-6 sm:mb-0">
+          <h2 className="font-gabarito font-semibold text-title-other tracking-[2%] text-white mb-6 sm:mb-0">
             {translations.clients.title}
           </h2>
         </motion.div>
@@ -70,7 +70,7 @@ const Clients: React.FC = () => {
         </motion.div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Clients
+export default Clients;

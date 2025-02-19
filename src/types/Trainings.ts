@@ -5,4 +5,5 @@ export interface Training {
     description: string;
     field: string[];
     TechIcons: StaticImageData[];
+    TechIconsWhite : StaticImageData[];
 }

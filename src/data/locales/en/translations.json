@@ -50,11 +50,11 @@
     "title": "Our Areas of Expertise",
     "Button": "VIEW ALL SERVICES"
   },
-  "work":{
-    "title": "Shaping the Future of Your Organization Together",
-    "description": "We're ready to get started, just say the word.",
-    "Button": "LET'S GET TO WORK !"
-  },
+    "work":{
+      "title": "Shaping the Future of Your Organization Together",
+      "description": "We're ready to get started, just say the word.",
+      "Button": "LET'S GET TO WORK !"
+    },
   "contactPage": {
     "timeline": {
       "steps": [

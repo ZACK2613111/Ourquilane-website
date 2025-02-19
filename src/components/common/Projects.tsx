@@ -1,18 +1,17 @@
-"use client"
-
-import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
-import ProjectCard from "@/components/layout/ProjectCard"
-import { projects } from "@/data/Projects"
-import Button from "../shared/Button"
-import WhiteButton from "../shared/WhiteButton"
+"use client";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import ProjectCard from "@/components/layout/ProjectCard";
+import { projects } from "@/data/Projects";
+import Button from "../shared/Button";
+import WhiteButton from "../shared/WhiteButton";
 
 const ProjectsSection = () => {
-  const [isVisible, setIsVisible] = useState(false)
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    setIsVisible(true)
-  }, [])
+    setIsVisible(true);
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -23,15 +22,15 @@ const ProjectsSection = () => {
         delayChildren: 0.3,
       },
     },
-  }
+  };
 
   return (
-    <section className="w-full min-h-screen py-24 px-4 sm:px-6 lg:px-8">
+    <section className="w-full min-h-screen py-8 px-6 lg:px-20">
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate={isVisible ? "visible" : "hidden"}
-        className="max-w-7xl mx-auto space-y-8"
+        className="max-w-[1440px] mx-auto"
       >
         <motion.div 
           className="mb-6 sm:mb-8"
@@ -41,8 +40,8 @@ const ProjectsSection = () => {
           transition={{ duration: 0.5 }}
         >
           <WhiteButton 
-            title="OUR SERVICES"
-            handleClick={() => console.log('Our Services clicked')}
+            title="OUR PROJECTS"
+            handleClick={() => console.log('Our projects clicked')}
           />
         </motion.div>
         
@@ -54,7 +53,7 @@ const ProjectsSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <h2 className="font-gabarito text-4xl md:text-5xl font-bold leading-tight mb-6 sm:mb-0 max-w-2xl text-white">
+          <h2 className="font-gabarito font-semibold text-4xl md:text-5xl leading-[50px] tracking-[2%] text-white mb-6 sm:mb-0 max-w-2xl">
             Where Vision Meets Reality
           </h2>
           <div className="w-full sm:w-auto">
@@ -73,7 +72,7 @@ const ProjectsSection = () => {
         </div>
       </motion.div>
     </section>
-  )
-}
+  );
+};
 
-export default ProjectsSection
+export default ProjectsSection;

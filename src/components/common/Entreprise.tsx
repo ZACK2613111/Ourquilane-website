@@ -8,7 +8,6 @@ import Button from '../shared/Button'
 import Logo from "../../../public/images/Logo-shadow.svg"
 import { useLanguage } from "@/context/LanguageContext"
 
-// Define types for translations
 interface EnterpriseTranslations {
   titleButton: string
   title: string

@@ -66,7 +66,7 @@ const TestimonialsSection = () => {
 
   return (
     <div className="min-h-screen flex items-center px-4 md:px-8 lg:px-16 py-8 overflow-hidden bg-transparent">
-      <div className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row gap-16">
+      <div className="w-full max-w-full mx-auto flex flex-col lg:flex-row gap-16">
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
