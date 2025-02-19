@@ -1,10 +1,13 @@
 "use client"
 
-import { Trainings } from "@/data/Trainings"
+import { Trainings, TrainingsEnglsh } from "@/data/Trainings"
 import TrainingCard from "./TrainingCard"
 import { motion } from "framer-motion"
+import { useLanguage } from "@/context/LanguageContext";
 
 const Training = () => {
+  const {language} = useLanguage();
+  const selectedTrainings = language === "FR"? Trainings: TrainingsEnglsh;
   return (
     <div className="max-w-[1440px] mx-auto px-4 py-16 min-h-screen flex justify-center items-center">
       <motion.div
@@ -21,7 +24,7 @@ const Training = () => {
           },
         }}
       >
-        {Trainings.map((training, index) => (
+        {selectedTrainings.map((training, index) => (
           <motion.div
             key={index}
             initial={{ opacity: 0, x: index % 2 === 0 ? 100 : -100 }} 

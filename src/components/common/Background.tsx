@@ -2,13 +2,14 @@
 
 import { useEffect, useRef, useMemo } from "react";
 
-const SimpleTechBackground = () => {
+const NeuralBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const COLORS = useMemo(() => ({
-    violet: "rgba(154, 92, 228, 0.08)", // More subtle opacity
-    yellow: "rgba(233, 205, 42, 0.08)", // More subtle opacity
-    background: "#0A081B"
+    node: "rgba(255, 255, 255, 0.8)",
+    connection: "rgba(255, 255, 255, 0.15)",
+    pulse: "rgba(255, 255, 255, 0.3)",
+    background: "#000000"
   }), []);
 
   useEffect(() => {
@@ -22,70 +23,85 @@ const SimpleTechBackground = () => {
     let animationId: number;
     let time = 0;
 
-    // Draw tech grid with subtle movement
-    const drawGrid = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
-      const gridSize = 100; // Even larger grid for more minimalist look
-      const timeOffset = time * 0.0003; // Slower animation for subtlety
+    // Simplified node class
+    class Node {
+      x: number;
+      y: number;
+      baseX: number;
+      baseY: number;
+      size: number;
 
-      // Apply slight blur for softer lines
-      ctx.shadowColor = "rgba(154, 92, 228, 0.2)";
-      ctx.shadowBlur = 5;
-
-      // Vertical lines
-      for (let x = 0; x < width + gridSize; x += gridSize) {
-        const offset = Math.sin(x * 0.008 + timeOffset) * 3;
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x + offset, height);
-        ctx.strokeStyle = x % (gridSize * 3) === 0 ? COLORS.violet : COLORS.yellow;
-        ctx.lineWidth = 0.4;
-        ctx.globalAlpha = 0.3 + Math.sin(timeOffset * 2 + x * 0.01) * 0.15;
-        ctx.stroke();
+      constructor(x: number, y: number) {
+        this.baseX = x;
+        this.baseY = y;
+        this.x = x;
+        this.y = y;
+        this.size = Math.random() * 2 + 1;
       }
 
-      // Horizontal lines with more spacing
-      for (let y = 0; y < height + gridSize; y += gridSize * 2) {
-        const offset = Math.cos(y * 0.008 + timeOffset) * 3;
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(width, y + offset);
-        ctx.strokeStyle = y % (gridSize * 3) === 0 ? COLORS.yellow : COLORS.violet;
-        ctx.lineWidth = 0.4;
-        ctx.globalAlpha = 0.3 + Math.sin(timeOffset * 2 + y * 0.01) * 0.15;
-        ctx.stroke();
+      update(time: number) {
+        // Smooth, circular motion
+        const angle = time * 0.001;
+        const radius = 30;
+        this.x = this.baseX + Math.cos(angle) * radius;
+        this.y = this.baseY + Math.sin(angle) * radius;
       }
-
-      // Reset shadow and alpha
-      ctx.shadowBlur = 0;
-      ctx.globalAlpha = 1;
-    };
-
-    // Create floating particles
-    const particles: { x: number; y: number; size: number; speed: number; hue: number }[] = [];
-    for (let i = 0; i < 30; i++) {
-      particles.push({
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
-        size: Math.random() * 1.5 + 0.5,
-        speed: Math.random() * 0.3 + 0.1,
-        hue: Math.random() > 0.5 ? 60 : 270 // Yellow or purple hue
-      });
     }
 
-    const drawParticles = (ctx: CanvasRenderingContext2D) => {
-      particles.forEach(p => {
+    // Create fewer nodes in a meaningful pattern
+    let nodes: Node[] = [];
+    const createNodes = (width: number, height: number) => {
+      nodes = [];
+      // Create nodes in a circular pattern
+      const centerX = width / 2;
+      const centerY = height / 2;
+      const numNodes = 12; // Reduced number of nodes
+      const radius = Math.min(width, height) * 0.3;
+
+      for (let i = 0; i < numNodes; i++) {
+        const angle = (i / numNodes) * Math.PI * 2;
+        const x = centerX + Math.cos(angle) * radius;
+        const y = centerY + Math.sin(angle) * radius;
+        nodes.push(new Node(x, y));
+      }
+
+      // Add a center node
+      nodes.push(new Node(centerX, centerY));
+    };
+
+    const drawConnections = (ctx: CanvasRenderingContext2D, time: number) => {
+      const centerNode = nodes[nodes.length - 1];
+      
+      nodes.forEach((node, index) => {
+        if (index === nodes.length - 1) return; // Skip center node
+
+        // Draw connection to center
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${p.hue}, 80%, 70%, ${0.1 + Math.sin(time * 0.01) * 0.05})`;
+        ctx.moveTo(node.x, node.y);
+        ctx.lineTo(centerNode.x, centerNode.y);
+        
+        // Animated gradient
+        const gradient = ctx.createLinearGradient(node.x, node.y, centerNode.x, centerNode.y);
+        const offset = (time * 0.001 + index * 0.1) % 1;
+        gradient.addColorStop(offset, COLORS.connection);
+        gradient.addColorStop((offset + 0.5) % 1, COLORS.pulse);
+        
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // Draw nodes
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
+        ctx.fillStyle = COLORS.node;
         ctx.fill();
-        
-        // Move particles upward slowly
-        p.y -= p.speed;
-        if (p.y < -10) p.y = window.innerHeight + 10;
-        
-        // Add slight horizontal drift
-        p.x += Math.sin(time * 0.001 + p.y * 0.01) * 0.3;
       });
+
+      // Draw center node
+      ctx.beginPath();
+      ctx.arc(centerNode.x, centerNode.y, 4, 0, Math.PI * 2);
+      ctx.fillStyle = COLORS.node;
+      ctx.fill();
     };
 
     // Handle window resize
@@ -99,6 +115,7 @@ const SimpleTechBackground = () => {
       canvas.style.height = `${height}px`;
 
       ctx.scale(dpr, dpr);
+      createNodes(width, height);
     };
 
     // Animation loop
@@ -106,18 +123,18 @@ const SimpleTechBackground = () => {
       const width = canvas.width / dpr;
       const height = canvas.height / dpr;
 
-      // Clear and draw gradient background
-      const gradient = ctx.createLinearGradient(0, 0, width, height);
-      gradient.addColorStop(0, COLORS.background);
-      gradient.addColorStop(1, "#161233");
-      ctx.fillStyle = gradient;
+      // Clear background
+      ctx.fillStyle = COLORS.background;
       ctx.fillRect(0, 0, width, height);
 
-      // Draw grid
-      drawGrid(ctx, width, height);
-      
-      // Draw particles
-      drawParticles(ctx);
+      // Update nodes
+      nodes.forEach(node => node.update(time));
+
+      // Draw connections with glow effect
+      ctx.shadowBlur = 10;
+      ctx.shadowColor = COLORS.pulse;
+      drawConnections(ctx, time);
+      ctx.shadowBlur = 0;
 
       time++;
       animationId = requestAnimationFrame(animate);
@@ -143,4 +160,4 @@ const SimpleTechBackground = () => {
   );
 };
 
-export default SimpleTechBackground;
+export default NeuralBackground;

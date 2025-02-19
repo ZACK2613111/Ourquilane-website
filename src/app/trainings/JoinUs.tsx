@@ -1,8 +1,13 @@
 "use client";
-import Button from "@/components/shared/Button";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/context/LanguageContext";
+import React, { memo, lazy, Suspense } from "react";
+
+const Button = lazy(() => import("@/components/shared/Button"));
 
 const JoinUs = () => {
+  const { language } = useLanguage();
+
   const fadeInUpVariant = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -26,23 +31,36 @@ const JoinUs = () => {
     }),
   };
 
+  const title = language === "FR"
+    ? "Rejoignez-Nous : Stages, Candidatures et Opportunités"
+    : "Join Us: Internships, Applications, and Opportunities";
+
+  const description = language === "FR"
+    ? "Postulez dès maintenant et vivez une expérience formatrice au sein de notre équipe dynamique."
+    : "Apply now and experience a formative journey with our dynamic team.";
+
+  const buttonTitle = language === "FR" ? "POSTULER MAINTENANT" : "APPLY NOW";
+
+  // URL of the Google Form
+  const formURL = "https://forms.gle/crL34FXLV3FTMXj98";
+
   return (
     <motion.section
       variants={fadeInUpVariant}
       initial="hidden"
       animate="visible"
-      className="mt-32 mb-24 text-center relative z-10 flex flex-col items-center justify-center min-h-screen"
+      className="mt-32 mb-24 text-center relative z-10 flex flex-col items-center justify-center min-h-screen text-white px-4 md:px-8"
     >
       <motion.h1
         custom={0.2}
         variants={textFadeVariant}
         initial="hidden"
         animate="visible"
-        className="text-4xl md:text-5xl font-bold mb-6 font-gabarito leading-tight"
+        className="font-gabarito font-semibold text-title-mobile sm:text-4xl md:text-5xl lg:text-6xl leading-tight text-center tracking-wide mt-4 sm:mt-8 mb-6"
       >
         <span className="block">
-          <span className="block text-white">Rejoignez-Nous : Stages, </span>
-          <span className="text-white">Candidatures et Opportunités</span>
+          <span className="block text-white">{title.split(",")[0]}</span>
+          <span className="text-white">{title.split(",")[1]}</span>
         </span>
       </motion.h1>
 
@@ -51,21 +69,22 @@ const JoinUs = () => {
         variants={textFadeVariant}
         initial="hidden"
         animate="visible"
-        className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-dmSans mb-10"
+        className="font-dmSans font-normal text-description-mobile sm:text-lg md:text-xl lg:text-2xl leading-relaxed tracking-wide mt-4 sm:mt-6 text-white/80 mb-6"
       >
-        Postulez dès maintenant et vivez une expérience formatrice au sein de notre équipe dynamique.
+        {description}
       </motion.p>
 
-      <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex items-center justify-center"
-        >
-      <Button title="POSTULER MAINTENANT" handleClick={() => console.log("Postuler maintenant")} />
-      </motion.div>
+      {/* Button container adjusted for responsiveness */}
+      <div className="flex items-center justify-center mt-6 w-1/2 lg:w-1/3">
+        <Suspense fallback={<div>Loading...</div>}>
+          <Button
+            title={buttonTitle}
+            handleClick={() => window.open(formURL, "_blank")}
+          />
+        </Suspense>
+      </div>
     </motion.section>
   );
 };
 
-export default JoinUs;
+export default memo(JoinUs);

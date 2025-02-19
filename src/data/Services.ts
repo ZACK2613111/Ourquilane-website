@@ -34,3 +34,36 @@ export const services: Service[] = [
     icon: Global
   }
 ];
+
+export const servicesFrensh: Service[] = [
+  {
+    title: "Offres spéciales pour les startups et jeunes entrepreneurs",
+    description: "Des solutions sur mesure pour les propriétaires de projets innovants, avec des tarifs réduits et un accompagnement personnalisé.",
+    icon: Status
+  },
+  {
+    title: "Développement Web et Mobile",
+    description:"Création d'applications performantes et évolutives adaptées aux besoins des entreprises.",
+    icon: Monitor 
+  },
+  {
+    title: "Ateliers avec des spécialistes",
+    description: "Des sessions interactives animées par des experts pour approfondir les connaissances et échanger les meilleures pratiques du marché.",
+    icon: Presentation
+  },
+  {
+    title: "Numérisation des entreprises",
+    description: "Support et conseil en transformation numérique pour moderniser les processus et améliorer la productivité grâce à notre service R&D.",
+    icon: Lamp
+  },
+  {
+    title: "Implémentation ERP",
+    description: "Intégration et personnalisation de solutions complètes de gestion pour optimiser les opérations de l'entreprise.",
+    icon: Settings
+  },
+  {
+    title: "Formation aux métiers du développement et du numérique",
+    description: "Des programmes pour développer des compétences sur les technologies de demain, particulièrement pour les jeunes professionnels.",
+    icon: Global
+  }
+];

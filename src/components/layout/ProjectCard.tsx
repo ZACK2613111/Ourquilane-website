@@ -89,7 +89,7 @@ const ProjectCard = ({ project, totalProjects = 1 }: ProjectCardProps) => {
           <span className="font-gabarito text-5xl sm:text-6xl md:text-7xl font-bold text-white/90 leading-none">
             {safeProject.number}
           </span>
-          <span className="font-gabarito text-xs sm:text-sm text-white/40 mt-1.5 sm:mt-2 md:mt-3">
+          <span className="font-gabarito text-xs sm:text-sm text-description mt-1.5 sm:mt-2 md:mt-3">
             /{safeTotalProjects.toString().padStart(2, "0")}
           </span>
         </div>
@@ -109,7 +109,7 @@ const ProjectCard = ({ project, totalProjects = 1 }: ProjectCardProps) => {
 
         {/* Project Description */}
         <motion.p
-          className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed font-gabarito sm:mb-6 mb-8"
+          className="font-dmSans font-normal sm:text-description tracking-[1%] max-w-4xl mx-auto mb-10 text-description-mobile text-grayDescription"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}

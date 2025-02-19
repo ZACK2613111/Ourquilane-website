@@ -1,30 +1,31 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import { TraineeWords } from "@/data/TraineeWords";
+import { TraineeWords, TraineeWordsEnglish } from "@/data/TraineeWords";
+import { useLanguage } from "@/context/LanguageContext";
 
 const CARD_CONFIG = {
   positions: [
     {
-      top: 55.52,
+      top: 155.52,
       left: 105.97,
       rotation: -16.13,
       dimensions: { w: 475, h: 250.74, br: 19.74 },
     },
     {
-      top: 73.56,
+      top: 173.56,
       left: 897.66,
       rotation: 11.28,
       dimensions: { w: 426.08, h: 150.27, br: 20.23 },
     },
     {
-      top: 521.09,
+      top: 621.09,
       left: 124.66,
       rotation: 11.5,
       dimensions: { w: 451.37, h: 264.25, br: 21.43 },
     },
     {
-      top: 553.3,
+      top: 653.3,
       left: 877.98,
       rotation: -10.37,
       dimensions: { w: 452.87, h: 204.84, br: 21.5 },
@@ -167,45 +168,56 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
     </motion.div>
   );
 };
+const MainContent: React.FC = () => {
+  const { language } = useLanguage();
 
-const MainContent: React.FC = () => (
-  <div className="absolute inset-0 flex flex-col items-center justify-center pt-8 px-4 sm:px-0">
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: 0.8,
-        ease: [0.6, -0.05, 0.01, 0.99],
-      }}
-      className="w-full text-center"
-    >
-      <motion.h1
-        className="text-4xl sm:text-5xl font-gabarito font-bold mb-4 text-white"
-        initial={{ opacity: 0, y: 20 }}
+  return (
+    <div className="absolute inset-0 flex flex-col items-center justify-center pt-8 px-4 sm:px-0">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
+        transition={{
+          duration: 0.8,
+          ease: [0.6, -0.05, 0.01, 0.99],
+        }}
+        className="w-full text-center"
       >
-        Learning, Growing,
-        <br />
-        Succeeding
-      </motion.h1>
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.4 }}
-        className="text-base sm:text-lg font-dmSans text-gray-300 max-w-xl mx-auto"
-      >
-        Learning in action—see how our trainees tackle challenges and grow with
-        us.
-      </motion.p>
-    </motion.div>
-  </div>
-);
+        <motion.h1
+          className="text-4xl sm:text-5xl font-gabarito font-bold mb-4 text-white"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          {language === "FR" 
+            ? "Apprendre, Grandir," 
+            : "Learning,"}
+          <br />
+          Succeeding
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+          className="text-base sm:text-lg font-dmSans text-gray-300 max-w-xl mx-auto"
+        >
+          {language === "FR"
+            ? "Apprenez en action—voyez comment nos stagiaires relèvent des défis et grandissent avec nous."
+            : "Learning in action—see how our trainees tackle challenges and grow with us."}
+        </motion.p>
+      </motion.div>
+    </div>
+  );
+};
+
+
 
 const LearningCards: React.FC = () => {
+  const { language } = useLanguage();
   const [isVisible, setIsVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
+  const selectedTraineeWords = language === "FR" ? TraineeWords : TraineeWordsEnglish;
+  
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 100);
 
@@ -222,12 +234,12 @@ const LearningCards: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full overflow-hidden" style={{ minHeight: "120vh" }}>
-      {/* Desktop Version: Hide the mobile cards */}
+    <div className="w-full overflow-hidden" style={{ minHeight: "145vh" }}>
+      {/* Desktop Version */}
       <div className={`${isMobile ? "hidden" : "absolute inset-0 z-10"}`}>
         <MainContent />
         <AnimatePresence>
-          {TraineeWords.map((testimonial, index) => (
+          {selectedTraineeWords.map((testimonial, index) => (
             <TestimonialCard
               key={testimonial.fullname}
               testimonial={testimonial}
@@ -241,7 +253,7 @@ const LearningCards: React.FC = () => {
 
       {/* Mobile Version - Stack Cards Vertically */}
       {isMobile && (
-        <div className="absolute z-10 flex flex-col items-center justify-start space-y-8 p-4 mt-8 ">
+        <div className="absolute z-10 flex flex-col items-center justify-start space-y-8 p-4 mt-8 w-full pb-24">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -261,7 +273,7 @@ const LearningCards: React.FC = () => {
             Learning in action—see how our trainees tackle challenges and grow
             with us.
           </motion.p>
-          {TraineeWords.map((testimonial, index) => (
+          {selectedTraineeWords.map((testimonial, index) => (
             <motion.div
               key={testimonial.fullname}
               initial={{ opacity: 0, y: 20 }}
@@ -269,9 +281,9 @@ const LearningCards: React.FC = () => {
               transition={{ delay: index * 0.2 }}
               className="w-full max-w-md backdrop-blur-lg p-6 rounded-xl"
               style={{
-                background: CARD_CONFIG.styles[index].bg,
-                border: `0.5px solid ${CARD_CONFIG.styles[index].border}`,
-                boxShadow: `0px 0px 17.8px 4.4px ${CARD_CONFIG.styles[index].shadow}`,
+                background: CARD_CONFIG.styles[index % CARD_CONFIG.styles.length].bg,
+                border: `0.5px solid ${CARD_CONFIG.styles[index % CARD_CONFIG.styles.length].border}`,
+                boxShadow: `0px 0px 17.8px 4.4px ${CARD_CONFIG.styles[index % CARD_CONFIG.styles.length].shadow}`,
               }}
             >
               <p className="text-white font-dmSans text-sm leading-relaxed mb-6">
@@ -292,7 +304,7 @@ const LearningCards: React.FC = () => {
 
       {/* Background Blurred Cards with Updated Positions */}
       <div className="absolute inset-0 z-0">
-        {TraineeWords.map((testimonial, index) => (
+        {selectedTraineeWords.map((testimonial, index) => (
           <motion.div
             key={`background-${testimonial.fullname}`}
             initial={{ opacity: 0.2 }}
@@ -303,15 +315,15 @@ const LearningCards: React.FC = () => {
               repeat: Infinity,
               repeatType: "reverse",
             }}
-            className="absolute w-full max-w-xl mx-auto p-6 backdrop-blur-lg rounded-lg"
+            className="absolute backdrop-blur-lg rounded-lg"
             style={{
-              width: `${CARD_CONFIG.positions[index].dimensions.w}px`,
-              height: `${CARD_CONFIG.positions[index].dimensions.h}px`,
-              top: `${CARD_CONFIG.backgroundPositions[index].top}px`, 
-              left: `${CARD_CONFIG.backgroundPositions[index].left}px`,
-              background: CARD_CONFIG.styles[index].bg,
-              border: `0.5px solid ${CARD_CONFIG.styles[index].border}`,
-              boxShadow: `0px 0px 17.8px 4.4px ${CARD_CONFIG.styles[index].shadow}`,
+              width: `${CARD_CONFIG.positions[index % CARD_CONFIG.positions.length].dimensions.w}px`,
+              height: `${CARD_CONFIG.positions[index % CARD_CONFIG.positions.length].dimensions.h}px`,
+              top: `${CARD_CONFIG.backgroundPositions[index % CARD_CONFIG.backgroundPositions.length].top}px`, 
+              left: `${CARD_CONFIG.backgroundPositions[index % CARD_CONFIG.backgroundPositions.length].left}px`,
+              background: CARD_CONFIG.styles[index % CARD_CONFIG.styles.length].bg,
+              border: `0.5px solid ${CARD_CONFIG.styles[index % CARD_CONFIG.styles.length].border}`,
+              boxShadow: `0px 0px 17.8px 4.4px ${CARD_CONFIG.styles[index % CARD_CONFIG.styles.length].shadow}`,
             }}
           />
         ))}
@@ -321,3 +333,4 @@ const LearningCards: React.FC = () => {
 };
 
 export default LearningCards;
+

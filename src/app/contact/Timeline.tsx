@@ -1,6 +1,7 @@
 import type React from "react"
 import { motion } from "framer-motion"
 import { useState, useEffect, useCallback } from "react"
+import { useLanguage } from "@/context/LanguageContext"
 
 interface TimelineStep {
   title: string
@@ -12,6 +13,7 @@ interface TimelineProps {
 }
 
 const Timeline: React.FC<TimelineProps> = ({ steps }) => {
+  const { language } = useLanguage()
   const [activeStep, setActiveStep] = useState(0)
   const [scrollProgress, setScrollProgress] = useState(0)
 
@@ -30,7 +32,7 @@ const Timeline: React.FC<TimelineProps> = ({ steps }) => {
     if (newActiveStep !== activeStep && newActiveStep < steps.length) {
       setActiveStep(newActiveStep)
     }
-  }, [steps.length, activeStep])
+  }, [steps.length, activeStep, scrollProgress])
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll)
@@ -76,7 +78,7 @@ const Timeline: React.FC<TimelineProps> = ({ steps }) => {
         {/* Timeline Line */}
         <div className="absolute left-3 md:left-1/2 top-0 w-0.5 h-full bg-gray-800/50 transform md:-translate-x-1/2">
           <motion.div
-            className="absolute top-0 w-full bg-gradient-to-b from-[#9A5CE4]/20 to-[#E9CD2A]"
+            className="absolute top-0 w-full bg-gradient-to-b from-[#9A5CE4]/20 to-[#E9CD2A]/40"
             style={{
               height: `${scrollProgress * 100}%`,
               transition: "height 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
@@ -105,10 +107,10 @@ const Timeline: React.FC<TimelineProps> = ({ steps }) => {
               delay: index * 0.1,
             }}
             className={`group relative flex flex-col rounded-3xl p-6 sm:p-8 border border-white/5 bg-transparent transition-all duration-500 ease-in-out
-              ${index % 2 === 1 ? "md:ml-auto md:mr-16" : "md:mr-auto md:ml-16"} 
-              mb-16 md:mb-24 w-full md:w-[42%]
+              ${index % 2 === 1 ? "md:ml-auto md:mr-16" : "md:mr-auto"} 
+              mb-16 md:mb-24 w-full sm:w-9/12 md:w-[36%]
               hover:border-white/10 backdrop-blur-sm
-            `}
+              mx-4 md:mx-0`}
           >
             <div className={`${index % 2 === 1 ? "md:pr-8 md:text-right" : "md:pl-8"} pl-8 md:pl-0`}>
               <motion.div
@@ -117,12 +119,14 @@ const Timeline: React.FC<TimelineProps> = ({ steps }) => {
                 transition={{ duration: 0.3 }}
               >
                 <span className="text-white/60 text-xs sm:text-sm font-dmSans tracking-wider">
-                  STEP {(index + 1).toString().padStart(2, "0")}
+                  {language === "FR" ? `ÉTAPE ${(index + 1).toString().padStart(2, "0")}` : `STEP ${(index + 1).toString().padStart(2, "0")}`}
                 </span>
                 <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white font-gabarito mb-2">
                   {step.title}
                 </h3>
-                <p className="text-sm sm:text-base text-white/70 font-dmSans leading-relaxed">{step.description}</p>
+                <p className="text-sm sm:text-base text-white/70 font-dmSans leading-relaxed">
+                  {step.description}
+                </p>
               </motion.div>
             </div>
           </motion.div>

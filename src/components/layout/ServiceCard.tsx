@@ -38,7 +38,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ service, className }) 
       </motion.div>
 
       <h3 className="text-2xl sm:text-3xl font-semibold mb-4 font-gabarito">{service.title}</h3>
-      <p className="text-sm sm:text-base text-gray-300 mb-6 leading-relaxed">
+      <p className="font-dmSans font-normal sm:text-description tracking-[1%] max-w-4xl mx-auto mb-10 text-description-mobile text-description">
         {service.description}
       </p>
 

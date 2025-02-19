@@ -1,131 +1,143 @@
-'use client'
+'use client';
 
-import React from 'react'
-import { motion } from 'framer-motion'
-import Image from 'next/image'
-import WhiteButton from '../shared/WhiteButton'
-import Button from '../shared/Button'
-import Logo from "../../../public/images/Logo-shadow.svg"
-import { useLanguage } from "@/context/LanguageContext"
+import React, { memo, lazy, Suspense } from 'react';
+import Image from 'next/image';
+import WhiteButton from '../shared/WhiteButton';
+import Logo from "../../../public/images/Logo-shadow.svg";
+import { useLanguage } from "@/context/LanguageContext";
+import { motion } from 'framer-motion';
 
 interface EnterpriseTranslations {
-  titleButton: string
-  title: string
-  description: string
-  Button: string
+  titleButton: string;
+  title: string;
+  description: string;
+  Button: string;
 }
 
 interface LanguageContextType {
   translations: {
-    entreprise: EnterpriseTranslations
-  }
+    entreprise: EnterpriseTranslations;
+  };
 }
 
+// Lazy loading Button component
+const Button = lazy(() => import('../shared/Button'));
+
+const WhiteButtonMemo = memo(WhiteButton);
+
 const Entreprise: React.FC = () => {
-  const { translations } = useLanguage() as LanguageContextType
+  const { translations } = useLanguage() as LanguageContextType;
 
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: { 
-      opacity: 1, 
-      x: 0,
-      transition: { duration: 0.6 }
-    }
-  }
-
-  const logoVariants = {
-    hidden: { opacity: 0, x: 20 },
-    visible: { 
-      opacity: 1, 
-      x: 0,
-      transition: { duration: 0.6, delay: 0.3 }
-    }
-  }
-
-  const logoAnimationProps = {
-    animate: {
-      rotate: 360,
-      scale: [1, 1.05, 1],
-    },
-    transition: {
-      rotate: {
-        duration: 20,
-        repeat: Infinity,
-        ease: "linear"
+  const fadeInUpVariant = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut",
       },
-      scale: {
-        duration: 4,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
-    }
-  }
+    },
+  };
+
+  const textFadeVariant = {
+    hidden: { opacity: 0 },
+    visible: (delay: number) => ({
+      opacity: 1,
+      transition: {
+        delay,
+        duration: 0.5,
+      },
+    }),
+  };
 
   return (
-    <section className="relative py-16 md:py-24 px-6 lg:px-20">
+    <motion.section
+      id="entreprise"
+      className="relative py-16 md:py-24 px-6 lg:px-20"
+      variants={fadeInUpVariant}
+      initial="hidden"
+      animate="visible"
+    >
       <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row items-start gap-12">
         {/* Left Content */}
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          className="lg:w-2/3 space-y-8"
-        >
+        <div className="lg:w-2/3 space-y-8">
           <div>
-            <WhiteButton 
+            <WhiteButtonMemo 
               handleClick={() => console.log('Who Are We clicked')} 
               title={translations.entreprise.titleButton}
             />
           </div>
 
-          <h1 className="font-gabarito text-4xl lg:text-5xl font-semibold text-white leading-tight">
-          <span className="bg-gradient-to-r text-transparent bg-clip-text from-[#9747FF] to-[#E9CD2A]">Ourquilane</span>
-          {translations.entreprise.title}
-          </h1>
+          <motion.h1
+            custom={0.2}
+            variants={textFadeVariant}
+            initial="hidden"
+            animate="visible"
+            className="font-gabarito font-semibold sm:text-title-other tracking-[2%] text-left text-white mb-6 text-title-mobile"
+          >
+            <span className="bg-gradient-to-r text-transparent bg-clip-text from-[#9747FF] to-[#E9CD2A]">Ourquilane</span>
+            {translations.entreprise.title}
+          </motion.h1>
 
-          <p className="font-dmSans text-lg text-[#E5E5E5] max-w-2xl">
+          <motion.p
+            custom={0.4}
+            variants={textFadeVariant}
+            initial="hidden"
+            animate="visible"
+            className="font-dmSans font-normal sm:text-description tracking-[1%] max-w-4xl mx-auto mb-10 text-description-mobile text-grayDescription"
+          >
             {translations.entreprise.description}
-          </p>
+          </motion.p>
 
-          <div>
-            <Button
-              handleClick={() => console.log('Know More clicked')} 
-              title={translations.entreprise.Button}
-            />
-          </div>
-        </motion.div>
+          {/* Responsive Button Container */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="lg:w-1/2 w-full"
+          >
+            <Suspense fallback={<div>Loading...</div>}>
+              <Button
+                handleClick={() => console.log('Know More clicked')} 
+                title={translations.entreprise.Button}
+              />
+            </Suspense>
+          </motion.div>
+        </div>
 
-        {/* Right Content - Animated Logo */}
-        <motion.div 
-          variants={logoVariants}
-          initial="hidden"
-          whileInView="visible"
-          className="lg:w-1/3 flex justify-center lg:justify-end"
-        >
-          <div className="relative">
-            <motion.div
-              {...logoAnimationProps}
-              className="relative w-[200px] h-[200px] md:w-[300px] md:h-[300px]"
-            >
+        {/* Right Content - Logo */}
+        <div className="lg:w-1/3 flex justify-center lg:justify-end w-full">
+          <motion.div
+            className="relative flex justify-center"
+            initial={{ rotate: 0 }}
+            animate={{ rotate: 360 }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          >
+            <div className="relative w-[200px] h-[200px] md:w-[300px] md:h-[300px]">
               <div 
-                className="absolute inset-0 rounded-full  opacity-30 blur-xl animate-pulse" 
+                className="absolute inset-0 rounded-full opacity-30 blur-xl animate-pulse" 
                 aria-hidden="true"
               />
               <Image 
                 src={Logo} 
                 alt="Ourquilane company logo" 
-                fill
+                width={300} 
+                height={300} 
                 className="rounded-full object-contain z-10 relative"
                 sizes="(max-width: 768px) 200px, 300px"
                 priority
               />
-            </motion.div>
-          </div>
-        </motion.div>
+            </div>
+          </motion.div>
+        </div>
       </div>
-    </section>
-  )
-}
+    </motion.section>
+  );
+};
 
-export default Entreprise
+export default memo(Entreprise);

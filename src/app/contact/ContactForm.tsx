@@ -2,7 +2,8 @@
 import { useState } from "react";
 import { Loader2, Send } from "lucide-react";
 import emailjs from "@emailjs/browser";
-import { motion } from "framer-motion";
+import { useLanguage } from "@/context/LanguageContext";
+import WhiteButton from "@/components/shared/WhiteButton";
 
 interface FormData {
   fullName: string;
@@ -13,10 +14,9 @@ interface FormData {
 }
 
 const ContactForm = () => {
+  const { language } = useLanguage();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<
-    "idle" | "success" | "error"
-  >("idle");
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const [formData, setFormData] = useState<FormData>({
     fullName: "",
     company: "",
@@ -24,44 +24,40 @@ const ContactForm = () => {
     phone: "",
     message: "",
   });
-  const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>(
-    {}
-  );
+  const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
 
   const emailjsConfig = {
-    serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "service_xzquu6i",
-    templateId: "template_n0pcafw",
-    userId: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "43BG19ER9C4zwTxcF",
+    serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "service_92in9bi",
+    templateId: "template_tk6ey0a",
+    userId: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "S-dXPVeEkgkhjU6yJ",
   };
 
   const validateForm = () => {
     const newErrors: Partial<Record<keyof FormData, string>> = {};
 
     if (!formData.fullName.trim()) {
-      newErrors.fullName = "Full name is required";
+      newErrors.fullName = language === "FR" ? "Le nom complet est requis" : "Full name is required";
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
+      newErrors.email = language === "FR" ? "L'email est requis" : "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Invalid email address";
+      newErrors.email = language === "FR" ? "Adresse email invalide" : "Invalid email address";
     }
 
     if (formData.phone && !/^\+?[\d\s-]+$/.test(formData.phone)) {
-      newErrors.phone = "Invalid phone number";
+      newErrors.phone = language === "FR" ? "Numéro de téléphone invalide" : "Invalid phone number";
     }
 
     if (!formData.message.trim()) {
-      newErrors.message = "Message is required";
+      newErrors.message = language === "FR" ? "Le message est requis" : "Message is required";
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -114,73 +110,42 @@ const ContactForm = () => {
   };
 
   return (
-    <motion.section
-      className="relative min-h-screen flex items-center py-20"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
+    <section className="relative min-h-screen flex items-center py-20">
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <motion.h1
-            className="text-4xl md:text-6xl font-semibold text-white mt-8 mb-6"
-            initial={{ y: -50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-          >
-            Let&apos;s Work Together
-          </motion.h1>
-          <motion.p
-            className="text-lg text-gray-300 max-w-2xl mx-auto"
-            initial={{ y: -50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-          >
-            Our team will call you to discuss your needs and schedule a work
-            session.
-          </motion.p>
+          <WhiteButton title={language === "FR" ? "CONTACTEZ NOUS" : "CONTACT US"} handleClick={()=> console.log("Contact")} />
+          <h1 className="text-4xl md:text-6xl font-semibold text-white mt-8 mb-6">
+            {language === "FR" ? "Travaillons ensemble" : "Let's Work Together"}
+          </h1>
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+            {language === "FR" ? "Notre équipe vous contactera pour discuter de vos besoins et planifier une session de travail." : "Our team will contact you to discuss your needs and schedule a working session."}
+          </p>
         </div>
 
-        <div className="max-w-full mx-auto grid md:grid-cols-2 gap-12 items-start">
-          <motion.div
-            className="relative h-[400px] rounded-3xl overflow-hidden shadow-2xl"
-            initial={{ x: -100, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
-          >
-            <motion.div
-              className="relative h-[400px] rounded-3xl overflow-hidden shadow-2xl"
-              initial={{ x: -100, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.6, duration: 0.5 }}
+        <div className="max-w-full mx-auto grid md:grid-cols-2 gap-12 items-start mt-12">
+          {/* Location Map */}
+          <div className="relative h-[400px] rounded-3xl overflow-hidden shadow-2xl mb-8 md:mb-0">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15518.763978510458!2d3.0439533!3d36.745955!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128b7d2dff91c6ad%3A0x9c8907b5044d5c9d!2s36.745955%2C3.0439533!5e0!3m2!1sen!2s!4v1617752984961!5m2!1sen!2s"
+              className="absolute inset-0 w-full h-full border-0 filter grayscale contrast-125"
+              title="Location map"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+            <a
+              href="http://maps.google.com/?ll=36.745955,3.0439533"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="absolute inset-0 w-full h-full border-0 filter grayscale contrast-125"
             >
+              <span className="sr-only">
+                {language === "FR" ? "Ouvrir cet emplacement sur Google Maps" : "Open this location on Google Maps"}
+              </span>
+            </a>
+          </div>
 
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15518.763978510458!2d3.0439533!3d36.745955!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128b7d2dff91c6ad%3A0x9c8907b5044d5c9d!2s36.745955%2C3.0439533!5e0!3m2!1sen!2s!4v1617752984961!5m2!1sen!2s"
-                className="absolute inset-0 w-full h-full border-0 filter grayscale contrast-125"
-                title="Location map"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-              <a
-                href="http://maps.google.com/?ll=36.745955,3.0439533"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="absolute inset-0 w-full h-full border-0 filter grayscale contrast-125"
-              >
-                <span className="sr-only">
-                  Open this location in Google Maps
-                </span>
-              </a>
-            </motion.div>
-          </motion.div>
-
-          <motion.div
-            className="backdrop-blur-lg bg-white/5 rounded-3xl p-8 shadow-2xl border border-white/10"
-            initial={{ x: 100, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.8, duration: 0.5 }}
-          >
+          {/* Form Section */}
+          <div className="backdrop-blur-lg bg-white/5 rounded-3xl p-8 shadow-2xl border border-white/10">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="relative">
@@ -188,14 +153,12 @@ const ContactForm = () => {
                     name="fullName"
                     value={formData.fullName}
                     onChange={handleInputChange}
-                    placeholder="Full Name"
+                    placeholder={language === "FR" ? "Nom complet" : "Full Name"}
                     className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-white/40 transition-colors"
                     required
                   />
                   {errors.fullName && (
-                    <p className="mt-1 text-red-400 text-sm">
-                      {errors.fullName}
-                    </p>
+                    <p className="mt-1 text-red-400 text-sm">{errors.fullName}</p>
                   )}
                 </div>
                 <div className="relative">
@@ -203,7 +166,7 @@ const ContactForm = () => {
                     name="company"
                     value={formData.company}
                     onChange={handleInputChange}
-                    placeholder="Company & Position"
+                    placeholder={language === "FR" ? "Entreprise & Poste" : "Company & Position"}
                     className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-white/40 transition-colors"
                   />
                 </div>
@@ -229,7 +192,7 @@ const ContactForm = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    placeholder="Phone"
+                    placeholder={language === "FR" ? "Téléphone" : "Phone Number"}
                     className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-white/40 transition-colors"
                   />
                   {errors.phone && (
@@ -244,7 +207,7 @@ const ContactForm = () => {
                   value={formData.message}
                   onChange={handleInputChange}
                   className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-white/40 transition-colors min-h-[150px]"
-                  placeholder="Message"
+                  placeholder={language === "FR" ? "Message" : "Message"}
                   required
                 />
                 {errors.message && (
@@ -255,18 +218,17 @@ const ContactForm = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className={`w-full bg-white text-black rounded-xl py-4 px-8 flex items-center justify-center gap-2 hover:bg-white/90 transition-colors ${isSubmitting ? "opacity-75 cursor-not-allowed" : ""
-                  }`}
+                className={`w-full bg-white text-black rounded-xl py-4 px-8 flex items-center justify-center gap-2 hover:bg-white/90 transition-colors ${isSubmitting ? "opacity-75 cursor-not-allowed" : ""}`}
               >
                 {isSubmitting ? (
                   <>
                     <Loader2 className="w-5 h-5 animate-spin" />
-                    Sending...
+                    {language === "FR" ? "Envoi en cours..." : "Sending..."}
                   </>
                 ) : (
                   <>
                     <Send className="w-5 h-5" />
-                    SEND YOUR MESSAGE
+                    {language === "FR" ? "ENVOYER VOTRE MESSAGE" : "SEND YOUR MESSAGE"}
                   </>
                 )}
               </button>
@@ -274,20 +236,20 @@ const ContactForm = () => {
               {submitStatus !== "idle" && (
                 <div
                   className={`${submitStatus === "success"
-                      ? "bg-green-500/20 border-green-500/30 text-green-400"
-                      : "bg-red-500/20 border-red-500/30 text-red-400"
+                    ? "bg-green-500/20 border-green-500/30 text-green-400"
+                    : "bg-red-500/20 border-red-500/30 text-red-400"
                     } border rounded-xl p-4 text-center`}
                 >
                   {submitStatus === "success"
-                    ? "Message sent successfully! We'll get back to you soon."
-                    : "Failed to send message. Please try again."}
+                    ? (language === "FR" ? "Message envoyé avec succès ! Nous reviendrons vers vous bientôt." : "Message sent successfully! We will get back to you soon.")
+                    : (language === "FR" ? "Échec de l'envoi du message. Veuillez réessayer." : "Failed to send message. Please try again.")}
                 </div>
               )}
             </form>
-          </motion.div>
+          </div>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

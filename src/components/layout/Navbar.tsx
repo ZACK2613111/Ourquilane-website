@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useCallback, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
 import { usePathname, useRouter } from "next/navigation"
 import Image from "next/image"
 import { MenuIcon } from "lucide-react"
@@ -9,7 +8,6 @@ import { cn } from "@/lib/utils"
 import { useLanguage } from "@/context/LanguageContext"
 import SimpleTechBackground from "../common/Background"
 
-// Define strict types for translations
 interface NavbarTranslations {
   home: string
   aboutUs: string
@@ -28,15 +26,14 @@ interface NavItem {
   route?: string
 }
 
-// Predefined nav items to ensure type safety
 const NAV_ITEMS: NavItem[] = [
   { key: "home", href: "#home", route: "/" },
   { key: "aboutUs", href: "#about" },
   { key: "services", href: "#services" },
-  { key: "projects", href: "#projects" },
+  { key: "projects", href: "#projects" }, 
   { key: "products", href: "#products" },
-  { key: "trainings", href: "#trainings", route: "trainings" },
-  { key: "contact", href: "#contact", route: "contact" },
+  { key: "trainings", href: "", route: "trainings" },
+  { key: "contact", href: "", route: "contact" },
 ]
 
 export default function Navbar() {
@@ -46,7 +43,6 @@ export default function Navbar() {
   const router = useRouter()
   const { language, translations, changeLanguage } = useLanguage()
 
-  // Fixed type safety issue with translations
   const t = useCallback(
     (key: keyof NavbarTranslations) => {
       return translations?.navbar?.[key] || key
@@ -57,9 +53,9 @@ export default function Navbar() {
   const getActiveSection = useCallback(() => {
     return pathname === "/" ? "#home" : pathname
   }, [pathname])
-
+  
   const [activeSection, setActiveSection] = useState(getActiveSection())
-
+  
   useEffect(() => {
     setActiveSection(getActiveSection())
   }, [getActiveSection])
@@ -81,35 +77,43 @@ export default function Navbar() {
       e?.preventDefault()
       setActiveSection(href)
       
-      if (route) {
-        router.push(route)
-        setIsOpen(false)
-      } else if (href.startsWith("#")) {
-        document.querySelector(href)?.scrollIntoView({ behavior: "smooth" })
-        setIsOpen(false)
+      if (href.startsWith("#")) {
+        // If we're not on the home page and trying to navigate to a section
+        if (pathname !== "/" && pathname !== "/home") {
+          // First go to home page, then navigate to the section
+          router.push(`/${href}`);
+          setIsOpen(false);
+        } else {
+          // If already on the home page, scroll to the section
+          const section = document.querySelector(href);
+          if (section) {
+            section.scrollIntoView({ behavior: "smooth" });
+            setIsOpen(false);
+          }
+        }
+      } else if (route) {
+        // For direct route navigation
+        router.push(route);
+        setIsOpen(false);
       }
     },
-    [router]
+    [pathname, router]
   )
 
   return (
     <nav className="fixed w-full top-0 z-50">
       <div className="px-4 py-6">
         <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
+          <div
             className={cn(
               "rounded-2xl p-3 md:p-3 flex items-center justify-between",
-              "border border-white/10 backdrop-blur-md",
+              "backdrop-blur-md",
+              "lg:border lg:border-white/10",
               isScrolled && "shadow-xl shadow-[#9A5CE4]/10"
             )}
           >
             {/* Logo */}
-            <motion.div 
-              className="relative" 
-              whileHover={{ scale: 1.02 }}
-            >
+            <div className="relative">
               <Image
                 src="/images/Logo-header.svg"
                 alt="Logo"
@@ -118,12 +122,12 @@ export default function Navbar() {
                 className="h-8 w-auto lg:h-10"
                 priority
               />
-            </motion.div>
+            </div>
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-2">
               {NAV_ITEMS.map((item) => (
-                <motion.a
+                <a
                   key={item.key}
                   href={item.href}
                   className={cn(
@@ -131,20 +135,16 @@ export default function Navbar() {
                     "text-white/90 hover:text-white",
                     activeSection === item.href
                       ? "bg-gradient-to-r from-[#9A5CE4]/20 to-[#FADD2A]/40"
-                      : "hover: hover:bg-[#9A5CE4]/5"
+                      : "hover:bg-[#9A5CE4]/5"
                   )}
                   onClick={(e) => handleNavigation(item.href, item.route, e)}
-                  whileHover={{ scale: 1.05 }}
                 >
                   {t(item.key)}
-                </motion.a>
+                </a>
               ))}
 
               {/* Language Selector */}
-              <motion.div 
-                className="ml-2 rounded-lg p-2 backdrop-blur-md" 
-                whileHover={{ scale: 1.05 }}
-              >
+              <div className="ml-2 rounded-lg p-2 backdrop-blur-md">
                 <select
                   title={t("selectLanguage")}
                   value={language}
@@ -154,85 +154,63 @@ export default function Navbar() {
                   <option value="EN" className="text-black">EN</option>
                   <option value="FR" className="text-black">FR</option>
                 </select>
-              </motion.div>
+              </div>
             </div>
 
             {/* Mobile Menu Button */}
-            <MenuIcon
-              onClick={() => setIsOpen(!isOpen)}
-              className="lg:hidden text-white relative w-8 h-8 text-base rounded-lg flex items-center justify-center"
-              aria-label="Toggle menu"
-            />
-          </motion.div>
+            <div className="lg:hidden bg-[#9A5CE4]/20 rounded-lg p-2">
+              <MenuIcon
+                onClick={() => setIsOpen(!isOpen)}
+                className="text-white w-6 h-6"
+                aria-label="Toggle menu"
+              />
+            </div>
+          </div>
         </div>
         
         {/* Mobile Menu */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-50 p-4 lg:hidden"
-            >
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="absolute inset-0"
-                onClick={() => setIsOpen(false)}
-              >
-                <SimpleTechBackground />
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                className="relative rounded-2xl p-6 max-w-lg mx-auto mt-20"
-              >
-                <div className="space-y-4">
-                  {NAV_ITEMS.map((item) => (
-                    <motion.a
-                      key={item.key}
-                      href={item.href}
-                      className={cn(
-                        "block w-full text-center py-3 text-lg font-gabarito rounded-xl",
-                        "text-white/90 hover:text-white transition-colors",
-                        activeSection === item.href
-                          ? "bg-gradient-to-r from-[#9A5CE4]/40 to-[#FADD2A]/40"
-                          : "hover:bg-gradient-to-r hover:from-[#9A5CE4]/20 hover:to-[#FADD2A]/20"
-                      )}
-                      onClick={(e) => handleNavigation(item.href, item.route, e)}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      {t(item.key)}
-                    </motion.a>
-                  ))}
-
-                  {/* Language Selector */}
-                  <motion.div 
-                    className="mt-6" 
-                    whileHover={{ scale: 1.02 }} 
-                    whileTap={{ scale: 0.98 }}
+        {isOpen && (
+          <div className="fixed inset-0 z-50 pt-24 pb-8 px-6 lg:hidden">
+            <SimpleTechBackground />
+            <div 
+              className="absolute inset-0 bg-black/80" 
+              onClick={() => setIsOpen(false)}
+            />
+            <div className="relative rounded-2xl p-6 max-w-lg mx-auto flex flex-col items-center">
+              <div className="space-y-6 w-full max-w-xs">
+                {NAV_ITEMS.map((item) => (
+                  <a
+                    key={item.key}
+                    href={item.href}
+                    className={cn(
+                      "block w-full text-center py-4 text-lg font-gabarito rounded-xl",
+                      "text-white/90 hover:text-white transition-colors",
+                      activeSection === item.href
+                        ? "bg-gradient-to-r from-[#9A5CE4]/40 to-[#FADD2A]/40"
+                        : "hover:bg-gradient-to-r hover:from-[#9A5CE4]/20 hover:to-[#FADD2A]/20"
+                    )}
+                    onClick={(e) => handleNavigation(item.href, item.route, e)}
                   >
-                    <select
-                      title={t("selectLanguage")}
-                      value={language}
-                      onChange={(e) => changeLanguage(e.target.value)}
-                      className="w-full bg-transparent py-3 text-lg font-gabarito text-white rounded-lg text-center"
-                    >
-                      <option value="EN" className="text-black">English</option>
-                      <option value="FR" className="text-black">Français</option>
-                    </select>
-                  </motion.div>
+                    {t(item.key)}
+                  </a>
+                ))}
+
+                {/* Language Selector */}
+                <div className="mt-8 w-full">
+                  <select
+                    title={t("selectLanguage")}
+                    value={language}
+                    onChange={(e) => changeLanguage(e.target.value)}
+                    className="w-full bg-transparent py-4 text-lg font-gabarito text-white rounded-lg text-center border border-white/20"
+                  >
+                    <option value="EN" className="text-black">English</option>
+                    <option value="FR" className="text-black">Français</option>
+                  </select>
                 </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   )

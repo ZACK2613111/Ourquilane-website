@@ -34,7 +34,7 @@ const FAQ: React.FC<FAQProps> = ({ faqs }) => {
         onClick={onToggle}
         className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-white/5 transition-colors"
       >
-        <span className="text-white font-gabarito text-base">
+        <span className="font-gabarito font-normal sm:text-description tracking-[1%] text-description-mobile text-grayDescription">
           {faq.question}
         </span>
         <Image 
@@ -54,7 +54,7 @@ const FAQ: React.FC<FAQProps> = ({ faqs }) => {
             className="overflow-hidden"
           >
             <div className="px-6 py-4 bg-transparent">
-              <p className="text-white/80 font-dmSans">
+              <p className="font-dmSans font-normal sm:text-description tracking-[1%] max-w-4xl mx-auto mb-10 text-description-mobile text-grayDescription">
                 {faq.answer}
               </p>
             </div>

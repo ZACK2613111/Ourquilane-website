@@ -1,17 +1,39 @@
 'use client';
-import React from "react";
+import React, { memo } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import WhiteButton from "../shared/WhiteButton";
 import { useLanguage } from "@/context/LanguageContext";
+import { Guepex, Yalidine, WeCan, EasySpeed, Varbiof, SpeedMail } from '../../../public/images/clients';
 
 const clientsLogos = [
-  { id: 1, src: "/images/clients/Frame 34.svg", alt: "Logo 1" },
-  { id: 2, src: "/images/clients/logo-1-1 1.svg", alt: "Logo 2" },
-  { id: 3, src: "/images/clients/logo-3-1 1.svg", alt: "Logo 3" },
-  { id: 4, src: "/images/clients/logo-4-1 1.svg", alt: "Logo 4" },
-  { id: 5, src: "/images/clients/logo-5 1.svg", alt: "Logo 5" },
+  { id: 1, src: Guepex, alt: "Guepex" },
+  { id: 2, src: Yalidine, alt: "Yalidine" },
+  { id: 3, src: EasySpeed, alt: "EasySpeed" },
+  { id: 4, src: WeCan, alt: "WeCan" },
+  { id: 5, src: Varbiof, alt: "Varbiof" },
+  { id: 6, src: SpeedMail, alt: "Speedmail" },
 ];
+
+const ClientLogo: React.FC<{ client: { src: string; alt: string }; index: number }> = (
+  ({ client, index }) => {
+    return (
+      <div
+        key={`${client.alt}-${index}`}
+        className="flex-shrink-0 px-8 py-4 flex justify-center items-center"
+      >
+        <Image
+          src={client.src}
+          alt={client.alt}
+          width={240} 
+          height={60} 
+          className="object-contain" // Maintain aspect ratio
+          loading={index < 3 ? "eager" : "lazy"}
+          priority={index < 3}
+        />
+      </div>
+    );
+  }
+);
 
 const Clients: React.FC = () => {
   const { translations } = useLanguage();
@@ -19,58 +41,31 @@ const Clients: React.FC = () => {
   return (
     <section id="clients" className="w-full text-white py-8 px-6 lg:px-20">
       <div className="max-w-[1440px] mx-auto">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-6 sm:mb-8"
-        >
+        <div className="mb-6 sm:mb-8">
           <WhiteButton
             title={translations.clients.titleButton}
             handleClick={() => console.log("Our Clients clicked")}
           />
-        </motion.div>
+        </div>
 
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-col items-start mb-8 sm:mb-10 md:mb-12"
-        >
-          <h2 className="font-gabarito font-semibold text-title-other tracking-[2%] text-white mb-6 sm:mb-0">
+        <div className="flex flex-col items-start mb-8 sm:mb-10 md:mb-12">
+          <h2 className="font-gabarito font-semibold sm:text-title-other tracking-[2%] text-left text-grayDescription mb-6 text-title-mobile">
             {translations.clients.title}
           </h2>
-        </motion.div>
+        </div>
 
-        <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="relative"
-        >
+        <div className="relative">
           <div className="overflow-hidden w-full relative">
-            <div className="flex animate-scroll gap-8 justify-start items-center">
+            <div className="flex animate-scroll gap-8 justify-start items-center space-x-8">
               {[...clientsLogos, ...clientsLogos].map((client, index) => (
-                <div
-                  key={`${client.id}-${index}`}
-                  className="flex-shrink-0 px-8 py-4 flex justify-center items-center"
-                >
-                  <Image
-                    src={client.src}
-                    alt={client.alt}
-                    width={200}
-                    height={32}
-                    className="object-contain"
-                    loading="lazy"
-                  />
-                </div>
+                <ClientLogo client={client} index={index} key={`${client.id}-${index}`} />
               ))}
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
 };
 
-export default Clients;
+export default memo(Clients);

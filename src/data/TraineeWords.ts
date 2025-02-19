@@ -23,3 +23,27 @@ export const TraineeWords: TraineeWord[] = [
         role: "Project Manager, OURQUILANE",
     },
 ];
+
+export const TraineeWordsEnglish: TraineeWord[] = [
+    {
+        word: "A big thank you to OURQUILANE for hosting me during my internship! The work environment was great and really helped me bring out the best version of myself. I learned a lot, and I'm super grateful for this amazing experience!",
+        fullname: "BELHADJ Zakaria",
+        role: "Frontend Developer, Ourquilane",
+    },
+    {
+        word: "Very insightful experience! Thank you.",
+        fullname: "AZZOUNE Leila",
+        role: "Project Manager, OURQUILANE",
+    },
+    {
+        word: `This internship was a rewarding experience, both personally and professionally. It taught us the importance of flexibility and communication in meeting the requirements and evolving customer needs. Thank you, OURQUILANE.`,
+        fullname: "ABDELKEBIR Achref",
+        role: "Backend Developer, Ourquilane",
+    },
+    {
+        word: "From intern to engineer, thank you to Ourquilane for believing in my skills. I'm happy to be part of the adventure!",
+        fullname: "Mezenner Sarah",
+        role: "Project Manager, OURQUILANE",
+    },
+];
+

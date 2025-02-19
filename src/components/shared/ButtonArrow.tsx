@@ -11,9 +11,9 @@ const Button: React.FC<ButtonProps> = ({ handleClick, title }) => {
   return (
     <button
       onClick={handleClick}
-      className="font-gabarito px-5 py-3 rounded-xl flex items-center gap-2
+      className="font-gabarito px-6 py-3 rounded-lg flex items-center gap-2
                 text-white  border-2 border-white/5  bg-transparent shadow-md 
-                transform duration-300"
+                transform duration-500"
       title={title}
     >
       <p className="text-base font-medium tracking-wide">{title}</p>
@@ -21,9 +21,10 @@ const Button: React.FC<ButtonProps> = ({ handleClick, title }) => {
         <Image
           src={ArrowRounded}  
           alt="Arrow"
-          width={20}              
-          height={20}             
+          width={24}              
+          height={25}             
           className="object-contain" 
+          priority
         />
       </span>
     </button>

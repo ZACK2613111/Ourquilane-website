@@ -3,14 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import fonts directly from the public folder */
-@font-face {
-  font-family: 'Neue-Graphica';
-  src: url('/fonts/Neue-Gravica-Font-Family/neue-gravica-regular.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-}
-
 @font-face {
   font-family: 'Satochi';
   src: url('/fonts/Satochi-Font/Satoshi-Regular.otf') format('opentype');
@@ -18,7 +10,6 @@
   font-style: normal;
 }
 
-/* Clients horizontal scrolling */
 @keyframes scroll {
   0% {
     transform: translateX(0);
@@ -40,27 +31,29 @@
   padding: 10px 0;
 }
 
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
 
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
-/* @keyframes aurora {
+/* Smooth horizontal scroll */
+@keyframes scroll-horizontal {
   0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
+    transform: translateX(0);
   }
   100% {
-    background-position: 0% 50%;
+    transform: translateX(-100%);
   }
 }
 
-.aurora {
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-  background: linear-gradient(120deg, #0b0011, #2e001f, #54002b, #2e001f, #0b0011);
-  background-size: 400% 400%;
-  animation: aurora 10s ease-in-out infinite;
-  filter: blur(90px);
-  opacity: 0.8;
-} */
+.animate-scroll {
+  animation: scroll-horizontal 15s linear infinite; /* Scroll speed is now 10s for faster effect */
+  display: flex; /* Ensure it’s horizontally aligned */
+  width: max-content; /* Allow the width to grow based on content */
+}

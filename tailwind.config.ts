@@ -18,7 +18,7 @@ export default {
         "4xl": "2rem",
       },
       colors: {
-        description: "#E5E5E5",
+        grayDescription: "#E5E5E5",
         yellow: "#E9CD2A33",
         violet: "#9747FF33",
       },
