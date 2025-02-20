@@ -13,7 +13,7 @@ const ProjectsSection = () => {
   useEffect(() => {
     if(isVisible==false) {
     setIsVisible(true);
-  }}, []);
+  }}, [isVisible]);
 
   const selectedProjects = language === "FR" ? projects : projectsEnglish;
 

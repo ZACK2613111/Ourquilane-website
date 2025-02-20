@@ -1,11 +1,13 @@
+// next.config.js
+
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   webpack: (config) => {
     config.externals.push({
-      canvas: "canvas",
-    })
-    return config
+      canvas: "canvas", 
+    });
+    return config;
   },
 };
 

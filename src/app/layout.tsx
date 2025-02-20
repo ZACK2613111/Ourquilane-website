@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Head from "next/head";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
 
@@ -15,6 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <LanguageProvider>
+        <Head>
+          <title>{String(metadata.title)}</title>
+          <meta name="description" content={String(metadata.description)} />
+        </Head>
         <body>{children}</body>
       </LanguageProvider>
     </html>
