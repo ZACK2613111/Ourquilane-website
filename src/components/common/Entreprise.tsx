@@ -1,11 +1,12 @@
 'use client';
 
-import React, { memo, lazy, Suspense } from 'react';
+import React, { memo, lazy, Suspense, useEffect, useState } from 'react';
 import Image from 'next/image';
 import WhiteButton from '../shared/WhiteButton';
 import Logo from "../../../public/images/Logo-shadow.svg";
 import { useLanguage } from "@/context/LanguageContext";
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 
 interface EnterpriseTranslations {
   titleButton: string;
@@ -27,6 +28,27 @@ const WhiteButtonMemo = memo(WhiteButton);
 
 const Entreprise: React.FC = () => {
   const { translations } = useLanguage() as LanguageContextType;
+  const router = useRouter();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    // Fix initial render issues by setting mounted state
+    setMounted(true);
+    
+    // Add viewport height fix for mobile browsers
+    const setVh = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    };
+    
+    setVh();
+    window.addEventListener('resize', setVh);
+    return () => window.removeEventListener('resize', setVh);
+  }, []);
+
+  const handleContactClick = () => {
+    router.push('/contact');
+  };
 
   const fadeInUpVariant = {
     hidden: { opacity: 0, y: 20 },
@@ -51,18 +73,22 @@ const Entreprise: React.FC = () => {
     }),
   };
 
+  if (!mounted) return null; // Prevent flash of unstyled content
+
   return (
     <motion.section
       id="entreprise"
-      className="relative py-16 md:py-24 px-6 lg:px-20"
+      style={{ minHeight: 'calc(var(--vh, 1vh) * 100)' }}
+      className="relative w-full flex items-center justify-center py-10 px-5 sm:py-16 md:py-20"
       variants={fadeInUpVariant}
       initial="hidden"
-      animate="visible"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.1 }}
     >
-      <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row items-start gap-12">
-        {/* Left Content */}
-        <div className="lg:w-2/3 space-y-8">
-          <div>
+      <div className="max-w-7xl w-full mx-auto flex flex-col lg:flex-row items-start gap-10 lg:gap-16">
+        {/* Left Content - Always Left Aligned */}
+        <div className="w-full lg:w-2/3 space-y-5 md:space-y-6">
+          <div className="w-auto inline-block">
             <WhiteButtonMemo 
               handleClick={() => console.log('Who Are We clicked')} 
               title={translations.entreprise.titleButton}
@@ -74,10 +100,10 @@ const Entreprise: React.FC = () => {
             variants={textFadeVariant}
             initial="hidden"
             animate="visible"
-            className="font-gabarito font-semibold sm:text-title-other tracking-[2%] text-left text-white mb-6 text-title-mobile"
+            className="font-gabarito font-semibold text-3xl sm:text-4xl md:text-5xl tracking-wide text-left text-white"
           >
             <span className="bg-gradient-to-r text-transparent bg-clip-text from-[#9747FF] to-[#E9CD2A]">Ourquilane</span>
-            {translations.entreprise.title}
+            {' '}{translations.entreprise.title}
           </motion.h1>
 
           <motion.p
@@ -85,21 +111,21 @@ const Entreprise: React.FC = () => {
             variants={textFadeVariant}
             initial="hidden"
             animate="visible"
-            className="font-dmSans font-normal sm:text-description tracking-[1%] max-w-4xl mx-auto mb-10 text-description-mobile text-grayDescription"
+            className="font-dmSans font-normal text-base sm:text-lg md:text-xl tracking-wide text-grayDescription max-w-4xl"
           >
             {translations.entreprise.description}
           </motion.p>
 
-          {/* Responsive Button Container */}
+          {/* Button Container - Mobile Half Width */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="lg:w-1/2 w-full"
+            className="w-full sm:w-1/2"
           >
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div className="h-12 w-full bg-gray-700/20 rounded-md animate-pulse"></div>}>
               <Button
-                handleClick={() => console.log('Know More clicked')} 
+                handleClick={handleContactClick}
                 title={translations.entreprise.Button}
               />
             </Suspense>
@@ -107,9 +133,9 @@ const Entreprise: React.FC = () => {
         </div>
 
         {/* Right Content - Logo */}
-        <div className="lg:w-1/3 flex justify-center lg:justify-end w-full">
+        <div className="w-full lg:w-1/3 flex justify-center lg:justify-end mt-8 lg:mt-0">
           <motion.div
-            className="relative flex justify-center"
+            className="relative"
             initial={{ rotate: 0 }}
             animate={{ rotate: 360 }}
             transition={{
@@ -118,18 +144,17 @@ const Entreprise: React.FC = () => {
               ease: "linear",
             }}
           >
-            <div className="relative w-[200px] h-[200px] md:w-[300px] md:h-[300px]">
+            <div className="relative w-[180px] h-[180px] sm:w-[220px] sm:h-[220px] md:w-[250px] md:h-[250px]">
               <div 
-                className="absolute inset-0 rounded-full opacity-30 blur-xl animate-pulse" 
+                className="absolute inset-0 rounded-full opacity-30 blur-xl animate-pulse bg-gradient-to-r from-purple-500 to-yellow-400" 
                 aria-hidden="true"
               />
               <Image 
                 src={Logo} 
                 alt="Ourquilane company logo" 
-                width={300} 
-                height={300} 
+                fill
                 className="rounded-full object-contain z-10 relative"
-                sizes="(max-width: 768px) 200px, 300px"
+                sizes="(max-width: 640px) 180px, (max-width: 768px) 220px, 250px"
                 priority
               />
             </div>

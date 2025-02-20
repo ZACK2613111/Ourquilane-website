@@ -15,10 +15,8 @@ const ProjectsSection = () => {
     setIsVisible(true);
   }}, []);
 
-  // Select the project list based on the current language
   const selectedProjects = language === "FR" ? projects : projectsEnglish;
 
-  // Translate static texts based on the language
   const title = language === "FR" ? "Où la vision rencontre la réalité" : "Where Vision Meets Reality";
   const buttonTitle = language === "FR" ? "VOIR TOUS LES PROJETS" : "VIEW ALL PROJECTS";
 
@@ -32,7 +30,6 @@ const ProjectsSection = () => {
           />
         </div>
         
-        {/* Title and CTA Button */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 sm:mb-10 md:mb-12">
           <h2 className="font-gabarito font-semibold sm:text-title-other tracking-[2%] text-left text-white mb-6 text-title-mobile">
             {title}

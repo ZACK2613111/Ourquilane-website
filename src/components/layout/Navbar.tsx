@@ -30,7 +30,7 @@ const NAV_ITEMS: NavItem[] = [
   { key: "home", href: "#home", route: "/" },
   { key: "aboutUs", href: "#about" },
   { key: "services", href: "#services" },
-  { key: "projects", href: "#projects" }, 
+  { key: "projects", href: "#projects" },
   { key: "products", href: "#products" },
   { key: "trainings", href: "", route: "trainings" },
   { key: "contact", href: "", route: "contact" },
@@ -78,13 +78,10 @@ export default function Navbar() {
       setActiveSection(href)
       
       if (href.startsWith("#")) {
-        // If we're not on the home page and trying to navigate to a section
         if (pathname !== "/" && pathname !== "/home") {
-          // First go to home page, then navigate to the section
           router.push(`/${href}`);
           setIsOpen(false);
         } else {
-          // If already on the home page, scroll to the section
           const section = document.querySelector(href);
           if (section) {
             section.scrollIntoView({ behavior: "smooth" });
@@ -173,7 +170,7 @@ export default function Navbar() {
           <div className="fixed inset-0 z-50 pt-24 pb-8 px-6 lg:hidden">
             <SimpleTechBackground />
             <div 
-              className="absolute inset-0 bg-black/80" 
+              className="absolute inset-0" 
               onClick={() => setIsOpen(false)}
             />
             <div className="relative rounded-2xl p-6 max-w-lg mx-auto flex flex-col items-center">
@@ -201,7 +198,7 @@ export default function Navbar() {
                     title={t("selectLanguage")}
                     value={language}
                     onChange={(e) => changeLanguage(e.target.value)}
-                    className="w-full bg-transparent py-4 text-lg font-gabarito text-white rounded-lg text-center border border-white/20"
+                    className="w-full bg-transparent py-4 text-lg font-gabarito text-white rounded-lg text-center border-0" 
                   >
                     <option value="EN" className="text-black">English</option>
                     <option value="FR" className="text-black">Français</option>

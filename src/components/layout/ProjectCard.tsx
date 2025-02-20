@@ -89,7 +89,7 @@ const ProjectCard = ({ project, totalProjects = 1 }: ProjectCardProps) => {
           <span className="font-gabarito text-5xl sm:text-6xl md:text-7xl font-bold text-white/90 leading-none">
             {safeProject.number}
           </span>
-          <span className="font-gabarito text-xs sm:text-sm text-description mt-1.5 sm:mt-2 md:mt-3">
+          <span className="font-gabarito text-xs sm:text-sm text-grayDescription mt-1.5 sm:mt-2 md:mt-3">
             /{safeTotalProjects.toString().padStart(2, "0")}
           </span>
         </div>

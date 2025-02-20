@@ -120,7 +120,7 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="mt-12 pt-8 border-t border-gray-700">
-          <p className="text-grayDescription font-satoshi text-base">
+          <p className="text-grayDescription font-dmSans text-base">
             {translations.footer.copyright}
           </p>
         </div>

@@ -82,7 +82,7 @@ const Header = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.4 }}
-        className="flex items-center justify-center mt-6 w-1/2 lg:w-1/3 mx-auto"
+        className="w-full sm:w-4/5 md:w-3/5 lg:w-2/5 xl:w-1/3 mx-auto mt-6"
       >
         <Suspense fallback={<div>Loading...</div>}>
           <Button

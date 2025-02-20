@@ -1,87 +1,57 @@
-'use client';
+"use client"
 
-import React, { lazy, Suspense } from 'react';
-import { motion } from 'framer-motion';
-import { useLanguage } from '@/context/LanguageContext';
-
-// Lazy loading Button component
-const Button = lazy(() => import('../shared/Button'));
+import React, { lazy, Suspense } from "react"
+import { motion } from "framer-motion"
+import { useLanguage } from "@/context/LanguageContext"
+const Button = lazy(() => import("../shared/Button"))
 
 const Work = () => {
-  const ref = React.useRef(null);
-  const { translations } = useLanguage();
+  const ref = React.useRef(null)
+  const { translations } = useLanguage()
 
-  const fadeInUpVariant = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut",
-      },
-    },
-  };
-
-  const textFadeVariant = {
-    hidden: { opacity: 0 },
-    visible: (delay: number) => ({
-      opacity: 1,
-      transition: {
-        delay,
-        duration: 0.5,
-      },
-    }),
-  };
+  const handleContactClick = () => {
+    const contactSection = document.getElementById("contact")
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: "smooth" })
+    }
+  }
 
   return (
     <motion.section
       ref={ref}
       id="work"
-      className="relative min-h-screen flex flex-col items-center justify-center bg-transparent text-white py-20 px-4 overflow-hidden"
-      variants={fadeInUpVariant}
-      initial="hidden"
-      animate="visible"
+      className="relative min-h-[100dvh] flex flex-col items-center justify-center bg-transparent text-white py-8 sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8 overflow-hidden"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
     >
-      <div className="max-w-4xl mx-auto text-center space-y-8 z-10">
-        {/* Title */}
-        <motion.div
-          custom={0.2}
-          variants={textFadeVariant}
-          initial="hidden"
-          animate="visible"
-        >
-          <h1 className="font-gabarito font-semibold text-title-mobile sm:text-4xl md:text-5xl lg:text-6xl leading-tight text-center tracking-wide mt-4 sm:mt-8">
-            {translations.work.title} 
+      <div className="max-w-4xl mx-auto text-center space-y-6 sm:space-y-8 md:space-y-10 z-10">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
+          <h1 className="font-gabarito font-semibold text-3xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl leading-tight text-center tracking-wide">
+            {translations.work.title}
           </h1>
         </motion.div>
 
-        {/* Description */}
-        <motion.div
-          custom={0.4}
-          variants={textFadeVariant}
-          initial="hidden"
-          animate="visible"
-        >
-          <p className="font-dmSans font-normal text-description-mobile sm:text-lg md:text-xl lg:text-2xl leading-relaxed tracking-wide mt-4 sm:mt-6">
-            {translations.work.description} 
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
+          <p className="font-dmSans font-normal  sm:text-base md:text-lg lg:text-xl xl:text-2xl leading-relaxed tracking-wide max-w-3xl mx-auto">
+            {translations.work.description}
           </p>
         </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+          className="flex items-center justify-center w-full sm:w-4/5 md:w-3/5 lg:w-2/5 xl:w-1/3 mx-auto px-4 sm:px-0"
+        >
+          <Suspense fallback={<div className="h-12 w-full bg-gray-700/20 rounded-md animate-pulse"></div>}>
+            <Button handleClick={handleContactClick} title={translations.work.Button} />
+          </Suspense>
+        </motion.div>
       </div>
-
-      {/* Button */}
-      <motion.div
-        initial={{ scale: 0.9 }}
-        whileInView={{ scale: 1 }}
-        viewport={{ once: true }}
-        className="flex justify-center relative z-20 mt-6 sm:mt-8 w-1/2 lg:w-1/2"
-      >
-        <Suspense fallback={<div>Loading...</div>}>
-          <Button title={translations.work.Button} handleClick={() => console.log('Contact Us clicked')} />
-        </Suspense>
-      </motion.div>
     </motion.section>
-  );
-};
+  )
+}
 
-export default Work;
+export default Work
+

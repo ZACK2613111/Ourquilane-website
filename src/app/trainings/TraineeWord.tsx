@@ -1,4 +1,4 @@
-"use client";
+'use client'
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { TraineeWords, TraineeWordsEnglish } from "@/data/TraineeWords";
@@ -135,9 +135,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
       initial="hidden"
       animate={isVisible ? "visible" : "hidden"}
       whileHover="hover"
-      className={`backdrop-blur-lg p-6 ${
-        isMobile ? "w-full max-w-xl mx-auto mb-6" : "absolute"
-      }`}
+      className={`backdrop-blur-lg p-6 ${isMobile ? "w-full max-w-xl mx-auto mb-6" : "absolute"}`}
       style={{
         width: isMobile ? "100%" : `${dimensions.w}px`,
         height: isMobile ? "auto" : `${dimensions.h}px`,
@@ -157,17 +155,14 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
           {testimonial.word}
         </p>
         <div className="space-y-2">
-          <h3 className="font-dmSans font-semibold text-white">
-            {testimonial.fullname}
-          </h3>
-          <p className="font-dmSans text-base font-bold text-gray-300">
-            {testimonial.role}
-          </p>
+          <h3 className="font-dmSans font-semibold text-white">{testimonial.fullname}</h3>
+          <p className="font-dmSans text-base font-bold text-gray-300">{testimonial.role}</p>
         </div>
       </motion.div>
     </motion.div>
   );
 };
+
 const MainContent: React.FC = () => {
   const { language } = useLanguage();
 
@@ -188,9 +183,7 @@ const MainContent: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          {language === "FR" 
-            ? "Apprendre, Grandir," 
-            : "Learning,"}
+          {language === "FR" ? "Apprendre, Grandir," : "Learning,"}
           <br />
           Succeeding
         </motion.h1>
@@ -209,20 +202,20 @@ const MainContent: React.FC = () => {
   );
 };
 
-
-
 const LearningCards: React.FC = () => {
   const { language } = useLanguage();
   const [isVisible, setIsVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
 
   const selectedTraineeWords = language === "FR" ? TraineeWords : TraineeWordsEnglish;
-  
+
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 100);
 
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
+      setIsTablet(window.innerWidth >= 768 && window.innerWidth < 1440);
     };
     handleResize();
     window.addEventListener("resize", handleResize);
@@ -234,9 +227,14 @@ const LearningCards: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full overflow-hidden" style={{ minHeight: "145vh" }}>
+    <div
+      className="w-full overflow-hidden"
+      style={{
+        minHeight: isMobile && window.innerWidth < 400 ? "185vh" : "150vh",
+      }}
+    >
       {/* Desktop Version */}
-      <div className={`${isMobile ? "hidden" : "absolute inset-0 z-10"}`}>
+      <div className={`${isMobile || isTablet ? "hidden" : "absolute inset-0 z-10"}`}>
         <MainContent />
         <AnimatePresence>
           {selectedTraineeWords.map((testimonial, index) => (
@@ -244,16 +242,17 @@ const LearningCards: React.FC = () => {
               key={testimonial.fullname}
               testimonial={testimonial}
               index={index}
-              isVisible={isVisible && !isMobile}
+              isVisible={isVisible && !isMobile && !isTablet}
               isMobile={isMobile}
             />
           ))}
         </AnimatePresence>
       </div>
 
-      {/* Mobile Version - Stack Cards Vertically */}
-      {isMobile && (
-        <div className="absolute z-10 flex flex-col items-center justify-start space-y-8 p-4 mt-8 w-full pb-24">
+      {/* Mobile and Tablet Version */}
+      {(isMobile || isTablet) && (
+        <>
+          <div>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -273,13 +272,22 @@ const LearningCards: React.FC = () => {
             Learning in action—see how our trainees tackle challenges and grow
             with us.
           </motion.p>
+        </div>
+        <div
+          className={`absolute z-10 flex flex-wrap items-center justify-center gap-8 p-4 mt-8 w-full ${
+            isTablet ? "grid grid-cols-2 justify-center" : "flex flex-col items-center"
+          }`}
+        >
+          
           {selectedTraineeWords.map((testimonial, index) => (
             <motion.div
               key={testimonial.fullname}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.2 }}
-              className="w-full max-w-md backdrop-blur-lg p-6 rounded-xl"
+              className={`backdrop-blur-lg p-6 rounded-xl w-full ${
+                isTablet ? "max-w-md" : "max-w-lg"
+              }`}
               style={{
                 background: CARD_CONFIG.styles[index % CARD_CONFIG.styles.length].bg,
                 border: `0.5px solid ${CARD_CONFIG.styles[index % CARD_CONFIG.styles.length].border}`,
@@ -300,9 +308,11 @@ const LearningCards: React.FC = () => {
             </motion.div>
           ))}
         </div>
+        </>
+
       )}
 
-      {/* Background Blurred Cards with Updated Positions */}
+      {/* Background Elements */}
       <div className="absolute inset-0 z-0">
         {selectedTraineeWords.map((testimonial, index) => (
           <motion.div
@@ -319,7 +329,7 @@ const LearningCards: React.FC = () => {
             style={{
               width: `${CARD_CONFIG.positions[index % CARD_CONFIG.positions.length].dimensions.w}px`,
               height: `${CARD_CONFIG.positions[index % CARD_CONFIG.positions.length].dimensions.h}px`,
-              top: `${CARD_CONFIG.backgroundPositions[index % CARD_CONFIG.backgroundPositions.length].top}px`, 
+              top: `${CARD_CONFIG.backgroundPositions[index % CARD_CONFIG.backgroundPositions.length].top}px`,
               left: `${CARD_CONFIG.backgroundPositions[index % CARD_CONFIG.backgroundPositions.length].left}px`,
               background: CARD_CONFIG.styles[index % CARD_CONFIG.styles.length].bg,
               border: `0.5px solid ${CARD_CONFIG.styles[index % CARD_CONFIG.styles.length].border}`,
@@ -333,4 +343,3 @@ const LearningCards: React.FC = () => {
 };
 
 export default LearningCards;
-
