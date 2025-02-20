@@ -4,7 +4,7 @@ import { LanguageProvider } from "@/context/LanguageContext";
 
 export const metadata: Metadata = {
   title: "Ourquilane Website",
-  description: "Website showcasing different fonts",
+  description: "We drive sector transformation with tailor-made solutions and a commitment to excellence, bringing your most ambitious projects to life",
 };
 
 export default function RootLayout({
