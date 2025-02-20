@@ -34,37 +34,35 @@ const Footer: React.FC = () => {
 
   const handleFooterLinkClick = (link: string) => {
     if (link.startsWith("#")) {
-      // If the link is a section (e.g., #services), redirect to home first
       if (window.location.pathname !== "/") {
         window.location.href = `/${link}`;
       } else {
-        // If already on the home page, scroll to the section
         const section = document.querySelector(link);
         if (section) {
           section.scrollIntoView({ behavior: "smooth" });
         }
       }
     } else {
-      // If the link is a route (e.g., /contact), navigate directly
       window.location.href = link;
     }
   };
 
   return (
     <footer className="relative bg-transparent text-white overflow-hidden border-t border-gray-800">
-      <div className="w-full mx-auto px-4 sm:px-6 lg:px-20 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
-          <div className="space-y-8">
+      <div className="w-full mx-auto px-4 sm:px-6 lg:px-20 py-8 sm:py-12 lg:py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+          <div className="space-y-6 sm:space-y-8">
             <Link href="/">
               <Image
                 src={Logo}
                 alt="Logo"
-                width={300}
-                height={300}
-                className="max-w-full"
+                width={120}  // Adjust width to be smaller for footer
+                height={48}  // Adjust height to match proportionality
+                className="h-8 w-auto sm:h-10 sm:w-auto" // Responsive size similar to navbar
+                priority
               />
             </Link>
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-4 sm:gap-6">
               {socialLinks.map((social) => (
                 <div key={social.name}>
                   <Link
@@ -74,9 +72,9 @@ const Footer: React.FC = () => {
                     <Image
                       src={social.icon}
                       alt={social.name}
-                      width={30}
-                      height={30}
-                      className="w-7 h-7"
+                      width={120} 
+                      height={48} 
+                      className="h-8 w-auto lg:h-10"
                     />
                   </Link>
                 </div>
@@ -84,32 +82,32 @@ const Footer: React.FC = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-2 space-y-12">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pb-8 border-b border-gray-800">
+          <div className="lg:col-span-2 space-y-8 sm:space-y-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 pb-6 sm:pb-8 border-b border-gray-800">
               <div>
-                <h3 className="text-lg font-gabarito font-bold uppercase tracking-wider mb-4 text-white">
+                <h3 className="text-base sm:text-lg font-gabarito font-bold uppercase tracking-wider mb-2 sm:mb-4 text-white">
                   {translations.footer.contactUs}
                 </h3>
-                <p className="text-description text-grayDescription font-dmSans">(+213) 550923561</p>
+                <p className="text-sm text-grayDescription font-dmSans sm:text-description">(+213) 550923561</p>
                 <br />
-                <p className="text-description text-grayDescription font-dmSans">admin@ourquilane.dz</p>
+                <p className="text-sm text-grayDescription font-dmSans sm:text-description">admin@ourquilane.dz</p>
               </div>
 
               <div>
-                <h3 className="text-lg font-gabarito font-bold uppercase tracking-wider mb-4">
+                <h3 className="text-base sm:text-lg font-gabarito font-bold uppercase tracking-wider mb-2 sm:mb-4">
                   {translations.footer.findUs}
                 </h3>
-                <p className="text-grayDescription font-dmSans">Hydra, Algiers</p>
+                <p className="text-grayDescription font-dmSans text-sm sm:text-base">Hydra, Algiers</p>
               </div>
             </div>
 
             {/* Footer Links */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4 sm:gap-6">
               {footerSections.map((section, index) => (
                 <div key={index}>
                   <button
                     onClick={() => handleFooterLinkClick(section.link)}
-                    className="block text-white transition-colors mb-2 font-dmSans text-base hover:text-gray-300"
+                    className="block text-white font-semibold transition-colors mb-2 font-dmSans text-sm sm:text-base hover:text-gray-300"
                   >
                     {section.title}
                   </button>
@@ -119,8 +117,8 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-gray-700">
-          <p className="text-grayDescription font-dmSans text-base">
+        <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-gray-700">
+          <p className="text-grayDescription font-dmSans text-sm sm:text-description">
             {translations.footer.copyright}
           </p>
         </div>
