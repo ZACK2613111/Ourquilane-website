@@ -100,7 +100,7 @@ const Timeline: React.FC<TimelineProps> = ({ steps }) => {
           {/* Fixed vertical timeline line */}
           <div className="absolute left-4 md:left-1/2 top-0 w-0.5 h-full transform -translate-x-1/2 z-0 bg-gray-800/30">
             <motion.div
-              className="absolute w-full bg-gradient-to-b from-[#9A5CE4] to-[#E9CD2A]"
+              className="absolute w-full bg-gradient-to-b from-violet to-yellow"
               style={{
                 height: `${scrollProgress * 100}%`,
                 top: 0,
@@ -145,10 +145,8 @@ const Timeline: React.FC<TimelineProps> = ({ steps }) => {
                     transition: { duration: 0.3 }
                   }}
                 >
-                  {/* Gradient overlay */}
                   <div className="absolute inset-0 rounded-xl bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
-                  {/* Connecting line */}
                   <div className={`
                     hidden md:block absolute top-1/2 w-16 h-0.5 
                     bg-gradient-to-r 

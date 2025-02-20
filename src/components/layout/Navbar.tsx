@@ -32,8 +32,8 @@ const NAV_ITEMS: NavItem[] = [
   { key: "services", href: "#services" },
   { key: "projects", href: "#projects" },
   { key: "products", href: "#products" },
-  { key: "trainings", href: "", route: "trainings" },
-  { key: "contact", href: "", route: "contact" },
+  { key: "trainings", href: "", route: "/trainings" },
+  { key: "contact", href: "", route: "/contact" },
 ]
 
 export default function Navbar() {
@@ -106,7 +106,7 @@ export default function Navbar() {
               "rounded-2xl p-3 md:p-3 flex items-center justify-between",
               "backdrop-blur-md",
               "lg:border lg:border-white/10",
-              isScrolled && "shadow-xl shadow-[#9A5CE4]/10"
+              isScrolled && "shadow-xl shadow-violet/10"
             )}
           >
             {/* Logo */}
@@ -130,9 +130,9 @@ export default function Navbar() {
                   className={cn(
                     "relative font-gabarito px-4 py-2 rounded-xl text-lg whitespace-nowrap transition-all duration-300",
                     "text-white/90 hover:text-white",
-                    activeSection === item.href
-                      ? "bg-gradient-to-r from-[#9A5CE4]/20 to-[#FADD2A]/40"
-                      : "hover:bg-[#9A5CE4]/5"
+                    activeSection === item.href || activeSection === item.route
+                      ? "bg-gradient-to-r from-violet to-yellow"
+                      : "hover:bg-violet/5"
                   )}
                   onClick={(e) => handleNavigation(item.href, item.route, e)}
                 >
@@ -155,7 +155,8 @@ export default function Navbar() {
             </div>
 
             {/* Mobile Menu Button */}
-            <div className="lg:hidden bg-[#9A5CE4]/20 rounded-lg p-2">
+            <div className="lg:hidden bg-gradient-to-r from-yellow to-violet
+                    transform transition-all duration-500 ease-in-out rounded-lg p-2">
               <MenuIcon
                 onClick={() => setIsOpen(!isOpen)}
                 className="text-white w-6 h-6"
@@ -182,9 +183,9 @@ export default function Navbar() {
                     className={cn(
                       "block w-full text-center py-4 text-lg font-gabarito rounded-xl",
                       "text-white/90 hover:text-white transition-colors",
-                      activeSection === item.href
-                        ? "bg-gradient-to-r from-[#9A5CE4]/40 to-[#FADD2A]/40"
-                        : "hover:bg-gradient-to-r hover:from-[#9A5CE4]/20 hover:to-[#FADD2A]/20"
+                      activeSection === item.href || activeSection === item.route
+                        ? "bg-gradient-to-r from-violet to-yellow"
+                        : "hover:bg-gradient-to-r hover:from-violet hover:to-yellow"
                     )}
                     onClick={(e) => handleNavigation(item.href, item.route, e)}
                   >

@@ -19,7 +19,7 @@ export default {
       },
       colors: {
         grayDescription: "#E5E5E5",
-        yellow: "#E9CD2A33",
+        yellow: "#E9CD2A40",
         violet: "#9747FF33",
       },
       fontSize: {
