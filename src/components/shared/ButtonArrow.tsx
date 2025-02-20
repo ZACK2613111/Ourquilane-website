@@ -10,6 +10,7 @@ interface ButtonProps {
 const Button: React.FC<ButtonProps> = ({ handleClick, title }) => {
   return (
     <button
+    type='button'
       onClick={handleClick}
       className="font-gabarito px-6 py-3 rounded-lg flex items-center gap-2
                 text-white  border-2 border-white/5  bg-transparent shadow-md 

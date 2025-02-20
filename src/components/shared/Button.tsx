@@ -14,15 +14,22 @@ const Button: React.FC<ButtonProps> = ({ handleClick, title }) => {
 
   return (
     <button
+      type="button"
       onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className="w-full max-w-xs sm:max-w-sm font-gabarito px-6 sm:px-8 md:px-12 py-3 sm:py-4 rounded-xl
                 overflow-hidden group hover:scale-105 transform duration-300
-                border border-white/20 bg-gradient-to-r from-[#9747FF]/5 to-[#E9CD2A]/5"
+                border border-white/20 relative hover:bg-transparent"
       title={title}
     >
-      <div className="flex items-center justify-center space-x-2">
+      <div
+        className={`absolute top-0 left-0 w-full h-full bg-gradient-to-r from-yellow to-violet
+                    transform transition-all duration-500 ease-in-out origin-left
+                    ${isHovered ? 'scale-x-100' : 'scale-x-0'}`}
+      ></div>
+
+      <div className="flex items-center justify-center space-x-2 relative z-10">
         <span className="text-white text-sm sm:text-base md:text-lg font-medium">
           {title}
         </span>
@@ -32,6 +39,7 @@ const Button: React.FC<ButtonProps> = ({ handleClick, title }) => {
             alt="Arrow Right"
             layout="fill"
             className={`transform transition-transform duration-300 ${isHovered ? 'translate-x-1' : ''}`}
+            priority
           />
         </div>
       </div>
