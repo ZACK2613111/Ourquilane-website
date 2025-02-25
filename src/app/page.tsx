@@ -1,46 +1,28 @@
 import TechBackground from "@/components/common/Background";
-import { Suspense, lazy, ComponentType } from "react";
-interface LazyComponentProps {
-  [key: string]: unknown;
-}
+import dynamic from "next/dynamic";
 
-const LazyComponent = <T extends LazyComponentProps>(
-  importFunc: () => Promise<{ default: ComponentType<T> }>
-) => {
-  const Component = lazy(importFunc);
-  const LazyWrapper = (props: T) => (
-    <Suspense fallback={<div className="h-screen flex items-center justify-center">Loading...</div>}>
-      <Component {...props} />
-    </Suspense>
-  );
-  LazyWrapper.displayName = `LazyComponent(${importFunc.name || "Anonymous"})`;
-  return LazyWrapper;
-};
-
-// Lazy-loaded components
-const Navbar = LazyComponent(() => import("@/components/layout/Navbar"));
-const AboutUs = LazyComponent(() => import("@/components/common/AboutUs"));
-const Entreprise = LazyComponent(() => import("@/components/common/Entreprise"));
-const Services = LazyComponent(() => import("@/components/common/Services"));
-const Clients = LazyComponent(() => import("@/components/common/Clients"));
-const ProjectsSection = LazyComponent(() => import("@/components/common/Projects"));
-const Work = LazyComponent(() => import("@/components/common/Work"));
-const Footer = LazyComponent(() => import("@/components/common/Footer"));
+// Import components directly without lazy loading
+const Navbar = dynamic(() => import("@/components/layout/Navbar"), { ssr: true });
+const AboutUs = dynamic(() => import("@/components/common/AboutUs"), { ssr: true });
+const Entreprise = dynamic(() => import("@/components/common/Entreprise"), { ssr: true });
+const Services = dynamic(() => import("@/components/common/Services"), { ssr: true });
+const Clients = dynamic(() => import("@/components/common/Clients"), { ssr: true });
+const Work = dynamic(() => import("@/components/common/Work"), { ssr: true });
+const Footer = dynamic(() => import("@/components/common/Footer"), { ssr: true });
 
 export default function Home() {
   return (
     <>
       <TechBackground />
       <Navbar />
-      <AboutUs />
-      <Entreprise />
-      <Services />
-      <Clients />
-      <ProjectsSection />
-      <Work />
+      <main className="flex flex-col min-h-screen">
+        <AboutUs />
+        <Entreprise />
+        <Services />
+        <Clients />
+        <Work />
+      </main>
       <Footer />
     </>
   );
 }
-
-Home.displayName = "Home";

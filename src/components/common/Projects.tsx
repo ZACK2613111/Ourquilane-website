@@ -17,32 +17,29 @@ const ProjectsSection = () => {
 
   const selectedProjects = language === "FR" ? projects : projectsEnglish;
 
-  const title = language === "FR" ? "Où la vision rencontre la réalité" : "Where Vision Meets Reality";
-  const buttonTitle = language === "FR" ? "VOIR TOUS LES PROJETS" : "VIEW ALL PROJECTS";
-
   return (
     <section id="projects" className="w-full min-h-screen py-8 px-6 lg:px-20">
       <div className="max-w-[1440px] mx-auto">
-        <div className="mb-6 sm:mb-8">
+      <div className="mb-2 sm:mb-4">
           <WhiteButton 
             title={language === "FR" ? "NOS PROJETS" : "OUR PROJECTS"}
-            handleClick={() => console.log('Our projects clicked')}
+            handleClick={() => console.log('Our Services clicked')}
           />
         </div>
         
+        {/* Services Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 sm:mb-10 md:mb-12">
-          <h2 className="font-gabarito font-semibold sm:text-title-other tracking-[2%] text-left text-white mb-6 text-title-mobile">
-            {title}
+          <h2 className="font-gabarito font-semibold text-4xl md:text-5xl leading-[50px] tracking-[2%] text-white mb-6 sm:mb-0 max-w-2xl">
+            {language === "FR" ? "Où la vision rencontre la réalité" : "VIEW ALL PROJECTS"}
           </h2>
-          <div className="w-full sm:w-auto">
+          <div className="w-2/3 sm:w-auto">
             <Button 
               handleClick={() => console.log('View all projects')} 
-              title={buttonTitle}
+              title={language === "FR" ? "VOIR TOUS LES PROJETS" : "VIEW ALL PROJECTS"}
             />
           </div>
         </div>
 
-        {/* Project Cards */}
         <div className="mt-32">
           {selectedProjects.map((project, i) => (
             <ProjectCard key={project.id} project={project} totalProjects={selectedProjects.length} i={i} />

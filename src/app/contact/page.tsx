@@ -9,33 +9,13 @@ import Navbar from '@/components/layout/Navbar'
 import AuroraBackground from '@/components/common/Background'
 import {faqs} from '@/data/contact/Faqs'
 import Footer from '@/components/common/Footer'
-
-const steps = [
-  {
-    title: "First Contact",
-    description: "A phone call to discover your contact"
-  },
-  {
-    title: "Discovery Meeting",
-    description: "A working session to understand your challenges"
-  },
-  {
-    title: "Proposal",
-    description: "Solutions to achieve your goals"
-  },
-  {
-    title: "Mission",
-    description: "Effective implementation of your projects"
-  },
-  {
-    title: "After-Sales Service",
-    description: "Dedicated support to ensure satisfaction and long-term success"
-  }
-]
-
+import { steps, stepsFr } from '@/data/Steps'
+import { useLanguage } from '@/context/LanguageContext'
 
 
 export default function HowWeWork() {
+  const { language } = useLanguage()
+
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
@@ -51,7 +31,7 @@ export default function HowWeWork() {
       
       <main className="container mx-auto px-4 md:px-8 lg:px-16 py-12 md:py-24">
         <Header />
-        <Timeline steps={steps} />
+        <Timeline steps={language === 'FR' ? stepsFr : steps} />
         <FAQ faqs={faqs} />
         <ContactForm />
       </main>

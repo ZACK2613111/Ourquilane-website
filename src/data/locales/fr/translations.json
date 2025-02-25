@@ -12,8 +12,9 @@
     "getStarted": "COMMENCER"
   },
   "about": {
-    "titleSpan":"Innovation et excellence",
-    "title": "personnalisées pour moderniser votre industrie",
+    "titleSpan": "Innovation et excellence",
+    "title": "personnalisées pour moderniser",
+    "titleLine": "Votre industrie",
     "description": "Découvrez l'avenir avec OURQUILANE, votre partenaire de confiance en solutions logicielles innovantes. Découvrez nos services, nos projets et notre équipe d'experts dédiée à donner vie à vos idées.",
     "contactButton": "CONTACTEZ-NOUS"
   },
@@ -42,7 +43,7 @@
     "description": "Nous conduisons la transformation du secteur avec des solutions sur mesure et un engagement d’excellence, donnant vie à vos projets les plus ambitieux.",
     "Button": "DECOUVRIR OURQUILANE"
   },
-  "services" : {
+  "services": {
     "titleButton": "NOS SERVICES",
     "title": "Nos domaines d'Expertise",
     "Button": "VOIR TOUS LES SERVICES"
@@ -51,7 +52,7 @@
     "titleButton": "NOS CLIENTS",
     "title": "Ils Nous Font Confiance"
   },
-  "work":{
+  "work": {
     "title": "Ensemble, donnons forme à l’avenir de votre entreprise.",
     "description": "Nous sommes prêts à commencer, il suffit de le dire.",
     "Button": "C'EST PARTI !"
@@ -81,5 +82,5 @@
         }
       ]
     }
-    }
+  }
 }

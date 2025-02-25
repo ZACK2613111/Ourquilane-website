@@ -1,8 +1,7 @@
 "use client"
 
 import type React from "react"
-import { motion } from "framer-motion"
-import { useState, useEffect, useCallback, useMemo } from "react"
+import { useState, useEffect, useCallback, useMemo, useRef } from "react"
 import { useLanguage } from "@/context/LanguageContext"
 
 interface TimelineStep {
@@ -14,21 +13,56 @@ interface TimelineProps {
   steps: TimelineStep[]
 }
 
-interface TimelineCircleProps {
-  index: number
-  isActive: boolean
-  scrollProgress: number
-  stepsCount: number
-}
+// Separate TimelineCircle component to avoid recreation on each render
+const TimelineCircle = ({ 
+  index, 
+  isActive, 
+  scrollProgress, 
+  stepsCount 
+}: { 
+  index: number; 
+  isActive: boolean; 
+  scrollProgress: number; 
+  stepsCount: number; 
+}) => {
+  const isCompleted = scrollProgress * stepsCount > index;
+  
+  return (
+    <div 
+      className="absolute left-4 md:left-1/2 transform -translate-x-1/2 z-10" 
+      style={{ top: `${(index / (stepsCount - 1)) * 100}%` }}
+    >
+      <div
+        className={`
+          w-6 h-6 rounded-full flex items-center justify-center
+          ${isCompleted ? 'bg-violet' : 'bg-yellow'}
+          transition-all duration-500
+          ${isActive ? 'scale-125 ring-4 ring-opacity-40 ring-yellow' : 'scale-100'}
+        `}
+      >
+        <div 
+          className={`w-2 h-2 rounded-full bg-white transition-transform duration-500 ${isCompleted ? 'scale-80' : 'scale-100'}`}
+        />
+      </div>
+    </div>
+  )
+};
 
 const Timeline: React.FC<TimelineProps> = ({ steps }) => {
   const { language } = useLanguage()
   const [activeStep, setActiveStep] = useState(0)
   const [scrollProgress, setScrollProgress] = useState(0)
+  const activeStepRef = useRef(activeStep)
+  
+  // Update ref when state changes to avoid dependency issues
+  useEffect(() => {
+    activeStepRef.current = activeStep;
+  }, [activeStep]);
 
-  // Memoize steps count to prevent unnecessary recalculations
+  // Memoize the steps count to avoid recalculations
   const stepsCount = useMemo(() => steps.length, [steps]);
 
+  // Optimized scroll handler with fewer dependencies
   const handleScroll = useCallback(() => {
     const timeline = document.getElementById("timeline")
     if (!timeline) return
@@ -36,79 +70,45 @@ const Timeline: React.FC<TimelineProps> = ({ steps }) => {
     const rect = timeline.getBoundingClientRect()
     const windowHeight = window.innerHeight
     
-    // Calculate scroll progress more efficiently
     const viewportPosition = windowHeight - rect.top;
     const totalScrollDistance = windowHeight + rect.height;
     const progress = Math.min(Math.max(viewportPosition / totalScrollDistance, 0), 1)
     setScrollProgress(progress)
 
-    // Calculate active step based on progress
     const stepProgress = progress * stepsCount;
     const newActiveStep = Math.min(Math.floor(stepProgress), stepsCount - 1);
     
-    if (newActiveStep !== activeStep) {
+    // Use ref instead of state in dependency
+    if (newActiveStep !== activeStepRef.current) {
       setActiveStep(newActiveStep)
     }
-  }, [stepsCount, activeStep])
+  }, [stepsCount]); // Removed activeStep from dependencies
 
+  // Set up scroll listener
   useEffect(() => {
-    // Use passive event listener for better scroll performance
     window.addEventListener("scroll", handleScroll, { passive: true })
-    // Initial calculation on mount
+    // Trigger initial calculation
     handleScroll()
     
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [handleScroll])
-
-  // Timeline circle component
-  const TimelineCircle: React.FC<TimelineCircleProps> = ({ index, isActive, scrollProgress, stepsCount }) => {
-    const isCompleted = scrollProgress * stepsCount > index;
-    
-    return (
-      <div 
-        className="absolute left-4 md:left-1/2 transform -translate-x-1/2 z-10" 
-        style={{ top: `${(index / (stepsCount - 1)) * 100}%` }}
-      >
-        <motion.div
-          initial={{ scale: 0.8 }}
-          animate={{ 
-            scale: isActive ? 1.2 : 1,
-            transition: { duration: 0.4 }
-          }}
-          className={`
-            w-6 h-6 rounded-full flex items-center justify-center
-            ${isCompleted ? 'bg-[#E9CD2A]' : 'bg-[#9A5CE4]'}
-            transition-colors duration-500
-            ${isActive ? 'ring-4 ring-opacity-40 ring-[#E9CD2A]' : ''}
-          `}
-        >
-          <motion.div 
-            className="w-2 h-2 rounded-full bg-white"
-            animate={{
-              scale: isCompleted ? 0.8 : 1
-            }}
-          />
-        </motion.div>
-      </div>
-    )
-  }
+  }, [handleScroll]);
 
   return (
     <section id="timeline" className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-[1440px] mx-auto">
         <div className="relative">
-          {/* Fixed vertical timeline line */}
+          {/* Timeline track */}
           <div className="absolute left-4 md:left-1/2 top-0 w-0.5 h-full transform -translate-x-1/2 z-0 bg-gray-800/30">
-            <motion.div
-              className="absolute w-full bg-gradient-to-b from-violet to-yellow"
+            <div
+              className="absolute w-full bg-gradient-to-b from-violet to-yellow transition-all duration-500"
               style={{
                 height: `${scrollProgress * 100}%`,
                 top: 0,
               }}
-              transition={{ type: "tween", ease: "easeOut" }}
             />
           </div>
 
+          {/* Timeline circles */}
           {steps.map((_, index) => (
             <TimelineCircle 
               key={`circle-${index}`} 
@@ -119,31 +119,23 @@ const Timeline: React.FC<TimelineProps> = ({ steps }) => {
             />
           ))}
 
+          {/* Timeline content */}
           <div className="relative z-10">
             {steps.map((step, index) => (
-              <motion.div
+              <div
                 key={`step-${index}`}
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ 
-                  opacity: 1, 
-                  y: 0,
-                  scale: activeStep === index ? 1.02 : 1
-                }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
                 className={`
                   relative mb-20 md:mb-32 
                   w-[calc(100%-3rem)] sm:w-[calc(100%-4rem)] md:w-[40%]
                   ml-16 sm:ml-20 
                   ${index % 2 === 0 ? 'md:mr-[60%]' : 'md:ml-[60%]'} 
                   md:mx-0
+                  transition-all duration-500
+                  ${activeStep === index ? 'scale-102' : 'scale-100'}
                 `}
               >
-                <motion.div 
-                  className="relative p-6 sm:p-8 rounded-xl border border-white/10 bg-gray-900/30 backdrop-blur-sm hover:bg-gray-900/40 transition-all duration-300 group"
-                  whileHover={{ 
-                    x: index % 2 === 0 ? 5 : -5,
-                    transition: { duration: 0.3 }
-                  }}
+                <div 
+                  className="relative p-6 sm:p-8 rounded-xl border border-white/10 bg-gray-900/20 backdrop-blur-sm hover:bg-gray-900/50 transition-all duration-300 group"
                 >
                   <div className="absolute inset-0 rounded-xl bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
@@ -157,7 +149,6 @@ const Timeline: React.FC<TimelineProps> = ({ steps }) => {
                     -translate-y-1/2
                   `} />
                   
-                  {/* Card content */}
                   <div className="space-y-4 relative z-10">
                     <span className="font-gabarito text-base text-white font-medium tracking-wider uppercase opacity-80">
                       {language === "FR" 
@@ -171,8 +162,8 @@ const Timeline: React.FC<TimelineProps> = ({ steps }) => {
                       {step.description}
                     </p>
                   </div>
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
             ))}
           </div>
         </div>

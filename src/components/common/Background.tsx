@@ -6,8 +6,8 @@ const SimpleTechBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   const COLORS = useMemo(() => ({
-    violet: "rgba(154, 92, 228, 0.15)", // Reduced opacity
-    yellow: "rgba(233, 205, 42, 0.15)", // Reduced opacity
+    violet: "rgba(154, 92, 228, 0.15)",
+    yellow: "rgba(233, 205, 42, 0.15)",
     background: "#0A081B"
   }), [])
 
@@ -24,12 +24,12 @@ const SimpleTechBackground = () => {
 
     // Draw tech grid with subtle movement
     const drawGrid = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
-      const gridSize = 80 // Larger grid size for simpler look
-      const timeOffset = time * 0.0005 // Slower animation
+      const gridSize = 80 
+      const timeOffset = time * 0.005 
 
       // Vertical lines
       for (let x = 0; x < width; x += gridSize) {
-        const offset = Math.sin(x * 0.01 + timeOffset) * 2 // Reduced movement
+        const offset = Math.sin(x * 0.01 + timeOffset) * 2
         ctx.beginPath()
         ctx.moveTo(x, 0)
         ctx.lineTo(x + offset, height)
@@ -40,7 +40,7 @@ const SimpleTechBackground = () => {
 
       // Horizontal lines with more spacing
       for (let y = 0; y < height; y += gridSize * 1.5) {
-        const offset = Math.cos(y * 0.01 + timeOffset) * 2 // Reduced movement
+        const offset = Math.cos(y * 0.01 + timeOffset) * 2 
         ctx.beginPath()
         ctx.moveTo(0, y)
         ctx.lineTo(width, y + offset)
@@ -50,7 +50,6 @@ const SimpleTechBackground = () => {
       }
     }
 
-    // Handle window resize
     const handleResize = () => {
       const width = window.innerWidth
       const height = window.innerHeight
@@ -63,31 +62,26 @@ const SimpleTechBackground = () => {
       ctx.scale(dpr, dpr)
     }
 
-    // Animation loop
     const animate = () => {
       const width = canvas.width / dpr
       const height = canvas.height / dpr
 
-      // Clear and draw gradient background
       const gradient = ctx.createLinearGradient(0, 0, width, height)
       gradient.addColorStop(0, COLORS.background)
       gradient.addColorStop(1, "#161233")
       ctx.fillStyle = gradient
       ctx.fillRect(0, 0, width, height)
 
-      // Draw grid
       drawGrid(ctx, width, height)
 
       time++
       animationId = requestAnimationFrame(animate)
     }
 
-    // Initialize
     handleResize()
     window.addEventListener('resize', handleResize)
     animate()
 
-    // Cleanup
     return () => {
       window.removeEventListener('resize', handleResize)
       cancelAnimationFrame(animationId)
@@ -96,5 +90,6 @@ const SimpleTechBackground = () => {
 
   return <canvas ref={canvasRef} className="fixed inset-0 w-full h-full -z-10" />
 }
+
 
 export default SimpleTechBackground

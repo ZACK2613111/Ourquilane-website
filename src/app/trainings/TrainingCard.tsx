@@ -7,16 +7,14 @@ interface TrainingCardProps {
 }
 
 const TrainingCard = ({ training }: TrainingCardProps) => {
-  // State to track hover effect
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  // Handle hover effect for both desktop and mobile
   const handleMouseEnter = (index: number) => setHoveredIndex(index);
   const handleMouseLeave = () => setHoveredIndex(null);
 
   return (
     <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
-      {/* Icons Container - 4 columns on mobile, 2x2 on larger screens */}
+      {/* Tech Icons Section */}
       <div className="lg:w-1/4">
         <div className="grid grid-cols-4 lg:grid-cols-2 gap-2 lg:gap-4">
           {training.TechIcons.map((Icon, index) => (
@@ -26,13 +24,13 @@ const TrainingCard = ({ training }: TrainingCardProps) => {
                          bg-white/5 border border-white/5 p-2 lg:p-3 
                          transition-all duration-500 hover:bg-white/10 
                          hover:scale-105 cursor-pointer"
-              onMouseEnter={() => handleMouseEnter(index)} // On hover set index
-              onMouseLeave={handleMouseLeave}  // Reset hover on leave
-              onTouchStart={() => handleMouseEnter(index)} // On touch (mobile)
-              onTouchEnd={handleMouseLeave} // On touch end (mobile)
+              onMouseEnter={() => handleMouseEnter(index)}
+              onMouseLeave={handleMouseLeave}
+              onTouchStart={() => handleMouseEnter(index)}
+              onTouchEnd={handleMouseLeave} 
             >
               <div className="relative w-full h-full">
-                {/* Desktop: Show original icon, Mobile: Show white icon */}
+                {/* Default Icon */}
                 <Image
                   src={hoveredIndex === index 
                       ? training.TechIconsWhite[index] 
@@ -42,7 +40,7 @@ const TrainingCard = ({ training }: TrainingCardProps) => {
                   fill
                   className="object-contain p-2 lg:p-4 transition-all duration-300 ease-in-out transform"
                 />
-                {/* Mobile: Show white icon only */}
+                {/* White Icon for Mobile/Tablet View */}
                 <Image
                   src={training.TechIconsWhite[index] || "/placeholder.svg"}
                   alt="White Technology icon"
@@ -55,7 +53,7 @@ const TrainingCard = ({ training }: TrainingCardProps) => {
         </div>
       </div>
 
-      {/* Content Container */}
+      {/* Training Description Section */}
       <div className="lg:w-9/12 rounded-2xl backdrop-blur-md bg-white/5 
                     border border-white/10 p-6 lg:p-8 transition-all 
                     duration-300 hover:bg-white/10">
@@ -73,13 +71,13 @@ const TrainingCard = ({ training }: TrainingCardProps) => {
           ))}
         </div>
 
-        {/* Title */}
+        {/* Training Title */}
         <h3 className="text-2xl lg:text-3xl font-semibold font-gabarito 
                      text-white mb-3 lg:mb-4 leading-tight">
           {training.title}
         </h3>
 
-        {/* Description */}
+        {/* Training Description */}
         <p className="text-white/80 font-dmSans text-sm lg:text-base 
                     leading-relaxed">
           {training.description}

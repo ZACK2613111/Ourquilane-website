@@ -4,7 +4,7 @@ export const TraineeWords: TraineeWord[] = [
     {
         word: "Un grand merci à OURQUILANE de m'avoir accueilli pour mon stage de PFE ! L'ambiance de travail était top et m'a vraiment permis de sortir la meilleure version de moi-même. J'ai appris plein de choses, et je suis super reconnaissant pour cette expérience géniale !",
         fullname: "BELHADJ Zakaria",
-        role: "Frontend Developer, Ourquilane",
+        role: "Frontend Developer, OURQUILANE",
     },
     {
         word: "Very Insightful Experience ! Thank you.",
@@ -13,12 +13,13 @@ export const TraineeWords: TraineeWord[] = [
     },
     {
         word: `Ce stage a été une expérience enrichissante, tant sur le plan humain que professionnel. Il nous a appris l'importance de la flexibilité et de la communication pour répondre aux exigences et évolutions des besoins clients.
-        Merci OURQUILANE`,
+        `,
+        secondWord : 'Merci OURQUILANE',
         fullname: "ABDELKEBIR Achref",
-        role: "Backend Developer, Ourquilane",
+        role: "Backend Developer, OURQUILANE",
     },
     {
-        word: "De stagiaire à ingénieure, merci à Ourquilane d'avoir cru en mes compétences. Heureuse de faire partie de l’aventure !",
+        word: "De stagiaire à ingénieure, merci à OURQUILANE d'avoir cru en mes compétences. Heureuse de faire partie de l’aventure !",
         fullname: "Mezenner Sarah",
         role: "Project Manager, OURQUILANE",
     },
@@ -39,6 +40,7 @@ export const TraineeWordsEnglish: TraineeWord[] = [
         word: `This internship was a rewarding experience, both personally and professionally. It taught us the importance of flexibility and communication in meeting the requirements and evolving customer needs. Thank you, OURQUILANE.`,
         fullname: "ABDELKEBIR Achref",
         role: "Backend Developer, Ourquilane",
+        secondWord : 'Thank you OURQUILANE',
     },
     {
         word: "From intern to engineer, thank you to Ourquilane for believing in my skills. I'm happy to be part of the adventure!",

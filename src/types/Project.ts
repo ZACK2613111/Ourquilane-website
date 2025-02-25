@@ -5,6 +5,7 @@ export interface Project {
     client: string
     technologies: string[]
     description: string
+    seoTitle: string
   }
   
 export interface ProjectCardProps {

@@ -19,8 +19,10 @@ export default {
       },
       colors: {
         grayDescription: "#E5E5E5",
-        yellow: "#E9CD2A40",
-        violet: "#9747FF33",
+        yellow: "#E9CD2A60",
+        violet: "#9747FF80",
+        violetTitle: "#9747FF",
+        yellowTitle: "#E9CD2A"
       },
       fontSize: {
         "title-about": ["64px", "80px"],

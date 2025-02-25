@@ -5,3 +5,8 @@ export interface Service {
   description: string;
   icon: StaticImageData;
 }
+
+export interface ServiceCardProps {
+  service: Service;
+  className?: string;
+}

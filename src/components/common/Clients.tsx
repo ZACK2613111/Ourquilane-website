@@ -1,9 +1,10 @@
-'use client';
-import React, { memo } from "react";
-import Image from "next/image";
-import WhiteButton from "../shared/WhiteButton";
-import { useLanguage } from "@/context/LanguageContext";
-import { Guepex, Yalidine, WeCan, EasySpeed, Varbiof, SpeedMail } from '../../../public/images/clients';
+"use client"
+
+import type React from "react"
+import Image from "next/image"
+import WhiteButton from "../shared/WhiteButton"
+import { useLanguage } from "@/context/LanguageContext"
+import { Guepex, Yalidine, WeCan, EasySpeed, Varbiof, SpeedMail } from "../../../public/images/clients"
 
 const clientsLogos = [
   { id: 1, src: Guepex, alt: "Guepex" },
@@ -12,31 +13,29 @@ const clientsLogos = [
   { id: 4, src: WeCan, alt: "WeCan" },
   { id: 5, src: Varbiof, alt: "Varbiof" },
   { id: 6, src: SpeedMail, alt: "Speedmail" },
-];
+]
 
-const ClientLogo: React.FC<{ client: { src: string; alt: string }; index: number }> = (
-  ({ client, index }) => {
-    return (
-      <div
-        key={`${client.alt}-${index}`}
-        className="flex-shrink-0 px-8 py-4 flex justify-center items-center"
-      >
-        <Image
-          src={client.src}
-          alt={client.alt}
-          width={240} 
-          height={60} 
-          className="object-contain" // Maintain aspect ratio
-          loading={index < 3 ? "eager" : "lazy"}
-          priority={index < 3}
-        />
-      </div>
-    );
-  }
-);
+const ClientLogo: React.FC<{ client: { src: string; alt: string }; index: number }> = ({ client, index }) => {
+  return (
+    <div className="flex justify-center items-center h-[120px] px-8 min-w-[200px]">
+      <Image
+        src={client.src || "/placeholder.svg"}
+        alt={client.alt}
+        width={200}
+        height={120}
+        className="object-contain"
+        loading={index < 3 ? "eager" : "lazy"}
+        priority={index < 3}
+      />
+    </div>
+  )
+}
 
 const Clients: React.FC = () => {
-  const { translations } = useLanguage();
+  const { translations } = useLanguage()
+
+  // Double the logos for continuous scrolling effect
+  const scrollLogos = [...clientsLogos, ...clientsLogos]
 
   return (
     <section id="clients" className="w-full text-white py-8 px-6 lg:px-20">
@@ -54,10 +53,10 @@ const Clients: React.FC = () => {
           </h2>
         </div>
 
-        <div className="relative">
-          <div className="overflow-hidden w-full relative">
-            <div className="flex animate-scroll gap-8 justify-start items-center space-x-8">
-              {[...clientsLogos, ...clientsLogos].map((client, index) => (
+        <div className="overflow-hidden">
+          <div className="animate-scroll">
+            <div className="flex">
+              {scrollLogos.map((client, index) => (
                 <ClientLogo client={client} index={index} key={`${client.id}-${index}`} />
               ))}
             </div>
@@ -65,7 +64,7 @@ const Clients: React.FC = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default memo(Clients);
+export default Clients
